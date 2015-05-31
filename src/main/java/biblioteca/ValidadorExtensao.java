@@ -1,0 +1,27 @@
+package biblioteca;
+
+import java.util.ArrayList;
+import java.util.List;
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
+
+/**
+ *
+ * @author MASC
+ */
+public class ValidadorExtensao implements ConstraintValidator<ExtensaoDocumento, String> {
+    private List<String> extensoesValidas;
+    
+    @Override
+    public void initialize(ExtensaoDocumento extensaoDocumento) {
+        this.extensoesValidas = new ArrayList<>();
+        this.extensoesValidas.add("PDF");
+        this.extensoesValidas.add("MOBI");
+        this.extensoesValidas.add("EPUB");        
+    }
+
+    @Override
+    public boolean isValid(String valor, ConstraintValidatorContext cvc) {
+        return valor == null ? true : extensoesValidas.contains(valor);
+    }    
+}
