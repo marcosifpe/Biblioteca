@@ -7,12 +7,13 @@
     </h:head>
     <h:body>
         <h:form id="Menu">
-            <p:growl id="growl" life="2000" autoUpdate="true"/>
+            <p:growl id="growl" life="2000" autoUpdate="true" showDetail="true"/>
+            <!--p:messages id="messagens" autoUpdate="true" showDetail="false"></p:messages-->
             <p:panel header="Cadastro de Autor" footer="Biblioteca - EJB 3">
                 <h:panelGrid columns="3" cellpadding="5">
                     <h:outputLabel for="primeiroNome" value="Primeiro Nome: " />
-                    <p:inputText id="primeiroNome" value="#{autorBean.autor.primeiroNome}" label="Name"/>
-                    <p:message for="primeiroNome" />
+                    <p:inputText id="primeiroNome" value="#{autorBean.autor.primeiroNome}" label="Name" />
+                    <p:message for="primeiroNome" showDetail="true" showSummary="true" />
                     
                     <h:outputLabel for="ultimoNome" value="Último Nome: " />
                     <p:inputText id="ultimoNome" value="#{autorBean.autor.ultimoNome}" label="Name"/>
@@ -22,7 +23,7 @@
                     <p:inputMask id="cpf" value="#{autorBean.autor.cpf}" label="Name" mask="999.999.999-99"/>
                     <p:message for="cpf" />
                 </h:panelGrid>
-                <p:commandButton action="#{autorBean.salvar()}" value="Salvar" ajax="false" icon="ui-icon-check" validateClient="true"/>
+                <p:commandButton action="#{autorBean.salvar()}" value="Salvar" ajax="true" update="growl" icon="ui-icon-check" validateClient="false"/>
             </p:panel>
         </h:form>
     </h:body>
