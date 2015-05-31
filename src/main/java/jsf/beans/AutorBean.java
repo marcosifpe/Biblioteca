@@ -37,6 +37,11 @@ public class AutorBean {
         adicionarMessagem("Cadastro realizado com sucesso!");
     }
     
+    public String voltar() {
+        this.autor = null;
+        return "menu.xhtml";
+    }
+    
     private void iniciarCampos() {
         this.autor = new Autor();
     }

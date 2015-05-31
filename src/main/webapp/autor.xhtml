@@ -7,7 +7,7 @@
     </h:head>
     <h:body>
         <h:form id="Menu">
-            <p:growl id="growl" life="2000" autoUpdate="true"/>
+            <p:growl id="growl" life="3500" autoUpdate="true"/>
             <p:panel header="Cadastro de Autor" footer="Biblioteca - EJB 3">
                 <h:panelGrid columns="2" cellpadding="5">
                     <h:outputLabel for="primeiroNome" value="Primeiro Nome: " />
@@ -19,7 +19,10 @@
                     <h:outputLabel for="cpf" value="CPF: " />
                     <p:inputMask id="cpf" value="#{autorBean.autor.cpf}" label="Name" mask="999.999.999-99"/>
                 </h:panelGrid>
-                <p:commandButton action="#{autorBean.salvar()}" value="Salvar" ajax="true" update="growl" icon="ui-icon-check" validateClient="false"/>
+                <p:commandButton action="#{autorBean.salvar()}" value="Salvar" ajax="true" update="growl" 
+                                 title="Salvar Autor" icon="ui-icon-check" validateClient="false"/>
+                <p:commandButton action="#{autorBean.voltar()}" value="Voltar" ajax="false" ignoreAutoUpdate="true"
+                                 title="Voltar" icon="ui-icon-check" validateClient="false"/>                
             </p:panel>
         </h:form>
     </h:body>
