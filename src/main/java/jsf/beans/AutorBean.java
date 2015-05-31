@@ -37,17 +37,12 @@ public class AutorBean {
         adicionarMessagem("Cadastro realizado com sucesso!");
     }
     
-    public String voltar() {
-        this.autor = null;
-        return "menu.xhtml";
-    }
-    
     private void iniciarCampos() {
         this.autor = new Autor();
     }
     
     public void adicionarMessagem(String mensagem) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, mensagem, "sucesso");
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, mensagem, null);
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
 }
