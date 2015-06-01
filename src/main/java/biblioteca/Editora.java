@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotBlank;
@@ -18,6 +20,14 @@ import org.hibernate.validator.constraints.NotBlank;
  */
 @Entity
 @Table(name = "TB_EDITORA")
+@NamedQueries(
+        {
+            @NamedQuery(
+                    name = "Editoras",
+                    query = "SELECT e FROM Editora e ORDER BY e.nome"
+            )
+        }
+)
 @Access(AccessType.FIELD)
 public class Editora implements Serializable {
     @Id
@@ -61,12 +71,13 @@ public class Editora implements Serializable {
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
+
         return true;
     }
 
     @Override
     public String toString() {
-        return "prova.Editora[ id=" + id + ", " + "nome=" + nome + " ]";
+        return nome;
     }
     
 }

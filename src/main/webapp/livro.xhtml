@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"  xmlns:h="http://xmlns.jcp.org/jsf/html" 
+      xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Livro</title>
+    </h:head>
+    <h:body>
+        <h:form id="Livro">            
+            <p:growl id="growl" life="3500" autoUpdate="true"/>
+            <ui:include src="/menu.xhtml" />
+            <p:separator />
+            <p:panel id="panel" header="Cadastro de Livro" footer="Biblioteca - EJB 3">
+                <h:panelGrid columns="2" cellpadding="5">
+                    <h:outputLabel for="isbn" value="ISBN: " />
+                    <p:inputMask id="isbn" value="#{livroBean.livro.isbn}" label="ISBN" mask="999-99-9999-999-9"/>
+
+                    <h:outputLabel for="titulo" value="Título: " />
+                    <p:inputText id="titulo" value="#{livroBean.livro.titulo}" label="Título"/>
+
+                    <h:outputLabel for="dataLancamento" value="Data de Lançamento: " />
+                    <p:inputMask id="dataLancamento"   
+                                 value="#{livroBean.livro.dataLancamento}"                                       
+                                 mask="99/99/9999">  
+                        <f:convertDateTime pattern="dd/MM/yyyy" />  
+                    </p:inputMask> 
+
+                    <h:outputLabel for="autores" value="Autores: " />
+                    <p:selectCheckboxMenu id="autores" value="#{livroBean.autoresIds}" label="Autores"
+                                          filter="true" filterMatchMode="startsWith" 
+                                          required="true">
+                        <f:selectItems value="#{livroBean.autores}" var="autor" itemLabel="#{autor.nome}" itemValue="#{autor.id}"/>
+                    </p:selectCheckboxMenu>
+
+                    <h:outputLabel for="editora" value="Editora: " />
+                    <p:selectOneMenu id="editora" value="#{livroBean.editoraId}" required="true" >
+                        <f:selectItems value="#{livroBean.editoras}" var="editora" itemLabel="#{editora.nome}" itemValue="#{editora.id}" />
+                    </p:selectOneMenu>
+                </h:panelGrid>
+                <p:commandButton action="#{livroBean.salvar()}" value="Salvar" ajax="false" update="growl, panel" 
+                                 title="Salvar Autor" icon="ui-icon-check" validateClient="false"/>
+            </p:panel>
+        </h:form>
+    </h:body>
+</html>
+
+

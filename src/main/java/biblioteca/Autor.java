@@ -12,6 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Pattern;
@@ -26,6 +28,14 @@ import org.hibernate.validator.constraints.br.CPF;
 @Table(name = "TB_AUTOR",
         uniqueConstraints = {
             @UniqueConstraint(columnNames = {"TXT_CPF"}, name = "UNIQUE_CPF")})
+@NamedQueries(
+        {
+            @NamedQuery(
+                    name = "Autores",
+                    query = "SELECT a FROM Autor a ORDER BY a.primeiroNome, a.ultimoNome"
+            )
+        }
+)
 @Access(AccessType.FIELD)
 public class Autor implements Serializable {
     @Id
@@ -73,6 +83,10 @@ public class Autor implements Serializable {
         this.ultimoNome = ultimoNome;
     }
 
+    public String getNome() {
+        return this.primeiroNome + " " + this.ultimoNome;
+    }
+    
     public String getCpf() {
         return cpf;
     }

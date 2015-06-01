@@ -6,7 +6,7 @@
         <title>Autor</title>
     </h:head>
     <h:body>
-        <h:form id="Editora">            
+        <h:form id="Autor">            
             <p:growl id="growl" life="3500" autoUpdate="true"/>
             <ui:include src="/menu.xhtml" />
             <p:separator />
@@ -19,7 +19,7 @@
                     <p:inputText id="ultimoNome" value="#{autorBean.autor.ultimoNome}" label="Name"/>
 
                     <h:outputLabel for="cpf" value="CPF: " />
-                    <p:inputMask id="cpf" value="#{autorBean.autor.cpf}" label="Name" mask="999.999.999-99"/>
+                    <p:inputMask id="cpf" value="#{autorBean.autor.cpf}" label="CPF" mask="999.999.999-99"/>
                 </h:panelGrid>
                 <p:commandButton action="#{autorBean.salvar()}" value="Salvar" ajax="true" update="growl, panel" 
                                  title="Salvar Autor" icon="ui-icon-check" validateClient="false"/>

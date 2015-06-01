@@ -66,15 +66,14 @@ public class Livro implements Serializable {
     @Embedded
     private ArquivoDigital arquivoDigital;
     @NotEmpty
-    @Size(max = 4)
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "TB_LIVRO_AUTOR", joinColumns = {
         @JoinColumn(name = "ID_LIVRO")},
             inverseJoinColumns = {
                 @JoinColumn(name = "ID_AUTOR")})
     private Collection<Autor> autores;    
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_EDITORA", referencedColumnName = "ID", nullable = false)
     private Editora editora;
 
@@ -148,6 +147,16 @@ public class Livro implements Serializable {
         return autores.add(autor);
     }
 
+    public Collection<Autor> getAutores() {
+        return autores;
+    }
+
+    public void setAutores(Collection<Autor> autores) {
+        for (Autor autor : autores) {
+            add(autor);
+        }
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;

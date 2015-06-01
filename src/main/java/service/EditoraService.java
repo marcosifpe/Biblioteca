@@ -1,6 +1,7 @@
 package service;
 
 import biblioteca.Editora;
+import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -10,6 +11,7 @@ import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -18,7 +20,7 @@ import javax.persistence.PersistenceContextType;
 @Stateless
 @LocalBean
 @TransactionManagement(TransactionManagementType.CONTAINER)
-@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+@TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class EditoraService {
 
     @PersistenceContext(name = "biblioteca", type = PersistenceContextType.TRANSACTION)
@@ -26,5 +28,11 @@ public class EditoraService {
 
     public void salvar(Editora editora) {
         entityManager.persist(editora);
+    }
+
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+    public List<Editora> getEditoras() {
+        TypedQuery query = entityManager.createNamedQuery("Editoras", Editora.class);
+        return query.getResultList();
     }
 }

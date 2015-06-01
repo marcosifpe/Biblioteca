@@ -1,6 +1,7 @@
 package service;
 
 import biblioteca.Autor;
+import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -10,6 +11,7 @@ import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -25,5 +27,11 @@ public class AutorService {
     
     public void salvar(Autor autor) {
         entityManager.persist(autor);
+    }
+    
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+    public List<Autor> getAutores() {
+        TypedQuery query = entityManager.createNamedQuery("Autores", Autor.class);
+        return query.getResultList();
     }
 }
