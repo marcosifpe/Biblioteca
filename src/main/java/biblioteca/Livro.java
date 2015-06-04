@@ -138,7 +138,7 @@ public class Livro extends Entidade implements Serializable {
 
     public void setAutores(Collection<Autor> autores) {
         for (Autor autor : autores) {
-            add(autor);
+            add(autor); //Caso haja alguma regra de negócio ela será implementada no add
         }
     }
 }
