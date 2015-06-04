@@ -31,10 +31,6 @@ public class LivroBean {
 
     private List<Editora> editoras;
     private List<Autor> autores;
-
-    private String editoraId;
-    private List<String> autoresIds;
-    
     private Editora editora;
 
     /**
@@ -68,32 +64,6 @@ public class LivroBean {
         return this.editoras;
     }
 
-    private Autor getAutor(Long id) {
-        for (Autor a : autores) {
-            if (a.getId().equals(id)) {
-                return a;
-            }
-        }
-
-        return null;
-    }
-
-    public String getEditoraId() {
-        return editoraId;
-    }
-
-    public void setEditoraId(String editoraId) {
-        this.editoraId = editoraId;
-    }
-
-    public List<String> getAutoresIds() {
-        return autoresIds;
-    }
-
-    public void setAutoresIds(List<String> autoresIds) {
-        this.autoresIds = autoresIds;
-    }
-
     public Editora getEditora() {
         return editora;
     }
@@ -103,13 +73,6 @@ public class LivroBean {
     }
 
     public void salvar() {
-        livro.setEditora(editora);
-
-        for (String autorId : autoresIds) {
-            Autor autor = getAutor(Long.valueOf(autorId));
-            livro.add(autor);
-        }
-
         livroService.salvar(livro);
         iniciarCampos();
         JsfUtil.adicionarMessagem("Cadastro do livro realizado com sucesso!");

@@ -40,10 +40,7 @@ import org.hibernate.validator.constraints.NotEmpty;
         uniqueConstraints = {
             @UniqueConstraint(columnNames = {"TXT_ISBN"}, name = "UNIQUE_ISBN")})
 @Access(AccessType.FIELD)
-public class Livro implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Livro extends Entidade implements Serializable {
     @NotBlank
     @Size(max = 17)
     @Pattern(regexp = "[0-9]{3}-[0-9]{2}-[0-9]{4}-[0-9]{3}-[0-9]{1}")
@@ -86,14 +83,6 @@ public class Livro implements Serializable {
         this.dataCriacao = new Date();
     }
     
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getIsbn() {
         return isbn;
     }
@@ -156,29 +145,4 @@ public class Livro implements Serializable {
             add(autor);
         }
     }
-    
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        if (!(object instanceof Livro)) {
-            return false;
-        }
-        Livro other = (Livro) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "prova.Livro[ id=" + id + " ]";
-    }
-
 }

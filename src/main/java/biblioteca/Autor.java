@@ -37,10 +37,7 @@ import org.hibernate.validator.constraints.br.CPF;
         }
 )
 @Access(AccessType.FIELD)
-public class Autor implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)    
-    private Long id;
+public class Autor extends Entidade implements Serializable {
     @Size(max = 20)
     @Pattern(regexp = "\\p{Upper}{1}\\p{Lower}+", message = "{biblioteca.Autor.nome}")
     @Column(name = "TXT_PRIMEIRO_NOME", length = 20, nullable = false)
@@ -59,14 +56,6 @@ public class Autor implements Serializable {
         this.livros = new ArrayList<>();
     }
     
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getPrimeiroNome() {
         return primeiroNome;
     }
@@ -102,30 +91,4 @@ public class Autor implements Serializable {
     public boolean add(Livro livro) {
         return livros.add(livro);
     }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        if (!(object instanceof Autor)) {
-            return false;
-        }
-        
-        Autor other = (Autor) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "prova.Autor[ id=" + id + " ]";
-    }
-
 }

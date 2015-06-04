@@ -27,14 +27,14 @@
                     </p:inputMask> 
 
                     <h:outputLabel for="autores" value="Autores: " />
-                    <p:selectCheckboxMenu id="autores" value="#{livroBean.autoresIds}" label="Autores"
+                    <p:selectCheckboxMenu id="autores" value="#{livroBean.livro.autores}" label="Autores"
                                           filter="true" filterMatchMode="startsWith" 
-                                          required="true">
-                        <f:selectItems value="#{livroBean.autores}" var="autor" itemLabel="#{autor.nome}" itemValue="#{autor.id}"/>
+                                          required="true" converter="entidadeConverter">
+                        <f:selectItems value="#{livroBean.autores}" var="autor" itemLabel="#{autor.nome}" itemValue="#{autor}"/>
                     </p:selectCheckboxMenu>
 
                     <h:outputLabel for="editora" value="Editora: " />
-                    <p:selectOneMenu id="editora" value="#{livroBean.livro.editora}" required="true" filter="true" filterMatchMode="startsWith">
+                    <p:selectOneMenu id="editora" value="#{livroBean.livro.editora}" required="true" filter="true" filterMatchMode="startsWith" converter="entidadeConverter">
                         <f:selectItems value="#{livroBean.editoras}" var="editora" itemLabel="#{editora.nome}" itemValue="#{editora}" />
                     </p:selectOneMenu>
                 </h:panelGrid>
