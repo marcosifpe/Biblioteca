@@ -34,7 +34,7 @@
                     </p:selectCheckboxMenu>
 
                     <h:outputLabel for="editora" value="Editora: " />
-                    <p:selectOneMenu id="editora" value="#{livroBean.editora}" required="true" filter="true" filterMatchMode="startsWith">
+                    <p:selectOneMenu id="editora" value="#{livroBean.livro.editora}" required="true" filter="true" filterMatchMode="startsWith">
                         <f:selectItems value="#{livroBean.editoras}" var="editora" itemLabel="#{editora.nome}" itemValue="#{editora}" />
                     </p:selectOneMenu>
                 </h:panelGrid>
