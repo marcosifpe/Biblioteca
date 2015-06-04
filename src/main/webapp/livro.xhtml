@@ -34,8 +34,8 @@
                     </p:selectCheckboxMenu>
 
                     <h:outputLabel for="editora" value="Editora: " />
-                    <p:selectOneMenu id="editora" value="#{livroBean.editoraId}" required="true" filter="true" filterMatchMode="startsWith">
-                        <f:selectItems value="#{livroBean.editoras}" var="editora" itemLabel="#{editora.nome}" itemValue="#{editora.id}" />
+                    <p:selectOneMenu id="editora" value="#{livroBean.editora}" required="true" filter="true" filterMatchMode="startsWith">
+                        <f:selectItems value="#{livroBean.editoras}" var="editora" itemLabel="#{editora.nome}" itemValue="#{editora}" />
                     </p:selectOneMenu>
                 </h:panelGrid>
                 <p:commandButton action="#{livroBean.salvar()}" value="Salvar" ajax="false" update="growl, panel" 

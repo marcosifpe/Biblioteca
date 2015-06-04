@@ -20,20 +20,23 @@ import service.LivroService;
 @ManagedBean
 @SessionScoped
 public class LivroBean {
+
     private Livro livro;
     @EJB
     private AutorService autorService;
     @EJB
-    private EditoraService editoraService;  
+    private EditoraService editoraService;
     @EJB
     private LivroService livroService;
-    
+
     private List<Editora> editoras;
     private List<Autor> autores;
-    
+
     private String editoraId;
     private List<String> autoresIds;
     
+    private Editora editora;
+
     /**
      * Creates a new instance of LivroBean
      */
@@ -43,47 +46,38 @@ public class LivroBean {
 
     private void iniciarCampos() {
         this.livro = new Livro();
-    }   
-    
+    }
+
     public Livro getLivro() {
         return livro;
     }
-    
+
     public List<Autor> getAutores() {
         if (this.autores == null) {
             this.autores = autorService.getAutores();
         }
-        
+
         return this.autores;
     }
-    
+
     public List<Editora> getEditoras() {
-        if (this.editoras == null)
+        if (this.editoras == null) {
             this.editoras = editoraService.getEditoras();
-        
+        }
+
         return this.editoras;
     }
-    
-    private Editora getEditora(Long id) {
-        for (Editora e : getEditoras()) {
-            if (e.getId().equals(id)) {
-                return e;
-            }
-        }
-        
-        return null;
-    }
-    
+
     private Autor getAutor(Long id) {
         for (Autor a : autores) {
             if (a.getId().equals(id)) {
                 return a;
             }
         }
-        
+
         return null;
     }
-    
+
     public String getEditoraId() {
         return editoraId;
     }
@@ -99,19 +93,26 @@ public class LivroBean {
     public void setAutoresIds(List<String> autoresIds) {
         this.autoresIds = autoresIds;
     }
-    
+
+    public Editora getEditora() {
+        return editora;
+    }
+
+    public void setEditora(Editora editora) {
+        this.editora = editora;
+    }
+
     public void salvar() {
-        livro.setEditora(getEditora(Long.valueOf(this.editoraId)));
-        
+        livro.setEditora(editora);
+
         for (String autorId : autoresIds) {
             Autor autor = getAutor(Long.valueOf(autorId));
             livro.add(autor);
         }
-        
+
         livroService.salvar(livro);
         iniciarCampos();
         JsfUtil.adicionarMessagem("Cadastro do livro realizado com sucesso!");
     }
-    
-    
+
 }

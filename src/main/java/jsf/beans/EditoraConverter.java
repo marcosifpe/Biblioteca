@@ -10,19 +10,25 @@ import javax.faces.convert.FacesConverter;
  *
  * @author MASC
  */
-@FacesConverter(value="editoraConverter")
+@FacesConverter(forClass = Editora.class)
 public class EditoraConverter implements Converter {
 
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
-        LivroBean livroBean = (LivroBean) context.getELContext().getELResolver().getValue(context.getELContext(), null, "livroBean");        
-        //Editora editora = livroBean.getEditora(Long.valueOf(value));
+        if (value != null && !value.isEmpty()) {
+            return (Editora) component.getAttributes().get(value);
+        }
+
         return null;
     }
 
     @Override
-    public String getAsString(FacesContext context, UIComponent component, Object value) {
-        return value.toString();
+    public String getAsString(FacesContext context, UIComponent component, Object entity) {
+        if (entity != null && entity instanceof Editora) {
+            component.getAttributes().put(((Editora) entity).getId().toString(), entity);
+            return ((Editora) entity).getId().toString();
+        }
+
+        return null;
     }
-    
 }
