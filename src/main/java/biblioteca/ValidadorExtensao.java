@@ -15,9 +15,9 @@ public class ValidadorExtensao implements ConstraintValidator<ExtensaoDocumento,
     @Override
     public void initialize(ExtensaoDocumento extensaoDocumento) {
         this.extensoesValidas = new ArrayList<>();
-        this.extensoesValidas.add("PDF");
-        this.extensoesValidas.add("MOBI");
-        this.extensoesValidas.add("EPUB");        
+        this.extensoesValidas.add("application/pdf");
+        this.extensoesValidas.add("application/mobi");
+        this.extensoesValidas.add("application/epub");        
     }
 
     @Override

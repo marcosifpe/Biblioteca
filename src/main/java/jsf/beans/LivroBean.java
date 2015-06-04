@@ -1,5 +1,6 @@
 package jsf.beans;
 
+import biblioteca.ArquivoDigital;
 import biblioteca.Autor;
 import biblioteca.Editora;
 import biblioteca.Livro;
@@ -8,6 +9,7 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.inject.Named;
+import org.primefaces.model.UploadedFile;
 import service.AutorService;
 import service.EditoraService;
 import service.LivroService;
@@ -22,6 +24,8 @@ import service.LivroService;
 public class LivroBean {
 
     private Livro livro;
+    private UploadedFile file;
+
     @EJB
     private AutorService autorService;
     @EJB
@@ -41,6 +45,18 @@ public class LivroBean {
 
     private void iniciarCampos() {
         this.livro = new Livro();
+    }
+
+    public UploadedFile getFile() {
+        return file;
+    }
+
+    public void setFile(UploadedFile file) {
+        this.file = file;
+        ArquivoDigital arquivoDigital = this.livro.criarArquivoDigital();
+        arquivoDigital.setArquivo(file.getContents());
+        arquivoDigital.setExtensao(file.getContentType());
+        this.livro.setArquivoDigital(arquivoDigital);
     }
 
     public Livro getLivro() {

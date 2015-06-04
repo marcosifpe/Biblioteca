@@ -72,10 +72,6 @@ public class Livro extends Entidade implements Serializable {
 
     public Livro() {
         this.autores = new ArrayList<>();
-    }
-    
-    @PrePersist
-    public void prePersist() {
         this.dataCriacao = new Date();
     }
     
@@ -111,6 +107,10 @@ public class Livro extends Entidade implements Serializable {
         this.arquivoDigital = arquivoDigital;
     }
 
+    public ArquivoDigital criarArquivoDigital() {
+        return new ArquivoDigital();
+    }
+    
     public Editora getEditora() {
         return editora;
     }

@@ -7,7 +7,7 @@
         <title>Livro</title>
     </h:head>
     <h:body>
-        <h:form id="Livro">            
+        <h:form id="Livro" enctype="multipart/form-data">            
             <p:growl id="growl" life="3500" autoUpdate="true"/>
             <ui:include src="/menu.xhtml" />
             <p:separator />
@@ -37,6 +37,8 @@
                     <p:selectOneMenu id="editora" value="#{livroBean.livro.editora}" required="true" filter="true" filterMatchMode="startsWith" converter="entidadeConverter">
                         <f:selectItems value="#{livroBean.editoras}" var="editora" itemLabel="#{editora.nome}" itemValue="#{editora}" />
                     </p:selectOneMenu>
+                    
+                    <p:fileUpload label="Arquivo" value="#{livroBean.file}" mode="simple" skinSimple="true"/>
                 </h:panelGrid>
                 <p:commandButton action="#{livroBean.salvar()}" value="Salvar" ajax="false" update="growl, panel" 
                                  title="Salvar Autor" icon="ui-icon-check" validateClient="false"/>
