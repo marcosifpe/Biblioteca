@@ -31,7 +31,6 @@ public class LivroBean {
 
     private List<Editora> editoras;
     private List<Autor> autores;
-    private Editora editora;
 
     /**
      * Creates a new instance of LivroBean
@@ -62,14 +61,6 @@ public class LivroBean {
         }
 
         return this.editoras;
-    }
-
-    public Editora getEditora() {
-        return editora;
-    }
-
-    public void setEditora(Editora editora) {
-        this.editora = editora;
     }
 
     public void salvar() {
