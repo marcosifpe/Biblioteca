@@ -9,6 +9,7 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.inject.Named;
+import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import service.AutorService;
 import service.EditoraService;
@@ -22,10 +23,7 @@ import service.LivroService;
 @ManagedBean
 @SessionScoped
 public class LivroBean {
-
     private Livro livro;
-    private UploadedFile file;
-
     @EJB
     private AutorService autorService;
     @EJB
@@ -47,15 +45,15 @@ public class LivroBean {
         this.livro = new Livro();
     }
 
-    public UploadedFile getFile() {
-        return file;
+    public void upload(FileUploadEvent event) {
+        setFile(event.getFile());
     }
-
+    
     public void setFile(UploadedFile file) {
-        this.file = file;
         ArquivoDigital arquivoDigital = this.livro.criarArquivoDigital();
         arquivoDigital.setArquivo(file.getContents());
         arquivoDigital.setExtensao(file.getContentType());
+        arquivoDigital.setNome(file.getFileName());
         this.livro.setArquivoDigital(arquivoDigital);
     }
 

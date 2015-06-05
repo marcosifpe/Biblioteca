@@ -7,7 +7,7 @@
         <title>Livro</title>
     </h:head>
     <h:body>
-        <h:form id="Livro" enctype="multipart/form-data">            
+        <h:form id="Livro" enctype="multipart/form-data" accept="utf-8">            
             <p:growl id="growl" life="3500" autoUpdate="true"/>
             <ui:include src="/menu.xhtml" />
             <p:separator />
@@ -38,7 +38,11 @@
                         <f:selectItems value="#{livroBean.editoras}" var="editora" itemLabel="#{editora.nome}" itemValue="#{editora}" />
                     </p:selectOneMenu>
                     
-                    <p:fileUpload label="Arquivo" value="#{livroBean.file}" mode="simple" skinSimple="true"/>
+                    <h:outputLabel for="arquivo" value="Arquivo: " />
+                    <p:fileUpload id="arquivo" label="Arquivo" mode="advanced" fileLimit="1" fileLimitMessage="selecione um único arquivo"
+                                  allowTypes="/(\.|\/)(pdf|mobi|epub)$/" invalidFileMessage="apenas arquivos pdf, mobi ou epub"
+                                  sizeLimit="31457280" invalidSizeMessage="são permitidos arquivos de no máximo 30 MB"
+                                  fileUploadListener="#{livroBean.upload}" />
                 </h:panelGrid>
                 <p:commandButton action="#{livroBean.salvar()}" value="Salvar" ajax="false" update="growl, panel" 
                                  title="Salvar Autor" icon="ui-icon-check" validateClient="false"/>

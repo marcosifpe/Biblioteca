@@ -15,11 +15,13 @@ import javax.persistence.Lob;
 public class ArquivoDigital implements Serializable {
     @Lob
     @Basic(fetch = FetchType.LAZY, optional = true)
-    @Column(name = "ARQUIVO", nullable = true)
+    @Column(name = "BLOB_ARQUIVO", nullable = true)
     private byte[] arquivo;    
     @ExtensaoDocumento
-    @Column(name = "TXT_EXTENSAO", nullable = true)
+    @Column(name = "TXT_EXTENSAO_ARQUIVO", nullable = true)
     private String extensao;
+    @Column(name = "TXT_NOME_ARQUIVO", nullable = true)
+    private String nome;
 
     public byte[] getArquivo() {
         return arquivo;
@@ -35,5 +37,13 @@ public class ArquivoDigital implements Serializable {
 
     public void setExtensao(String extensao) {
         this.extensao = extensao;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 }
