@@ -49,7 +49,7 @@ public class LivroBean {
         setFile(event.getFile());
     }
     
-    public void setFile(UploadedFile file) {
+    private void setFile(UploadedFile file) {
         ArquivoDigital arquivoDigital = this.livro.criarArquivoDigital();
         arquivoDigital.setArquivo(file.getContents());
         arquivoDigital.setExtensao(file.getContentType());
