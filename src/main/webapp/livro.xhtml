@@ -42,7 +42,7 @@
                     <p:fileUpload id="arquivo" label="Arquivo" mode="advanced" fileLimit="1" fileLimitMessage="selecione um único arquivo"
                                   allowTypes="/(\.|\/)(pdf|mobi|epub)$/" invalidFileMessage="apenas arquivos pdf, mobi ou epub"
                                   sizeLimit="31457280" invalidSizeMessage="são permitidos arquivos de no máximo 30 MB"
-                                  fileUploadListener="#{livroBean.upload}" />
+                                  fileUploadListener="#{livroBean.upload}" dragDropSupport="true"/>
                 </h:panelGrid>
                 <p:commandButton action="#{livroBean.salvar()}" value="Salvar" ajax="false" update="growl, panel" 
                                  title="Salvar Autor" icon="ui-icon-check" validateClient="false"/>
