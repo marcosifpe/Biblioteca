@@ -4,15 +4,13 @@ import biblioteca.Autor;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.inject.Named;
 import service.AutorService;
 
 /**
  *
  * @author MASC
  */
-@Named(value = "autorBean")
-@ManagedBean
+@ManagedBean(name = "autorBean")
 @ViewScoped
 public class AutorBean {
     private Autor autor;

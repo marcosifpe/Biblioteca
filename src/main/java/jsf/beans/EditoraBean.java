@@ -4,15 +4,13 @@ import biblioteca.Editora;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.inject.Named;
 import service.EditoraService;
 
 /**
  *
  * @author MASC
  */
-@Named(value = "editoraBean")
-@ManagedBean
+@ManagedBean(name = "editoraBean")
 @ViewScoped
 public class EditoraBean {
     private Editora editora;

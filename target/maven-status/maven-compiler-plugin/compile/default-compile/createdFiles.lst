@@ -1,0 +1,16 @@
+service\AutorService.class
+biblioteca\ArquivoDigital.class
+jsf\beans\LivroBean.class
+jsf\beans\EntidadeConverter.class
+service\EditoraService.class
+biblioteca\Autor.class
+biblioteca\ValidadorExtensao.class
+jsf\beans\EditoraBean.class
+jsf\beans\LivrosPaginator.class
+biblioteca\Entidade.class
+jsf\beans\AutorBean.class
+biblioteca\Editora.class
+jsf\beans\JsfUtil.class
+biblioteca\Livro.class
+biblioteca\ExtensaoDocumento.class
+service\LivroService.class

@@ -8,7 +8,6 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.inject.Named;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import service.AutorService;
@@ -19,8 +18,7 @@ import service.LivroService;
  *
  * @author MASC
  */
-@Named(value = "livroBean")
-@ManagedBean
+@ManagedBean(name = "livroBean")
 @SessionScoped
 public class LivroBean {
     private Livro livro;
