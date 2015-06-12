@@ -7,6 +7,15 @@
         <title>Livros</title>
     </h:head>
     <h:body>
+        <script type="text/javascript">
+            function start() {
+                PF('statusDialog').show();
+            }
+
+            function stop() {
+                PF('statusDialog').hide();
+            }
+        </script>        
         <h:form id="Livros">            
             <ui:include src="/menu.xhtml" />
             <p:separator />
@@ -34,7 +43,17 @@
                         </ui:fragment>
                         <h:outputText value="#{autor.primeiroNome} #{autor.ultimoNome}" />
                     </ui:repeat>
-                </p:column>                       
+                </p:column>    
+                <p:column headerText="Arquivo do Livro">                    
+                    <ui:fragment rendered="#{livro.arquivoDigital != null}">
+                        <p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
+                            <p:fileDownload value="#{livro.arquivoDigital.file}" />
+                        </p:commandButton>
+                    </ui:fragment>
+                    <ui:fragment rendered="#{livro.arquivoDigital == null}">
+                        <h:outputText value="Não há arquivo associado" />
+                    </ui:fragment>                    
+                </p:column>
             </p:dataTable>
         </h:form>
     </h:body>

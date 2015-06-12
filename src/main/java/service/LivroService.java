@@ -25,7 +25,7 @@ public class LivroService {
 
     @PersistenceContext(name = "biblioteca", type = PersistenceContextType.TRANSACTION)
     private EntityManager entityManager;
-
+    
     public void salvar(Livro livro) {
         entityManager.persist(livro);
     }
@@ -34,5 +34,4 @@ public class LivroService {
         TypedQuery query = entityManager.createNamedQuery("Livros", Livro.class);
         return query.getResultList();
     }
-
 }

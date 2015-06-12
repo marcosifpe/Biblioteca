@@ -1,11 +1,15 @@
 package biblioteca;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.FetchType;
 import javax.persistence.Lob;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 
 /**
  *
@@ -45,5 +49,10 @@ public class ArquivoDigital implements Serializable {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+    
+    public StreamedContent getFile() {
+        InputStream stream = new ByteArrayInputStream(arquivo);
+        return new DefaultStreamedContent(stream, extensao, nome);
     }
 }
