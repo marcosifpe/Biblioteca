@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"  xmlns:h="http://xmlns.jcp.org/jsf/html" 
-      xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core" xmlns:c="http://java.sun.com/jsp/jstl/core">
     <h:head>
         <title>Livros</title>
     </h:head>
@@ -9,18 +10,31 @@
         <h:form id="Livros">            
             <ui:include src="/menu.xhtml" />
             <p:separator />
-            <p:dataTable var="livro"  value="#{livrosPaginator.livros}" rows="10" paginator="true" 
+            <p:dataTable var="livro"  value="#{livrosPaginator.livros}" rows="10" paginator="true"  caseSensitiveSort="true"
                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                          rowsPerPageTemplate="5,10,15" emptyMessage="Não existem livros cadastrados">
-                <p:column headerText="Título">
+                <p:column headerText="Título" sortBy="#{livro.titulo}">
                     <h:outputText value="#{livro.titulo}" />
                 </p:column>
-                <p:column headerText="ISBN">
+                <p:column headerText="ISBN" sortBy="#{livro.isbn}">
                     <h:outputText value="#{livro.isbn}" />
                 </p:column>
-                <p:column headerText="Editora">
+                <p:column headerText="Data de Lançamento" sortBy="#{livro.dataLancamento}">
+                    <h:outputText value="#{livro.dataLancamento}">
+                        <f:convertDateTime type="date" dateStyle="medium" />
+                    </h:outputText>                        
+                </p:column>                
+                <p:column headerText="Editora" sortBy="#{livro.editora.nome}">
                     <h:outputText value="#{livro.editora.nome}" />
-                </p:column>            
+                </p:column>                
+                <p:column headerText="Autores">
+                    <ui:repeat value="#{livro.autores}" var="autor" varStatus="status">
+                        <ui:fragment rendered="#{status.index != 0}">
+                            <h:outputText value=", " />
+                        </ui:fragment>
+                        <h:outputText value="#{autor.primeiroNome} #{autor.ultimoNome}" />
+                    </ui:repeat>
+                </p:column>                       
             </p:dataTable>
         </h:form>
     </h:body>
