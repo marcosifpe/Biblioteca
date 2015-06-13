@@ -51,6 +51,7 @@ public class ArquivoDigital implements Serializable {
         this.nome = nome;
     }
     
+    //TODO: Transformar em converter
     public StreamedContent getFile() {
         InputStream stream = new ByteArrayInputStream(arquivo);
         return new DefaultStreamedContent(stream, extensao, nome);
