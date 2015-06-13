@@ -33,4 +33,15 @@ public class DaoGenerico {
         Query query = entityManager.createNamedQuery(nomeQuery);
         return query.getResultList();
     }
+    
+    public List get(String nomeQuery, Object[] parametros) {
+        Query query = entityManager.createNamedQuery(nomeQuery);
+        
+        int i = 1;
+        for (Object parametro : parametros) {
+            query.setParameter(i++, parametro);
+        }
+        
+        return query.getResultList();        
+    }
 }

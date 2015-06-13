@@ -40,7 +40,7 @@ public class Autor extends Entidade implements Serializable {
     @Column(name = "TXT_PRIMEIRO_NOME", length = 20, nullable = false)
     private String primeiroNome;
     @Size(max = 20)
-    @Pattern(regexp = "[A-Z]{1}[a-z]+", message = "{biblioteca.Autor.nome}")    
+    @Pattern(regexp = "[A-Z]{1}[a-z]+", message = "{biblioteca.Autor.nome}")
     @Column(name = "TXT_ULTIMO_NOME", length = 20, nullable = false)
     private String ultimoNome;
     @CPF
@@ -48,11 +48,11 @@ public class Autor extends Entidade implements Serializable {
     private String cpf;
     @ManyToMany(mappedBy = "autores", fetch = FetchType.LAZY)
     private List<Livro> livros;
-    
+
     public Autor() {
         this.livros = new ArrayList<>();
     }
-    
+
     public String getPrimeiroNome() {
         return primeiroNome;
     }
@@ -72,7 +72,7 @@ public class Autor extends Entidade implements Serializable {
     public String getNome() {
         return this.primeiroNome + " " + this.ultimoNome;
     }
-    
+
     public String getCpf() {
         return cpf;
     }
