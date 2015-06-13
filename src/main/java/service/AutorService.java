@@ -1,17 +1,15 @@
 package service;
 
 import biblioteca.Autor;
+import dao.DaoGenerico;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
-import javax.persistence.TypedQuery;
 
 /**
  *
@@ -22,16 +20,16 @@ import javax.persistence.TypedQuery;
 @TransactionManagement(TransactionManagementType.CONTAINER)
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class AutorService {
-    @PersistenceContext(name = "biblioteca", type = PersistenceContextType.TRANSACTION)
-    private EntityManager entityManager;
+    @EJB
+    private DaoGenerico daoGenerico;
+
     
     public void salvar(Autor autor) {
-        entityManager.persist(autor);
+        daoGenerico.salvar(autor);
     }
     
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public List<Autor> getAutores() {
-        TypedQuery query = entityManager.createNamedQuery("Autores", Autor.class);
-        return query.getResultList();
+        return (List<Autor>) daoGenerico.get("Autores");
     }
 }

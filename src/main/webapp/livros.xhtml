@@ -46,12 +46,12 @@
                 </p:column>    
                 <p:column headerText="Arquivo do Livro">                    
                     <ui:fragment rendered="#{livro.arquivoDigital != null}">
-                        <p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
+                        <p:commandButton ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
                             <p:fileDownload value="#{livro.arquivoDigital.file}" />
                         </p:commandButton>
                     </ui:fragment>
                     <ui:fragment rendered="#{livro.arquivoDigital == null}">
-                        <h:outputText value="Não há arquivo associado" />
+                        <h:outputText value="" />
                     </ui:fragment>                    
                 </p:column>
             </p:dataTable>
