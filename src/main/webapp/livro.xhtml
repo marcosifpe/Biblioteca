@@ -41,7 +41,7 @@
                     <h:outputLabel for="arquivo" value="Arquivo: " />
                     <p:fileUpload id="arquivo" label="Arquivo" mode="advanced" fileLimit="1" fileLimitMessage="selecione um único arquivo"
                                   allowTypes="/(\.|\/)(pdf|mobi|epub)$/" invalidFileMessage="apenas arquivos pdf, mobi ou epub"
-                                  sizeLimit="31457280" invalidSizeMessage="são permitidos arquivos de no máximo 30 MB"
+                                  sizeLimit="3145728" invalidSizeMessage="são permitidos arquivos de no máximo 3 MB"
                                   fileUploadListener="#{livroBean.upload}" dragDropSupport="true"/>
                 </h:panelGrid>
                 <p:commandButton action="#{livroBean.salvar()}" value="Salvar" ajax="false" update="growl, panel" 
