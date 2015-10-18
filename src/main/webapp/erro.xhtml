@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"  xmlns:h="http://xmlns.jcp.org/jsf/html" 
+      xmlns:p="http://primefaces.org/ui">
+    <p:dialog id="exceptionDialog" header="Exception '#{pfExceptionHandler.type}' occured!" widgetVar="exceptionDialog"
+              height="500px">
+        Message: #{pfExceptionHandler.message} <br/>
+        StackTrace: <h:outputText value="#{pfExceptionHandler.formattedStackTrace}" escape="false" />
+    </p:dialog>    
+</html>

@@ -41,6 +41,10 @@ import org.hibernate.validator.constraints.NotEmpty;
             @NamedQuery(
                     name = "Livros",
                     query = "SELECT l FROM Livro l ORDER BY l.titulo"
+            ),
+            @NamedQuery (
+                    name = "LivroPorIsbn",
+                    query = "SELECT l FROM Livro l WHERE l.isbn = ?1"
             )
         }
 )
