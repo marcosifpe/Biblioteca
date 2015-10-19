@@ -1,8 +1,8 @@
 package service;
 
+import biblioteca.Autor;
 import biblioteca.Livro;
 import dao.DaoGenerico;
-import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -33,17 +33,18 @@ public class LivroWebService {
         return "Alo, mundo";
     }
 
-
     @WebMethod(operationName = "getLivro")
     @WebResult(name = "livro")
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public Livro getLivro(@WebParam(name = "isbn", mode = WebParam.Mode.IN) String isbn) {
-        List<Livro> livros = daoGenerico.get("LivroPorIsbn", new Object[]{isbn});
-
-        if (livros.isEmpty()) {
-            return null;
-        } else {
-            return livros.get(0);
-        }
+        return (Livro) daoGenerico.getEntidade("LivroPorIsbn", new Object[]{isbn});
+    }
+    
+    @WebMethod(operationName = "salvarAutor")
+    @WebResult(name = "sucesso")
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public boolean criarAutor(@WebParam(name = "autor", mode = WebParam.Mode.IN) Autor autor) {
+        daoGenerico.salvar(autor);
+        return true;
     }
 }

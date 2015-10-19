@@ -12,5 +12,7 @@ jsf\beans\AutorBean.class
 biblioteca\Editora.class
 jsf\beans\JsfUtil.class
 biblioteca\Livro.class
+service\LivroWebService.class
 biblioteca\ExtensaoDocumento.class
+dao\DaoGenerico.class
 service\LivroService.class
