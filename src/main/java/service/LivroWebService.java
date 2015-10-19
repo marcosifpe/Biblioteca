@@ -17,6 +17,7 @@ import javax.jws.WebService;
 /**
  *
  * @author MASC
+ * Exemplo de Web Service.
  */
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
