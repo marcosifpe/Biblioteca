@@ -15,7 +15,6 @@ import javax.jws.WebResult;
 import javax.jws.WebService;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.TypedQuery;
