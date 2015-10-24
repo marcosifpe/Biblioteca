@@ -30,7 +30,11 @@ import org.hibernate.validator.constraints.br.CPF;
             @NamedQuery(
                     name = "Autores",
                     query = "SELECT a FROM Autor a ORDER BY a.primeiroNome, a.ultimoNome"
-            )
+            ),
+            @NamedQuery(
+                    name = "AutorPorCpf",
+                    query = "SELECT a FROM Autor a WHERE a.cpf = :cpf"
+            )            
         }
 )
 @Access(AccessType.FIELD)

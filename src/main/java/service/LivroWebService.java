@@ -1,6 +1,5 @@
 package service;
 
-import biblioteca.Autor;
 import biblioteca.Livro;
 import dao.DaoGenerico;
 import javax.ejb.EJB;
