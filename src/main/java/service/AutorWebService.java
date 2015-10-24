@@ -15,6 +15,7 @@ import javax.jws.WebResult;
 import javax.jws.WebService;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.TypedQuery;
@@ -38,14 +39,14 @@ public class AutorWebService {
     public String[] criarAutor(@WebParam(name = "autor", mode = WebParam.Mode.IN) Autor autor) {
         checarExistencia(autor);
         entityManager.persist(autor);
-        return new String[] {Boolean.TRUE.toString()};
+        return new String[]{Boolean.TRUE.toString()};
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     private void checarExistencia(Autor autor) throws EntityExistsException {
         TypedQuery<Autor> query = entityManager.createNamedQuery("AutorPorCpf", Autor.class);
         query.setParameter("cpf", autor.getCpf());
-        if (query.getSingleResult() != null) {
+        if (query.getResultList().size() > 0) {
             throw new EntityExistsException(autor.getCpf());
         }
     }
