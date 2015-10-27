@@ -49,7 +49,7 @@ public class ExcecaoInterceptador {
                 }
 
                 str2.append(violation.getPropertyPath());
-                str2.append(": ");
+                str2.append(" ");
                 str2.append(violation.getMessage());
             }
             
@@ -58,7 +58,7 @@ public class ExcecaoInterceptador {
             return new String[]{Boolean.FALSE.toString(), str.toString()};
         } catch (EntityExistsException ex) {
             str = new StringBuilder();
-            str.append(properties.get("javax.persistence.EntityExistsException"));
+            str.append(String.format(properties.get("javax.persistence.EntityExistsException").toString(), ex.getMessage()));
             LOGGER.log(Level.WARNING, ex.getMessage(), ex);
             return new String[]{Boolean.FALSE.toString(), str.toString()};
         } catch (Exception ex) {
