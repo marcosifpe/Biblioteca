@@ -58,7 +58,7 @@ public class ExcecaoInterceptador {
             return new String[]{Boolean.FALSE.toString(), str.toString()};
         } catch (EntityExistsException ex) {
             str = new StringBuilder();
-            str.append(String.format((String) properties.get("javax.persistence.EntityExistsException"), ex.getMessage()));
+            str.append(properties.get("javax.persistence.EntityExistsException"));
             LOGGER.log(Level.WARNING, ex.getMessage(), ex);
             return new String[]{Boolean.FALSE.toString(), str.toString()};
         } catch (Exception ex) {
