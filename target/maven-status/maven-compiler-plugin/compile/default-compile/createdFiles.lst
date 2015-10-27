@@ -1,7 +1,10 @@
+service\AutorWebService.class
 biblioteca\ValidadorExtensao.class
 jsf\beans\EditoraBean.class
+interceptador\ExcecaoInterceptador.class
 biblioteca\Editora.class
 biblioteca\Livro.class
+util\query\QueryHelper.class
 service\AutorService.class
 biblioteca\ArquivoDigital.class
 jsf\beans\LivroBean.class
@@ -11,6 +14,7 @@ biblioteca\Autor.class
 jsf\beans\LivrosPaginator.class
 biblioteca\Entidade.class
 jsf\beans\AutorBean.class
+service\EditoraWebService.class
 jsf\beans\JsfUtil.class
 service\LivroWebService.class
 biblioteca\ExtensaoDocumento.class

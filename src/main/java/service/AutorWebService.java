@@ -1,8 +1,7 @@
 package service;
 
 import biblioteca.Autor;
-import interceptador.EntityExistsInterceptor;
-import interceptador.ValidatorInterceptor;
+import interceptador.ExcecaoInterceptador;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -25,7 +24,7 @@ import javax.persistence.TypedQuery;
  */
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
-@Interceptors({ValidatorInterceptor.class, EntityExistsInterceptor.class})
+@Interceptors({ExcecaoInterceptador.class})
 @WebService
 public class AutorWebService {
 

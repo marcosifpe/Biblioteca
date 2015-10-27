@@ -3,7 +3,6 @@ C:\Users\MASC\Documents\GitHub\biblioteca\trunk\src\main\java\biblioteca\Arquivo
 C:\Users\MASC\Documents\GitHub\biblioteca\trunk\src\main\java\jsf\beans\AutorBean.java
 C:\Users\MASC\Documents\GitHub\biblioteca\trunk\src\main\java\biblioteca\Entidade.java
 C:\Users\MASC\Documents\GitHub\biblioteca\trunk\src\main\java\jsf\beans\EntidadeConverter.java
-C:\Users\MASC\Documents\GitHub\biblioteca\trunk\src\main\java\interceptador\EntityExistsInterceptor.java
 C:\Users\MASC\Documents\GitHub\biblioteca\trunk\src\main\java\service\LivroService.java
 C:\Users\MASC\Documents\GitHub\biblioteca\trunk\src\main\java\util\query\QueryHelper.java
 C:\Users\MASC\Documents\GitHub\biblioteca\trunk\src\main\java\biblioteca\Autor.java
@@ -17,7 +16,7 @@ C:\Users\MASC\Documents\GitHub\biblioteca\trunk\src\main\java\service\LivroWebSe
 C:\Users\MASC\Documents\GitHub\biblioteca\trunk\src\main\java\biblioteca\Livro.java
 C:\Users\MASC\Documents\GitHub\biblioteca\trunk\src\main\java\jsf\beans\LivrosPaginator.java
 C:\Users\MASC\Documents\GitHub\biblioteca\trunk\src\main\java\jsf\beans\EditoraBean.java
+C:\Users\MASC\Documents\GitHub\biblioteca\trunk\src\main\java\interceptador\ExcecaoInterceptador.java
 C:\Users\MASC\Documents\GitHub\biblioteca\trunk\src\main\java\service\AutorService.java
 C:\Users\MASC\Documents\GitHub\biblioteca\trunk\src\main\java\service\EditoraWebService.java
-C:\Users\MASC\Documents\GitHub\biblioteca\trunk\src\main\java\interceptador\ValidatorInterceptor.java
 C:\Users\MASC\Documents\GitHub\biblioteca\trunk\src\main\java\jsf\beans\LivroBean.java
