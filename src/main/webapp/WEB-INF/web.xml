@@ -24,7 +24,7 @@
         </web-resource-collection>
         <auth-constraint>
             <description/>
-            <role-name>administrador</role-name>
+            <role-name>administrador</role-name> <!-- experimente trocar por 'usuario' -->
         </auth-constraint>        
     </security-constraint>
     <security-constraint>
@@ -54,6 +54,10 @@
         <error-code>403</error-code>
         <location>/acesso_nao_autorizado.xhtml</location>
     </error-page>    
+    <error-page>
+        <exception-type>javax.ejb.EJBAccessException</exception-type>
+        <location>/acesso_nao_autorizado.xhtml</location>
+    </error-page>        
     <context-param>
         <param-name>javax.faces.PROJECT_STAGE</param-name>
         <param-value>Development</param-value>
