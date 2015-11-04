@@ -3,10 +3,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:p="http://primefaces.org/ui">
     <p:menuButton value="Menu">
-        <p:menuitem rendered="#{facesContext.externalContext.isUserInRole('administrador')}" value="Cadastrar Autor" outcome="/admin/autor.xhtml" icon="ui-icon-person"/>
-        <p:menuitem rendered="#{facesContext.externalContext.isUserInRole('administrador')}" value="Cadastrar Editora" outcome="/admin/editora.xhtml" icon="ui-icon-print"/>
-        <p:menuitem rendered="#{facesContext.externalContext.isUserInRole('administrador')}" value="Cadastrar Livro" outcome="/admin/livro.xhtml" icon="ui-icon-document"/>
-        <p:separator rendered="#{facesContext.externalContext.isUserInRole('administrador')}" />
+        <p:menuitem value="Cadastrar Autor" outcome="/admin/autor.xhtml" icon="ui-icon-person"/>
+        <p:menuitem value="Cadastrar Editora" outcome="/admin/editora.xhtml" icon="ui-icon-print"/>
+        <p:menuitem value="Cadastrar Livro" outcome="/admin/livro.xhtml" icon="ui-icon-document"/>
+        <p:separator />
         <p:menuitem value="Listar Livro" outcome="/usuario/livros.xhtml" icon="ui-icon-document"/>      
         <p:separator />
         <p:menuitem value="Sair" action="#{logoutBean.logout()}" outcome="/index.html" icon="ui-icon-document"/>

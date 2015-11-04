@@ -1,15 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package jsf.beans;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -19,8 +13,13 @@ import javax.servlet.http.HttpServletRequest;
 @ViewScoped
 public class LogoutBean {
 
-    public String logout() throws ServletException {
-        ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()).logout();
+    public String logout() {
+        FacesContext fc = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) fc.getExternalContext().getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+        
         return "/index";
     }
 }
