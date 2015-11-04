@@ -8,6 +8,8 @@ package jsf.beans;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -17,8 +19,8 @@ import javax.faces.context.FacesContext;
 @ViewScoped
 public class LogoutBean {
 
-    public String logout() {
-        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+    public String logout() throws ServletException {
+        ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()).logout();
         return "/index";
     }
 }
