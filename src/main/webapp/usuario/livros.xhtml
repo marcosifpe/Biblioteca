@@ -17,7 +17,7 @@
             }
         </script>        
         <h:form id="Livros">            
-            <ui:include src="/menu.xhtml" />
+            <ui:include src="../menu.xhtml" />
             <p:separator />
             <p:dataTable var="livro"  value="#{livrosPaginator.livros}" rows="10" paginator="true"  caseSensitiveSort="true"
                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"

@@ -1,5 +1,6 @@
 package service;
 
+import acesso.Usuario;
 import biblioteca.Autor;
 import interceptador.ExcecaoInterceptador;
 import javax.ejb.Stateless;
@@ -48,4 +49,22 @@ public class AutorWebService {
             throw new EntityExistsException(autor.getCpf());
         }
     }
+    
+    @WebMethod(operationName = "salvarUsuario")
+    @WebResult(name = "status")
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)    
+    public String[] criarUsuario(@WebParam(name = "usuario", mode = WebParam.Mode.IN) Usuario usuario) {
+        usuario.addGrupo("usr");
+        entityManager.persist(usuario);
+        return new String[]{Boolean.TRUE.toString()};
+    }
+    
+    @WebMethod(operationName = "salvarAdmin")
+    @WebResult(name = "status")
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)    
+    public String[] criarAdmin(@WebParam(name = "usuario", mode = WebParam.Mode.IN) Usuario usuario) {
+        usuario.addGrupo("admin");
+        entityManager.persist(usuario);
+        return new String[]{Boolean.TRUE.toString()};
+    }    
 }

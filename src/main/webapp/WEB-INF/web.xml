@@ -1,8 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <login-config>
+        <auth-method>BASIC</auth-method>
+        <realm-name>fileRealm</realm-name>
+        <!--form-login-config>
+            <form-login-page>/faces/login.xhtml</form-login-page>
+            <form-error-page>/faces/erro.xhtml</form-error-page>
+        </form-login-config-->
+    </login-config>
+    <security-constraint>
+        <display-name>Pg Administrativas</display-name>
+        <web-resource-collection>
+            <web-resource-name>Protected Admin Area</web-resource-name>
+            <description>Protected Admin Area</description>
+            <url-pattern>/faces/admin/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+            <http-method>HEAD</http-method>
+            <http-method>PUT</http-method>
+            <http-method>OPTIONS</http-method>
+            <http-method>TRACE</http-method>
+            <http-method>DELETE</http-method>            
+        </web-resource-collection>
+        <auth-constraint>
+            <description/>
+            <role-name>administrador</role-name>
+        </auth-constraint>        
+    </security-constraint>
+    <security-constraint>
+        <display-name>Pg Usuarios</display-name>
+        <web-resource-collection>
+            <web-resource-name>Protected Usuario Area</web-resource-name>
+            <description>Protected Usuario Area</description>
+            <url-pattern>/faces/usuario/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+            <http-method>HEAD</http-method>
+            <http-method>PUT</http-method>
+            <http-method>OPTIONS</http-method>
+            <http-method>TRACE</http-method>
+            <http-method>DELETE</http-method>            
+        </web-resource-collection>
+        <auth-constraint>
+            <description/>
+            <role-name>usuario</role-name>
+        </auth-constraint>        
+    </security-constraint>    
     <error-page>
         <error-code>500</error-code>
         <location>/error.xhtml</location>
+    </error-page>
+    <error-page>
+        <error-code>403</error-code>
+        <location>/acesso_nao_autorizado.xhtml</location>
     </error-page>    
     <context-param>
         <param-name>javax.faces.PROJECT_STAGE</param-name>
@@ -19,10 +69,10 @@
     </servlet-mapping>
     <session-config>
         <session-timeout>
-            30
+            2
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>faces/autor.xhtml</welcome-file>
+        <welcome-file>faces/admin/autor.xhtml</welcome-file>
     </welcome-file-list>
 </web-app>
