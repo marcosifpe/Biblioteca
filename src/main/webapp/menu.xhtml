@@ -9,7 +9,7 @@
         <p:separator />
         <p:menuitem value="Listar Livro" outcome="/usuario/livros.xhtml" icon="ui-icon-document"/>      
         <p:separator />
-        <p:menuitem value="Sair" action="#{logoutBean.logout()}" outcome="/index.html" icon="ui-icon-document"/>
+        <p:menuitem value="Sair" action="#{session.invalidate()}" outcome="/index.html" icon="ui-icon-document"/>
     </p:menuButton>
 </html>
 
