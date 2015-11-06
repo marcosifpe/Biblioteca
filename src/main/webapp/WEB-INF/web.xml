@@ -5,7 +5,7 @@
         <realm-name>fileRealm</realm-name>
         <form-login-config>
             <form-login-page>/faces/login.xhtml</form-login-page>
-            <form-error-page>/faces/erro.xhtml</form-error-page>
+            <form-error-page>/faces/login_invalido.xhtml</form-error-page>
         </form-login-config>
     </login-config>
     <security-constraint>
@@ -48,16 +48,16 @@
     </security-constraint>    
     <error-page>
         <error-code>500</error-code>
-        <location>/error.xhtml</location>
+        <location>/faces/erro.xhtml</location>
     </error-page>
     <error-page>
         <error-code>403</error-code>
-        <location>/acesso_nao_autorizado.xhtml</location>
+        <location>/faces/acesso_nao_autorizado.xhtml</location>
     </error-page>    
     <error-page>
         <exception-type>javax.ejb.EJBAccessException</exception-type>
-        <location>/acesso_nao_autorizado.xhtml</location>
-    </error-page>        
+        <location>/faces/erro.xhtml</location>
+    </error-page> 
     <context-param>
         <param-name>javax.faces.PROJECT_STAGE</param-name>
         <param-value>Development</param-value>
