@@ -6,14 +6,15 @@
     </h:head>
     <h:body>
         <form id="loginForm" method="POST" action="j_security_check" >
-            <p:panelGrid columns="2">
+            <p:panelGrid columns="2" layout="tabular">
                 <p:outputLabel for="j_username" value="Usuário:" />
                 <p:inputText id="j_username" />
                 <p:outputLabel for="j_password" value="Senha:" />
                 <p:password id="j_password" maxlength="20" />
             </p:panelGrid>
             <h:panelGroup>
-                <input type="submit" value="Logar"/>
+                <h:commandButton value="Login" type="submit"/>
+                <h:commandButton value="Limpar" type="reset"/>
             </h:panelGroup>            
         </form>
     </h:body>

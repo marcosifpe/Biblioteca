@@ -4,30 +4,30 @@
       xmlns:p="http://primefaces.org/ui">
     <p:menuButton value="Menu">
         <p:menuitem value="Cadastrar Autor" 
-                    outcome="/admin/autor.xhtml" 
+                    outcome="/faces/admin/autor.xhtml" 
                     icon="ui-icon-person" 
                     rendered="#{facesContext.externalContext.isUserInRole('administrador')}"
                     />
         <p:menuitem value="Cadastrar Editora" 
-                    outcome="/admin/editora.xhtml" 
+                    outcome="/faces/admin/editora.xhtml" 
                     icon="ui-icon-print"
                     rendered="#{facesContext.externalContext.isUserInRole('administrador')}" 
                     />
         <p:menuitem value="Cadastrar Livro" 
-                    outcome="/admin/livro.xhtml" 
+                    outcome="/faces/admin/livro.xhtml" 
                     icon="ui-icon-document"
                     rendered="#{facesContext.externalContext.isUserInRole('administrador')}" 
                     />
         <p:separator rendered="#{facesContext.externalContext.isUserInRole('administrador')}" 
                      />
         <p:menuitem value="Listar Livro"
-                    outcome="/usuario/livros.xhtml"
+                    outcome="/faces/usuario/livros.xhtml"
                     icon="ui-icon-document"
                     rendered="#{facesContext.externalContext.isUserInRole('usuario')}"
                     />      
         <p:separator />
         <p:menuitem value="Sair" action="#{session.invalidate()}" 
-                    outcome="/index.html" 
+                    outcome="/faces/publico/login.xhtml" 
                     icon="ui-icon-document"/>
     </p:menuButton>
 </html>
