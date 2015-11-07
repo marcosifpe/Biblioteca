@@ -10,6 +10,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 
+
 /**
  *
  * @author MASC
@@ -17,9 +18,12 @@ import java.util.Base64;
 public class Main {
     private static String senha;
     public static void main(String[] args) {
-        senha = "segredo";
+        senha = "mascteste123";
         criptografar();
         System.out.println(senha);
+        senha = "teste123masc";
+        criptografar();
+        System.out.println(senha);        
     }
     
     public static void criptografar() {
