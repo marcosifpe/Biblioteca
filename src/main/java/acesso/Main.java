@@ -5,6 +5,7 @@
  */
 package acesso;
 
+import java.math.BigInteger;
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -18,10 +19,10 @@ import java.util.Base64;
 public class Main {
     private static String senha;
     public static void main(String[] args) {
-        senha = "mascteste123";
+        senha = "john123";
         criptografar();
         System.out.println(senha);
-        senha = "teste123masc";
+        senha = "johnjohn123";
         criptografar();
         System.out.println(senha);        
     }
@@ -36,7 +37,9 @@ public class Main {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             digest.update(senha.getBytes(Charset.forName("UTF-8")));     
             
-            senha = Base64.getEncoder().encodeToString(digest.digest());            
+            byte[] bytes = digest.digest();
+            BigInteger bigInt = new BigInteger(1, bytes);
+            senha = bigInt.toString(16);
         } catch (NoSuchAlgorithmException ex) {
             throw new RuntimeException(ex);
         }
