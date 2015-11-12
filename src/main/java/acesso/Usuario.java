@@ -5,28 +5,29 @@
  */
 package acesso;
 
+import biblioteca.Entidade;
 import java.io.Serializable;
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import sun.security.util.Password;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  *
@@ -35,41 +36,49 @@ import sun.security.util.Password;
 @Entity
 @Table(name = "tb_usuario")
 @NamedQueries({
-    @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u")})
-public class Usuario implements Serializable {
+    @NamedQuery(name = "Usuarios", query = "SELECT u FROM Usuario u ORDER BY u.primeiroNome, u.ultimoNome")})
+public class Usuario extends Entidade implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 45)
     @Column(name = "TXT_LOGIN")
     private String login;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 500)
+    @Size(max = 45)
     @Column(name = "TXT_PASSWORD")
     private String senha;
-    @Basic(optional = false)
+    @Size(max = 45)
+    @Column(name = "TXT_SAL")
+    private String sal;
     @NotNull
-    @Size(min = 1, max = 45)
+    @Email
+    @Size(max = 45)
     @Column(name = "TXT_EMAIL")
     private String email;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 45)
+    @NotBlank
+    @Size(max = 45)
     @Column(name = "TXT_PRIMEIRO_NOME")
     private String primeiroNome;
+    @NotBlank
     @Size(max = 45)
     @Column(name = "TXT_ULTIMO_NOME")
     private String ultimoNome;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
-    private List<Grupo> grupoList;
+    
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "TB_USUARIO_GRUPO", joinColumns = {
+        @JoinColumn(name = "ID_USUARIO")},
+            inverseJoinColumns = {
+                @JoinColumn(name = "ID_GRUPO")})
+    private List<Grupo> grupos;
+
+    public Usuario() {
+    }
 
     @PrePersist
     public void gerarHash() {
         try {
+            gerarSal();
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            setSenha(sal + senha);
             digest.update(senha.getBytes(Charset.forName("UTF-8")));
             setSenha(Base64.getEncoder().encodeToString(digest.digest()));
         } catch (NoSuchAlgorithmException ex) {
@@ -77,19 +86,31 @@ public class Usuario implements Serializable {
         }
     }
 
-    public Usuario() {
-        
+    private void gerarSal() throws NoSuchAlgorithmException {
+        SecureRandom secureRandom = SecureRandom.getInstance("SHA1PRNG");
+        byte[] randomBytes = new byte[32];
+        secureRandom.nextBytes(randomBytes);
+        setSal(Base64.getEncoder().encodeToString(randomBytes));
     }
-    
+
     public Usuario(String txtLogin) {
         this.login = txtLogin;
     }
 
-    public Usuario(String txtLogin, String txtPassword, String txtEmail, String txtPrimeiroNome) {
-        this.login = txtLogin;
-        this.senha = txtPassword;
-        this.email = txtEmail;
-        this.primeiroNome = txtPrimeiroNome;
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getSal() {
+        return sal;
+    }
+
+    public void setSal(String sal) {
+        this.sal = sal;
     }
 
     public String getLogin() {
@@ -108,14 +129,6 @@ public class Usuario implements Serializable {
         this.senha = senha;
     }
 
-    public String getTxtEmail() {
-        return email;
-    }
-
-    public void setTxtEmail(String txtEmail) {
-        this.email = txtEmail;
-    }
-
     public String getPrimeiroNome() {
         return primeiroNome;
     }
@@ -131,22 +144,17 @@ public class Usuario implements Serializable {
     public void setUltimoNome(String txtUltimoNome) {
         this.ultimoNome = txtUltimoNome;
     }
-
-    public List<Grupo> getGrupoList() {
-        return grupoList;
-    }
-
-    public void setGrupoList(List<Grupo> grupoList) {
-        this.grupoList = grupoList;
-    }
     
-    public void addGrupo(String nomeGrupo) {
-        if (this.grupoList == null) {
-            this.grupoList = new ArrayList<>();
+    public void adicionarGrupo(Grupo grupo) {
+        if (this.grupos == null) {
+            this.grupos = new ArrayList<>();
         }
         
-        Grupo grupo = new Grupo(this.login, nomeGrupo);
-        this.grupoList.add(grupo);        
+        this.grupos.add(grupo);
+    }
+    
+    public List<Grupo> getGrupos() {
+        return this.grupos;
     }
 
     @Override

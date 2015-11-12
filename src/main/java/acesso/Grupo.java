@@ -5,14 +5,15 @@
  */
 package acesso;
 
+import biblioteca.Entidade;
 import java.io.Serializable;
-import javax.persistence.EmbeddedId;
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  *
@@ -21,65 +22,20 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "tb_grupo")
 @NamedQueries({
-    @NamedQuery(name = "Grupo.findAll", query = "SELECT g FROM Grupo g")})
-public class Grupo implements Serializable {
-    private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected GrupoPK grupoPK;
-    @JoinColumn(name = "txt_login", referencedColumnName = "TXT_LOGIN", insertable = false, updatable = false)
-    @ManyToOne(optional = false)
-    private Usuario usuario;
+    @NamedQuery(name = "Grupo.PorNome", query = "SELECT g FROM Grupo g WHERE g.nome = :nome")})
+public class Grupo extends Entidade implements Serializable {
+    public static final String USUARIO = "usr";
+    public static final String ADMINISTRADOR = "admin";
+    @NotBlank
+    @Size(max = 45)
+    @Column(name = "TXT_NOME")
+    private String nome;
 
-    public Grupo() {
+    public String getNome() {
+        return nome;
     }
 
-    public Grupo(GrupoPK grupoPK) {
-        this.grupoPK = grupoPK;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
-
-    public Grupo(String txtLogin, String txtNomeGrupo) {
-        this.grupoPK = new GrupoPK(txtLogin, txtNomeGrupo);
-    }
-
-    public GrupoPK getGrupoPK() {
-        return grupoPK;
-    }
-
-    public void setGrupoPK(GrupoPK grupoPK) {
-        this.grupoPK = grupoPK;
-    }
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (grupoPK != null ? grupoPK.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Grupo)) {
-            return false;
-        }
-        Grupo other = (Grupo) object;
-        if ((this.grupoPK == null && other.grupoPK != null) || (this.grupoPK != null && !this.grupoPK.equals(other.grupoPK))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "acesso.Grupo[ grupoPK=" + grupoPK + " ]";
-    }
-    
 }

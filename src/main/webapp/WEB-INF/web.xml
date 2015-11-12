@@ -2,7 +2,7 @@
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <login-config>
         <auth-method>FORM</auth-method>
-        <realm-name>customRealm</realm-name>
+        <realm-name>saltRealm</realm-name>
         <form-login-config>
             <form-login-page>/faces/publico/login.xhtml</form-login-page>
             <form-error-page>/faces/publico/login_invalido.xhtml</form-error-page>

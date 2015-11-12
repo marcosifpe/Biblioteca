@@ -1,5 +1,6 @@
 package service;
 
+import acesso.Grupo;
 import acesso.Usuario;
 import biblioteca.Autor;
 import interceptador.ExcecaoInterceptador;
@@ -54,7 +55,10 @@ public class AutorWebService {
     @WebResult(name = "status")
     @TransactionAttribute(TransactionAttributeType.REQUIRED)    
     public String[] criarUsuario(@WebParam(name = "usuario", mode = WebParam.Mode.IN) Usuario usuario) {
-        usuario.addGrupo("usr");
+        TypedQuery<Grupo> query = entityManager.createNamedQuery("Grupo.PorNome", Grupo.class);
+        query.setParameter("nome", Grupo.USUARIO);
+        Grupo grupo = query.getSingleResult();
+        usuario.adicionarGrupo(grupo);
         entityManager.persist(usuario);
         return new String[]{Boolean.TRUE.toString()};
     }
@@ -62,9 +66,12 @@ public class AutorWebService {
     @WebMethod(operationName = "salvarAdmin")
     @WebResult(name = "status")
     @TransactionAttribute(TransactionAttributeType.REQUIRED)    
-    public String[] criarAdmin(@WebParam(name = "usuario", mode = WebParam.Mode.IN) Usuario usuario) {
-        usuario.addGrupo("admin");
-        entityManager.persist(usuario);
+    public String[] criarAdmin(@WebParam(name = "administrador", mode = WebParam.Mode.IN) Usuario administrador) {
+        TypedQuery<Grupo> query = entityManager.createNamedQuery("Grupo.PorNome", Grupo.class);
+        query.setParameter("nome", Grupo.ADMINISTRADOR);
+        Grupo grupo = query.getSingleResult();
+        administrador.adicionarGrupo(grupo);
+        entityManager.persist(administrador);
         return new String[]{Boolean.TRUE.toString()};
     }    
 }

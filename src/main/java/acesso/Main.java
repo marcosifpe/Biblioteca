@@ -9,6 +9,7 @@ import java.math.BigInteger;
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.Base64;
 
 
@@ -18,12 +19,19 @@ import java.util.Base64;
  */
 public class Main {
     private static String senha;
+    private static String salt;
     public static void main(String[] args) {
-        senha = "john123";
+        senha = "teste123";
         criptografar();
+        System.out.println("-----------");
+        System.out.println(salt.length());
+        System.out.println(salt);
         System.out.println(senha);
-        senha = "johnjohn123";
+        senha = "teste123";
         criptografar();
+        System.out.println("-----------");        
+        System.out.println(salt.length());
+        System.out.println(salt);        
         System.out.println(senha);        
     }
     
@@ -33,13 +41,14 @@ public class Main {
     
     private static void gerarHash() {
         try { 
-            
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            digest.update(senha.getBytes(Charset.forName("UTF-8")));     
-            
-            byte[] bytes = digest.digest();
-            BigInteger bigInt = new BigInteger(1, bytes);
-            senha = bigInt.toString(16);
+            SecureRandom secureRandom = SecureRandom.getInstance("SHA1PRNG");
+            byte[] randomBytes = new byte[32];
+            secureRandom.nextBytes(randomBytes);
+            salt = Base64.getEncoder().encodeToString(randomBytes);
+            senha = salt + senha;
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");            
+            digest.update(senha.getBytes(Charset.forName("UTF-8")));                 
+            senha = Base64.getEncoder().encodeToString(digest.digest());
         } catch (NoSuchAlgorithmException ex) {
             throw new RuntimeException(ex);
         }
