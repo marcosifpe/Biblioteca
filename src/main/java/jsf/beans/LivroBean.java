@@ -4,6 +4,7 @@ import biblioteca.ArquivoDigital;
 import biblioteca.Autor;
 import biblioteca.Editora;
 import biblioteca.Livro;
+import java.io.Serializable;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -20,7 +21,7 @@ import service.LivroService;
  */
 @ManagedBean(name = "livroBean")
 @SessionScoped
-public class LivroBean {
+public class LivroBean implements Serializable {
     private Livro livro;
     @EJB
     private AutorService autorService;

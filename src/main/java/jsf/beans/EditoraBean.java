@@ -1,6 +1,7 @@
 package jsf.beans;
 
 import biblioteca.Editora;
+import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -12,7 +13,7 @@ import service.EditoraService;
  */
 @ManagedBean(name = "editoraBean")
 @ViewScoped
-public class EditoraBean {
+public class EditoraBean implements Serializable {
     private Editora editora;
     @EJB
     private EditoraService editoraService;

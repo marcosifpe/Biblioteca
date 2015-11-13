@@ -4,7 +4,6 @@
   <context-root>/Biblioteca</context-root>
   <security-role-mapping>
     <role-name>usuario</role-name>
-    <group-name>admin</group-name>
     <group-name>usr</group-name>
   </security-role-mapping>
   <security-role-mapping>
