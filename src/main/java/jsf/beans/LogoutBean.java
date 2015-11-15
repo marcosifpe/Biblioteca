@@ -3,6 +3,8 @@ package jsf.beans;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -13,13 +15,14 @@ import javax.servlet.http.HttpSession;
 @ViewScoped
 public class LogoutBean {
 
-    public String logout() {
+    public void logout() throws ServletException {
         FacesContext fc = FacesContext.getCurrentInstance();
         HttpSession session = (HttpSession) fc.getExternalContext().getSession(false);
         if (session != null) {
             session.invalidate();
         }
         
-        return "/index";
+        HttpServletRequest request = (HttpServletRequest) fc.getExternalContext().getRequest();        
+        request.logout();
     }
 }
