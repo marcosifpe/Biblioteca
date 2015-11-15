@@ -52,7 +52,7 @@
     </error-page>
     <error-page>
         <error-code>403</error-code>
-        <location>/faces/publico/acesso_nao_autorizado.xhtml</location>
+        <location>/faces/publico/nao_autorizado.xhtml</location>
     </error-page>  
     <error-page>
         <error-code>404</error-code>
