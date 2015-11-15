@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 @ViewScoped
 public class LogoutBean {
 
-    public void logout() throws ServletException {
+    public String logout() throws ServletException {
         FacesContext fc = FacesContext.getCurrentInstance();
         HttpSession session = (HttpSession) fc.getExternalContext().getSession(false);
         if (session != null) {
@@ -24,5 +24,6 @@ public class LogoutBean {
         
         HttpServletRequest request = (HttpServletRequest) fc.getExternalContext().getRequest();        
         request.logout();
+        return "/publico/login.xhtml";
     }
 }
