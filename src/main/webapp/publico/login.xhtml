@@ -8,9 +8,9 @@
         <form id="loginForm" method="POST" action="j_security_check" >
             <p:panelGrid columns="2" layout="tabular">
                 <p:outputLabel for="j_username" value="Usuário:" />
-                <p:inputText id="j_username" />
+                <p:inputText id="j_username" required="true" maxlength="20" />
                 <p:outputLabel for="j_password" value="Senha:" />
-                <p:password id="j_password" maxlength="20" />
+                <p:password id="j_password" maxlength="20" required="true" />
             </p:panelGrid>
             <h:panelGroup>
                 <h:commandButton value="Login" type="submit"/>

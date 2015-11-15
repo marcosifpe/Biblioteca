@@ -26,7 +26,7 @@
                     rendered="#{facesContext.externalContext.isUserInRole('usuario')}"
                     />      
         <p:separator />
-        <p:menuitem value="Sair" action="#{session.invalidate()}" 
+        <p:menuitem value="Sair" action="#{facesContext.externalContext.invalidateSession()}" 
                     outcome="/publico/login.xhtml" 
                     icon="ui-icon-document"/>
     </p:menuButton>
