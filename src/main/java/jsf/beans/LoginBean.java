@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @author MASC
  */
-@ManagedBean
+@ManagedBean(name = "loginBean")
 @RequestScoped
 public class LoginBean implements Serializable {
 
@@ -32,6 +32,7 @@ public class LoginBean implements Serializable {
             facesContext.getExternalContext().getSession(true);
 
         } catch (ServletException ex) {
+            setUsuario("");
             JsfUtil.adicionarMessagem("Login inválido!");
             return "/publico/login_faces.xhtml";
         }
