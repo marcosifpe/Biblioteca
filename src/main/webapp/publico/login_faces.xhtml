@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Login Prime Faces</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>        
+    </h:head>
+    <h:body>
+        <h:form id="loginForm">
+            <p:growl id="growl" life="3500" autoUpdate="true"/>
+            <p:panel id="panel" header="Login" footer="Biblioteca - EJB 3">
+                <h:panelGrid columns="2" cellpadding="5">
+                    <h:outputLabel for="usuario" value="Usuário:" />
+                    <p:inputText id="usuario" value="#{loginBean.usuario}" required="true" label="Usuario" />
+
+                    <h:outputLabel for="senha" value="Senha:" />
+                    <p:password id="senha" value="#{loginBean.senha}" required="true" label="Senha" />
+                </h:panelGrid>
+                <p:commandButton action="#{loginBean.login()}" value="Login" ajax="true" update="growl, panel" 
+                                 title="Logar" icon="ui-icon-check" validateClient="true"/>            
+            </p:panel>
+        </h:form>
+    </h:body>
+</html>
