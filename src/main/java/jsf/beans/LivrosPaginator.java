@@ -6,6 +6,7 @@
 package jsf.beans;
 
 import biblioteca.Livro;
+import java.io.Serializable;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -18,7 +19,7 @@ import service.LivroService;
  */
 @ManagedBean(name = "livrosPaginator")
 @ViewScoped
-public class LivrosPaginator {
+public class LivrosPaginator implements Serializable {
 
     @EJB
     private LivroService livroService;
