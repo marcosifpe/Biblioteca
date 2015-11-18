@@ -25,7 +25,10 @@
         <auth-constraint>
             <description/>
             <role-name>administrador</role-name>
-        </auth-constraint>        
+        </auth-constraint>     
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>   
     </security-constraint>
     <security-constraint>
         <display-name>Pg Usuarios</display-name>
@@ -44,7 +47,28 @@
         <auth-constraint>
             <description/>
             <role-name>usuario</role-name>
-        </auth-constraint>        
+        </auth-constraint>  
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>              
+    </security-constraint>    
+    <security-constraint>
+        <display-name>Pg Publicas</display-name>
+        <web-resource-collection>
+            <web-resource-name>Protected Public Area</web-resource-name>
+            <description>Protected Public Area</description>
+            <url-pattern>/faces/publico/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+            <http-method>HEAD</http-method>
+            <http-method>PUT</http-method>
+            <http-method>OPTIONS</http-method>
+            <http-method>TRACE</http-method>
+            <http-method>DELETE</http-method>            
+        </web-resource-collection> 
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>   
     </security-constraint>    
     <error-page>
         <error-code>500</error-code>
