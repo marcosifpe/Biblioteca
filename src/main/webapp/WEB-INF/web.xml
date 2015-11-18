@@ -81,6 +81,6 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>faces/publico/login_faces.xhtml</welcome-file>
+        <welcome-file>faces/usuario/livros.xhtml</welcome-file>
     </welcome-file-list>    
 </web-app>

@@ -19,14 +19,12 @@ import javax.servlet.http.HttpServletRequest;
 @ManagedBean(name = "loginBean")
 @RequestScoped
 public class LoginBean implements Serializable {
-
     private String usuario;
     private String senha;
 
     public String login() {
         try {
-            FacesContext facesContext = FacesContext.
-                    getCurrentInstance();
+            FacesContext facesContext =  FacesContext.getCurrentInstance();
             HttpServletRequest request = (HttpServletRequest) facesContext.getExternalContext().getRequest();
             request.login(usuario, senha);
             facesContext.getExternalContext().getSession(true);
