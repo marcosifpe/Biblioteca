@@ -1,12 +1,10 @@
 package service;
 
 import biblioteca.Editora;
-import dao.DaoGenerico;
 import java.util.List;
 import javax.annotation.security.DeclareRoles;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
-import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -23,19 +21,15 @@ import javax.ejb.TransactionManagementType;
 @DeclareRoles({"administrador", "usuario"})
 @TransactionManagement(TransactionManagementType.CONTAINER)
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
-public class EditoraService {
-
-    @EJB
-    private DaoGenerico daoGenerico;
-
+public class EditoraService extends Service {
     @RolesAllowed({"administrador"})
     public void salvar(Editora editora) {
-        daoGenerico.salvar(editora);
+        entityManager.persist(editora);
     }
 
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     @PermitAll
     public List<Editora> getEditoras() {
-        return (List<Editora>) daoGenerico.get("Editoras");
+        return (List<Editora>) getResultList("Editoras");
     }
 }
