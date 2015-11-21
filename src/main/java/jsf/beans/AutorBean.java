@@ -3,8 +3,10 @@ package jsf.beans;
 import biblioteca.Autor;
 import java.io.Serializable;
 import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.persistence.EntityExistsException;
 import service.AutorService;
 
 /**
@@ -29,9 +31,18 @@ public class AutorBean implements Serializable {
     }
     
     public void salvar() {
-        autorService.salvar(autor);
-        iniciarCampos();
-        JsfUtil.adicionarMessagem("Cadastro do autor realizado com sucesso!");
+        try {
+            autorService.salvar(autor);   
+            JsfUtil.adicionarMessagem("Cadastro do autor realizado com sucesso!");
+        } catch (EJBException ex) {
+            if (JsfUtil.entidadeExistente(ex)) {
+                return;
+            }
+            
+            throw ex;
+        } finally {
+            iniciarCampos();            
+        }
     }
     
     private void iniciarCampos() {

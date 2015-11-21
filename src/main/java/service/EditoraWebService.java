@@ -1,8 +1,6 @@
 package service;
 
 import biblioteca.Editora;
-import dao.DaoGenerico;
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
@@ -17,10 +15,7 @@ import javax.jws.WebService;
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
 @WebService
-public class EditoraWebService {
-    @EJB
-    private DaoGenerico daoGenerico;
-    
+public class EditoraWebService extends Service<Editora> {  
     /**
      * Operação de Web service
      * @param editora
@@ -28,7 +23,8 @@ public class EditoraWebService {
      */
     @WebMethod(operationName = "criarEditora")
     public boolean criarEditora(@WebParam(name = "Editora") Editora editora) {
-        daoGenerico.salvar(editora);
+        checkExistence("EditoraPorNome", editora.getNome());        
+        entityManager.persist(editora);
         return true;
     }
 

@@ -20,16 +20,17 @@ import javax.ejb.TransactionManagementType;
 @LocalBean
 @DeclareRoles({"administrador", "usuario"})
 @TransactionManagement(TransactionManagementType.CONTAINER)
-@TransactionAttribute(TransactionAttributeType.REQUIRED)
-public class AutorService extends Service {
+@TransactionAttribute(TransactionAttributeType.SUPPORTS)
+public class AutorService extends Service<Autor> {
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)    
     @RolesAllowed({"administrador"})
     public void salvar(Autor autor) {
+        checkExistence("AutorPorCpf", autor.getCpf());
         entityManager.persist(autor);
     }
     
-    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     @PermitAll
     public List<Autor> getAutores() {
-        return (List<Autor>) getResultList("Autores");
+        return getResultList("Autores");
     }
 }

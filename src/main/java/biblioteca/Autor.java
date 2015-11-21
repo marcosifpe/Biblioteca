@@ -33,7 +33,7 @@ import org.hibernate.validator.constraints.br.CPF;
             ),
             @NamedQuery(
                     name = "AutorPorCpf",
-                    query = "SELECT a FROM Autor a WHERE a.cpf = :cpf"
+                    query = "SELECT a FROM Autor a WHERE a.cpf = ?1"
             )            
         }
 )

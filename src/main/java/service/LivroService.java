@@ -19,17 +19,18 @@ import javax.ejb.TransactionManagementType;
 @Stateless
 @LocalBean
 @TransactionManagement(TransactionManagementType.CONTAINER)
-@TransactionAttribute(TransactionAttributeType.REQUIRED)
+@TransactionAttribute(TransactionAttributeType.SUPPORTS)
 @DeclareRoles({"administrador", "usuario"})
-public class LivroService extends Service {   
+public class LivroService extends Service<Livro> {
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)    
     @RolesAllowed({"administrador"})    
     public void salvar(Livro livro) {
+        checkExistence("LivroPorIsbn", livro.getIsbn());
         entityManager.persist(livro);
     }
 
-    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     @PermitAll    
     public List<Livro> getLivros() {
-        return (List<Livro>) getResultList("Livros");
+        return getResultList("Livros");
     }
 }

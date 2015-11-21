@@ -5,34 +5,67 @@
  */
 package service;
 
+import biblioteca.Entidade;
 import java.util.List;
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 /**
  *
  * @author MASC
+ * @param <T>
  */
-public abstract class Service {
+public abstract class Service<T extends Entidade> {
+
     @PersistenceContext(name = "biblioteca", type = PersistenceContextType.TRANSACTION)
     protected EntityManager entityManager;
-    
-    protected List getResultList(String nomeQuery) {
-        Query query = entityManager.createNamedQuery(nomeQuery);
+    protected Class<T> clazz;
+
+    protected List<T> getResultList(String nomeQuery) {
+        TypedQuery<T> query = entityManager.createNamedQuery(nomeQuery, clazz);
         return query.getResultList();
     }
-    
-    protected List getResultList(String nomeQuery, Object[] parametros) {
-        Query query = entityManager.createNamedQuery(nomeQuery);
-        
+
+    protected List<T> getResultList(String nomeQuery, Object[] parametros) {
+        TypedQuery<T> query = entityManager.createNamedQuery(nomeQuery, clazz);
+
         int i = 1;
         for (Object parametro : parametros) {
             query.setParameter(i++, parametro);
         }
-        
-        return query.getResultList();        
+
+        return query.getResultList();
     }
-    
+
+    protected T getSingleResult(String nomeQuery, Object[] parametros) {
+        TypedQuery<T> query = entityManager.createNamedQuery(nomeQuery, clazz);
+
+        int i = 1;
+        for (Object parametro : parametros) {
+            query.setParameter(i++, parametro);
+        }
+
+        return query.getSingleResult();
+    }
+
+    protected void checkExistence(String nomeQuery, Object parametro)
+            throws EntityExistsException {
+        T object;
+
+        try {
+            object = getSingleResult(nomeQuery, new Object[] {parametro});
+            if (object != null) {
+                throw new EntityExistsException(parametro.toString());
+            }           
+        } catch (NonUniqueResultException ex) {
+            throw new EntityExistsException(parametro.toString(), ex);
+        } catch (NoResultException ex) {
+            
+        }
+    }
 }

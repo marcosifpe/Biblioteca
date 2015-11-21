@@ -3,6 +3,7 @@ package jsf.beans;
 import biblioteca.Editora;
 import java.io.Serializable;
 import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import service.EditoraService;
@@ -30,9 +31,18 @@ public class EditoraBean implements Serializable {
     }
 
     public void salvar() {
-        editoraService.salvar(editora);
-        iniciarCampos();
-        JsfUtil.adicionarMessagem("Cadastro da editora realizado com sucesso!");
+        try {
+            editoraService.salvar(editora);
+            JsfUtil.adicionarMessagem("Cadastro da editora realizado com sucesso!");
+        } catch (EJBException ex) {
+            if (JsfUtil.entidadeExistente(ex)) {
+                return;
+            }
+            
+            throw ex;
+        } finally {
+            iniciarCampos();            
+        }        
     }
 
     public Editora getEditora() {

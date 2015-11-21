@@ -20,16 +20,17 @@ import javax.ejb.TransactionManagementType;
 @LocalBean
 @DeclareRoles({"administrador", "usuario"})
 @TransactionManagement(TransactionManagementType.CONTAINER)
-@TransactionAttribute(TransactionAttributeType.REQUIRED)
-public class EditoraService extends Service {
+@TransactionAttribute(TransactionAttributeType.SUPPORTS)
+public class EditoraService extends Service<Editora> {
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)    
     @RolesAllowed({"administrador"})
     public void salvar(Editora editora) {
+        checkExistence("EditoraPorNome", editora.getNome());
         entityManager.persist(editora);
     }
 
-    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     @PermitAll
     public List<Editora> getEditoras() {
-        return (List<Editora>) getResultList("Editoras");
+        return getResultList("Editoras");
     }
 }

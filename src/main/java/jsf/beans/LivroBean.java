@@ -7,6 +7,7 @@ import biblioteca.Livro;
 import java.io.Serializable;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import org.primefaces.event.FileUploadEvent;
@@ -22,6 +23,7 @@ import service.LivroService;
 @ManagedBean(name = "livroBean")
 @SessionScoped
 public class LivroBean implements Serializable {
+
     private Livro livro;
     @EJB
     private AutorService autorService;
@@ -47,7 +49,7 @@ public class LivroBean implements Serializable {
     public void upload(FileUploadEvent event) {
         setFile(event.getFile());
     }
-    
+
     private void setFile(UploadedFile file) {
         ArquivoDigital arquivoDigital = this.livro.criarArquivoDigital();
         arquivoDigital.setArquivo(file.getContents());
@@ -77,9 +79,18 @@ public class LivroBean implements Serializable {
     }
 
     public void salvar() {
-        livroService.salvar(livro);
-        iniciarCampos();
-        JsfUtil.adicionarMessagem("Cadastro do livro realizado com sucesso!");
+        try {
+            livroService.salvar(livro);
+            JsfUtil.adicionarMessagem("Cadastro do livro realizado com sucesso!");
+        } catch (EJBException ex) {
+            if (JsfUtil.entidadeExistente(ex)) {
+                return;
+            }
+
+            throw ex;
+        } finally {
+            iniciarCampos();
+        }
     }
 
 }

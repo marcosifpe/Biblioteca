@@ -1,8 +1,6 @@
 package service;
 
 import biblioteca.Livro;
-import dao.DaoGenerico;
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -21,15 +19,11 @@ import javax.jws.WebService;
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
 @WebService
-public class LivroWebService {
-
-    @EJB
-    private DaoGenerico daoGenerico;
-
+public class LivroWebService extends Service<Livro> {
     @WebMethod(operationName = "getLivro")
     @WebResult(name = "livro")
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public Livro getLivro(@WebParam(name = "isbn", mode = WebParam.Mode.IN) String isbn) {
-        return (Livro) daoGenerico.getEntidade("LivroPorIsbn", new Object[]{isbn});
+        return getSingleResult("LivroPorIsbn", new Object[]{isbn});
     }
 }

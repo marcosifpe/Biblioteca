@@ -22,7 +22,11 @@ import org.hibernate.validator.constraints.NotBlank;
             @NamedQuery(
                     name = "Editoras",
                     query = "SELECT e FROM Editora e ORDER BY e.nome"
-            )
+            ),
+            @NamedQuery(
+                    name = "EditoraPorNome",
+                    query = "SELECT e FROM Editora e WHERE e.nome = ?1"
+            )            
         }
 )
 @Access(AccessType.FIELD)

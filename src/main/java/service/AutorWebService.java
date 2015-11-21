@@ -15,9 +15,6 @@ import javax.jws.WebParam;
 import javax.jws.WebResult;
 import javax.jws.WebService;
 import javax.persistence.EntityExistsException;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
 import javax.persistence.TypedQuery;
 
 /**
@@ -28,11 +25,7 @@ import javax.persistence.TypedQuery;
 @TransactionManagement(TransactionManagementType.CONTAINER)
 @Interceptors({ExcecaoInterceptador.class})
 @WebService
-public class AutorWebService {
-
-    @PersistenceContext(name = "biblioteca", type = PersistenceContextType.TRANSACTION)
-    private EntityManager entityManager;
-
+public class AutorWebService extends Service<Autor> {
     @WebMethod(operationName = "salvarAutor")
     @WebResult(name = "status")
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
