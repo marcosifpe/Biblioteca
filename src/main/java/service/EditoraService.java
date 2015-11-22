@@ -1,5 +1,6 @@
 package service;
 
+import acesso.Papel;
 import biblioteca.Editora;
 import java.util.List;
 import javax.annotation.security.DeclareRoles;
@@ -18,7 +19,7 @@ import javax.ejb.TransactionManagementType;
  */
 @Stateless
 @LocalBean
-@DeclareRoles({"administrador", "usuario"})
+@DeclareRoles({Papel.ADMINISTRADOR, Papel.USUARIO})
 @TransactionManagement(TransactionManagementType.CONTAINER)
 @TransactionAttribute(TransactionAttributeType.SUPPORTS)
 public class EditoraService extends Service<Editora> {

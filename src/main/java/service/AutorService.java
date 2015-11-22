@@ -1,5 +1,6 @@
 package service;
 
+import acesso.Papel;
 import biblioteca.Autor;
 import java.util.List;
 import javax.annotation.security.DeclareRoles;
@@ -18,12 +19,12 @@ import javax.ejb.TransactionManagementType;
  */
 @Stateless(name = "autorService")
 @LocalBean
-@DeclareRoles({"administrador", "usuario"})
+@DeclareRoles({Papel.ADMINISTRADOR, Papel.USUARIO})
 @TransactionManagement(TransactionManagementType.CONTAINER)
 @TransactionAttribute(TransactionAttributeType.SUPPORTS)
 public class AutorService extends Service<Autor> {
     @TransactionAttribute(TransactionAttributeType.REQUIRED)    
-    @RolesAllowed({"administrador"})
+    @RolesAllowed({Papel.ADMINISTRADOR})
     public void salvar(Autor autor) {
         checkExistence(Autor.AUTOR_POR_CPF, autor.getCpf());
         entityManager.persist(autor);

@@ -1,5 +1,6 @@
 package service;
 
+import acesso.Papel;
 import biblioteca.Livro;
 import java.util.List;
 import javax.annotation.security.DeclareRoles;
@@ -20,10 +21,10 @@ import javax.ejb.TransactionManagementType;
 @LocalBean
 @TransactionManagement(TransactionManagementType.CONTAINER)
 @TransactionAttribute(TransactionAttributeType.SUPPORTS)
-@DeclareRoles({"administrador", "usuario"})
+@DeclareRoles({Papel.ADMINISTRADOR, Papel.USUARIO})
 public class LivroService extends Service<Livro> {
     @TransactionAttribute(TransactionAttributeType.REQUIRED)    
-    @RolesAllowed({"administrador"})    
+    @RolesAllowed({Papel.ADMINISTRADOR})    
     public void salvar(Livro livro) {
         checkExistence(Livro.LIVRO_POR_ISBN, livro.getIsbn());
         entityManager.persist(livro);
