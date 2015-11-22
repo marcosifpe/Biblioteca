@@ -20,17 +20,19 @@ import org.hibernate.validator.constraints.NotBlank;
 @NamedQueries(
         {
             @NamedQuery(
-                    name = "Editoras",
+                    name = Editora.EDITORAS,
                     query = "SELECT e FROM Editora e ORDER BY e.nome"
             ),
             @NamedQuery(
-                    name = "EditoraPorNome",
+                    name = Editora.EDITORA_POR_NOME,
                     query = "SELECT e FROM Editora e WHERE e.nome = ?1"
             )            
         }
 )
 @Access(AccessType.FIELD)
 public class Editora extends Entidade implements Serializable {
+    public static final String EDITORA_POR_NOME = "EditoraPorNome";
+    public static final String EDITORAS = "Editoras";    
     @NotBlank
     @Size(max = 50)
     @Column(name = "TXT_NOME", length = 50, nullable = false)

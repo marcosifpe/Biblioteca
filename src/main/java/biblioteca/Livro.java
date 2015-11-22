@@ -39,7 +39,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 @NamedQueries(
         {
             @NamedQuery(
-                    name = "Livros",
+                    name = Livro.LIVROS,
                     query = "SELECT l FROM Livro l ORDER BY l.titulo"
             ),
             @NamedQuery (
@@ -50,6 +50,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 )
 @Access(AccessType.FIELD)
 public class Livro extends Entidade implements Serializable {
+    public static final String LIVROS = "Livros";
+    public static final String LIVRO_POR_ISBN = "LivroPorIsbn";
     @NotBlank
     @Size(max = 17)
     @Pattern(regexp = "[0-9]{3}-[0-9]{2}-[0-9]{4}-[0-9]{3}-[0-9]{1}")

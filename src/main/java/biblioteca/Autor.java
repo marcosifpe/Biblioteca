@@ -28,17 +28,19 @@ import org.hibernate.validator.constraints.br.CPF;
 @NamedQueries(
         {
             @NamedQuery(
-                    name = "Autores",
+                    name = Autor.AUTORES,
                     query = "SELECT a FROM Autor a ORDER BY a.primeiroNome, a.ultimoNome"
             ),
             @NamedQuery(
-                    name = "AutorPorCpf",
+                    name = Autor.AUTOR_POR_CPF,
                     query = "SELECT a FROM Autor a WHERE a.cpf = ?1"
             )            
         }
 )
 @Access(AccessType.FIELD)
 public class Autor extends Entidade implements Serializable {
+    public static final String AUTOR_POR_CPF = "AutorPorCpf";
+    public static final String AUTORES = "Autores";
     @Size(max = 20)
     @Pattern(regexp = "\\p{Upper}{1}\\p{Lower}+", message = "{biblioteca.Autor.nome}")
     @Column(name = "TXT_PRIMEIRO_NOME", length = 20, nullable = false)
