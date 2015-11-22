@@ -25,12 +25,12 @@ public class LivroService extends Service<Livro> {
     @TransactionAttribute(TransactionAttributeType.REQUIRED)    
     @RolesAllowed({"administrador"})    
     public void salvar(Livro livro) {
-        checkExistence("LivroPorIsbn", livro.getIsbn());
+        checkExistence(Livro.LIVRO_POR_ISBN, livro.getIsbn());
         entityManager.persist(livro);
     }
 
     @PermitAll    
     public List<Livro> getLivros() {
-        return getResultList("Livros");
+        return getResultList(Livro.LIVROS);
     }
 }

@@ -25,12 +25,12 @@ public class AutorService extends Service<Autor> {
     @TransactionAttribute(TransactionAttributeType.REQUIRED)    
     @RolesAllowed({"administrador"})
     public void salvar(Autor autor) {
-        checkExistence("AutorPorCpf", autor.getCpf());
+        checkExistence(Autor.AUTOR_POR_CPF, autor.getCpf());
         entityManager.persist(autor);
     }
     
     @PermitAll
     public List<Autor> getAutores() {
-        return getResultList("Autores");
+        return getResultList(Autor.AUTORES);
     }
 }

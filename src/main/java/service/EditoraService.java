@@ -25,12 +25,12 @@ public class EditoraService extends Service<Editora> {
     @TransactionAttribute(TransactionAttributeType.REQUIRED)    
     @RolesAllowed({"administrador"})
     public void salvar(Editora editora) {
-        checkExistence("EditoraPorNome", editora.getNome());
+        checkExistence(Editora.EDITORA_POR_NOME, editora.getNome());
         entityManager.persist(editora);
     }
 
     @PermitAll
     public List<Editora> getEditoras() {
-        return getResultList("Editoras");
+        return getResultList(Editora.EDITORAS);
     }
 }
