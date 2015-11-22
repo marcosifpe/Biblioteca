@@ -24,7 +24,7 @@ import javax.ejb.TransactionManagementType;
 @TransactionAttribute(TransactionAttributeType.SUPPORTS)
 public class EditoraService extends Service<Editora> {
     @TransactionAttribute(TransactionAttributeType.REQUIRED)    
-    @RolesAllowed({"administrador"})
+    @RolesAllowed({Papel.ADMINISTRADOR})
     public void salvar(Editora editora) {
         checkExistence(Editora.EDITORA_POR_NOME, editora.getNome());
         entityManager.persist(editora);
