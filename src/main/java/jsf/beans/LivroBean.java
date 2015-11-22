@@ -22,7 +22,7 @@ import service.LivroService;
  */
 @ManagedBean(name = "livroBean")
 @SessionScoped
-public class LivroBean implements Serializable {
+public class LivroBean extends Bean implements Serializable {
 
     private Livro livro;
     @EJB
@@ -81,9 +81,9 @@ public class LivroBean implements Serializable {
     public void salvar() {
         try {
             livroService.salvar(livro);
-            JsfUtil.adicionarMessagem("Cadastro do livro realizado com sucesso!");
+            super.adicionarMessagem("Cadastro do livro realizado com sucesso!");
         } catch (EJBException ex) {
-            if (JsfUtil.entidadeExistente(ex)) {
+            if (super.entidadeExistente(ex)) {
                 return;
             }
 

@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @ManagedBean(name = "loginBean")
 @RequestScoped
-public class LoginBean implements Serializable {
+public class LoginBean extends Bean implements Serializable {
     private String usuario;
     private String senha;
 
@@ -31,7 +31,7 @@ public class LoginBean implements Serializable {
 
         } catch (ServletException ex) {
             setUsuario("");
-            JsfUtil.adicionarMessagem("Login inválido!");
+            super.adicionarMessagem("Login inválido!");
             return "/publico/login_faces.xhtml";
         }
 

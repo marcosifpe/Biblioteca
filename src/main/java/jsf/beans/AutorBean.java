@@ -14,7 +14,7 @@ import service.AutorService;
  */
 @ManagedBean(name = "autorBean")
 @ViewScoped
-public class AutorBean implements Serializable {
+public class AutorBean extends Bean implements Serializable {
     private Autor autor;
     @EJB(name = "autorService")
     private AutorService autorService;
@@ -32,9 +32,9 @@ public class AutorBean implements Serializable {
     public void salvar() {
         try {
             autorService.salvar(autor);   
-            JsfUtil.adicionarMessagem("Cadastro do autor realizado com sucesso!");
+            super.adicionarMessagem("Cadastro do autor realizado com sucesso!");
         } catch (EJBException ex) {
-            if (JsfUtil.entidadeExistente(ex)) {
+            if (super.entidadeExistente(ex)) {
                 return;
             }
             

@@ -14,7 +14,7 @@ import service.EditoraService;
  */
 @ManagedBean(name = "editoraBean")
 @ViewScoped
-public class EditoraBean implements Serializable {
+public class EditoraBean extends Bean implements Serializable {
     private Editora editora;
     @EJB
     private EditoraService editoraService;
@@ -33,9 +33,9 @@ public class EditoraBean implements Serializable {
     public void salvar() {
         try {
             editoraService.salvar(editora);
-            JsfUtil.adicionarMessagem("Cadastro da editora realizado com sucesso!");
+            super.adicionarMessagem("Cadastro da editora realizado com sucesso!");
         } catch (EJBException ex) {
-            if (JsfUtil.entidadeExistente(ex)) {
+            if (super.entidadeExistente(ex)) {
                 return;
             }
             
