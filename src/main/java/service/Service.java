@@ -7,6 +7,8 @@ package service;
 
 import biblioteca.Entidade;
 import java.util.List;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -26,11 +28,13 @@ public abstract class Service<T extends Entidade> {
     protected EntityManager entityManager;
     protected Class<T> clazz;
 
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)        
     protected List<T> getResultList(String nomeQuery) {
         TypedQuery<T> query = entityManager.createNamedQuery(nomeQuery, clazz);
         return query.getResultList();
     }
 
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)        
     protected List<T> getResultList(String nomeQuery, Object[] parametros) {
         TypedQuery<T> query = entityManager.createNamedQuery(nomeQuery, clazz);
 
@@ -42,6 +46,7 @@ public abstract class Service<T extends Entidade> {
         return query.getResultList();
     }
 
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)    
     protected T getSingleResult(String nomeQuery, Object[] parametros) {
         TypedQuery<T> query = entityManager.createNamedQuery(nomeQuery, clazz);
 
@@ -53,6 +58,7 @@ public abstract class Service<T extends Entidade> {
         return query.getSingleResult();
     }
 
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)        
     protected void checkExistence(String nomeQuery, Object parametro)
             throws EntityExistsException {
         T object;

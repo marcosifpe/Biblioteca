@@ -29,9 +29,16 @@ public class LivroService extends Service<Livro> {
         checkExistence(Livro.LIVRO_POR_ISBN, livro.getIsbn());
         entityManager.persist(livro);
     }
-
-    @PermitAll    
+     
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)       
+    @RolesAllowed({Papel.USUARIO})          
     public List<Livro> getLivros() {
         return getResultList(Livro.LIVROS);
+    }
+    
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)       
+    @PermitAll    
+    public Livro getLivro(String isbn) {
+        return getSingleResult(Livro.LIVRO_POR_ISBN, new Object[]{isbn});
     }
 }

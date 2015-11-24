@@ -21,7 +21,6 @@ import javax.ejb.TransactionManagementType;
 @LocalBean
 @DeclareRoles({Papel.ADMINISTRADOR, Papel.USUARIO})
 @TransactionManagement(TransactionManagementType.CONTAINER)
-@TransactionAttribute(TransactionAttributeType.SUPPORTS)
 public class AutorService extends Service<Autor> {
     @TransactionAttribute(TransactionAttributeType.REQUIRED)    
     @RolesAllowed({Papel.ADMINISTRADOR})
@@ -30,6 +29,7 @@ public class AutorService extends Service<Autor> {
         entityManager.persist(autor);
     }
     
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)   
     @PermitAll
     public List<Autor> getAutores() {
         return getResultList(Autor.AUTORES);
