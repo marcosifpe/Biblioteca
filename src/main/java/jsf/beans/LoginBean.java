@@ -35,10 +35,10 @@ public class LoginBean implements Serializable {
             setUsuario("");
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Login inválido!", null);
             FacesContext.getCurrentInstance().addMessage(null, message);
-            return "/publico/login_faces.xhtml";
+            return "failure";
         }
 
-        return "/usuario/livros.xhtml";
+        return "success";
     }
 
     public String getUsuario() {

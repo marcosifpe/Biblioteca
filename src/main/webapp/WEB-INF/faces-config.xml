@@ -13,4 +13,16 @@
             org.primefaces.application.exceptionhandler.PrimeExceptionHandlerFactory
         </exception-handler-factory>
     </factory>
+    <navigation-rule>
+        <from-view-id>publico/login_faces.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>success</from-outcome>
+            <to-view-id>usuario/livros.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>failure</from-outcome>
+            <to-view-id>publico/login_faces.xhtml</to-view-id>
+        </navigation-case>        
+    </navigation-rule>
+        
 </faces-config>
