@@ -24,10 +24,6 @@ public class LoginBean implements Serializable {
     private String usuario;
     private String senha;
 
-    public String cadastrar() {
-        return "/publico/usuario.xhtml";
-    }
-
     public String login() {
         try {
             FacesContext facesContext = FacesContext.getCurrentInstance();
