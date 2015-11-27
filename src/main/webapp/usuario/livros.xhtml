@@ -37,7 +37,7 @@
                     <h:outputText value="#{livro.editora.nome}" />
                 </p:column>                
                 <p:column headerText="Autores">
-                    <ui:repeat value="#{livro.autores}" var="autor" class="biblioteca.Autor" varStatus="status">
+                    <ui:repeat value="#{livro.autores}" var="autor" varStatus="status">
                         <ui:fragment rendered="#{status.index != 0}">
                             <h:outputText value=", " />
                         </ui:fragment>
