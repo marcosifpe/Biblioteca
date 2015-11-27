@@ -44,7 +44,7 @@
                         <h:outputText value="#{autor.nome}" />
                     </ui:repeat>
                 </p:column>    
-                <p:column headerText="Arquivo do Livro">                    
+                <p:column headerText="Arquivo">                    
                     <ui:fragment rendered="#{livro.arquivoDigital != null}">
                         <p:commandButton ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
                             <p:fileDownload value="#{livro.arquivoDigital.file}" />
