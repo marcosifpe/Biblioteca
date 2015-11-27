@@ -6,10 +6,7 @@
 package service;
 
 import acesso.Grupo;
-import acesso.Papel;
 import acesso.Usuario;
-import javax.annotation.security.DeclareRoles;
-import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
