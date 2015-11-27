@@ -6,6 +6,7 @@
 package jsf.beans;
 
 import acesso.Usuario;
+import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -17,7 +18,7 @@ import service.UsuarioService;
  */
 @ManagedBean(name = "usuarioBean")
 @ViewScoped
-public class UsuarioBean extends Bean<Usuario> {
+public class UsuarioBean extends Bean<Usuario> implements Serializable {
     @EJB
     private UsuarioService usuarioService;
     
