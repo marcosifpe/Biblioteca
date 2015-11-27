@@ -5,7 +5,6 @@
  */
 package service;
 
-import acesso.Usuario;
 import biblioteca.Entidade;
 import java.util.List;
 import javax.ejb.TransactionAttribute;

@@ -7,7 +7,6 @@ package service;
 
 import acesso.Grupo;
 import acesso.Papel;
-import biblioteca.Livro;
 import javax.annotation.security.DeclareRoles;
 import javax.annotation.security.PermitAll;
 import javax.ejb.LocalBean;
