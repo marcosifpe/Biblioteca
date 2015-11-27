@@ -15,7 +15,7 @@
                     <h:outputLabel for="nome" value="Nome: " />
                     <p:inputText id="nome" value="#{editoraBean.entidade.nome}" label="Nome" />
                 </h:panelGrid>
-                <p:commandButton action="#{editoraBean.salvar()}" value="Salvar" ajax="false" update="growl, panel" 
+                <p:commandButton action="#{editoraBean.salvar()}" value="Salvar" ajax="true" update="growl, panel" 
                                  title="Salvar Editora" icon="ui-icon-check" validateClient="false"/>
             </p:panel>
         </h:form>
