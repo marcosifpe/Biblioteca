@@ -22,8 +22,9 @@ import org.hibernate.validator.constraints.NotBlank;
 @Entity
 @Table(name = "tb_grupo")
 @NamedQueries({
-    @NamedQuery(name = "Grupo.PorNome", query = "SELECT g FROM Grupo g WHERE g.nome = :nome")})
+    @NamedQuery(name = Grupo.GRUPO_POR_NOME, query = "SELECT g FROM Grupo g WHERE g.nome = ?1")})
 public class Grupo extends Entidade implements Serializable {
+    public static final String GRUPO_POR_NOME = "GrupoPorNome";
     public static final String USUARIO = "usr";
     public static final String ADMINISTRADOR = "admin";
     @NotBlank

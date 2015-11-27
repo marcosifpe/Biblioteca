@@ -30,6 +30,7 @@ public class EditoraService extends Service<Editora> {
         entityManager.persist(editora);
     }
 
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS) 
     @PermitAll
     public List<Editora> getEditoras() {
         return getResultList(Editora.EDITORAS);

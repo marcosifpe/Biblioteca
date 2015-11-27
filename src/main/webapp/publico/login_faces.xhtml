@@ -24,7 +24,8 @@ and open the template in the editor.
                     <p:password id="senha" value="#{loginBean.senha}" required="true" label="Senha" />
                 </h:panelGrid>
                 <p:commandButton action="#{loginBean.login()}" value="Login" ajax="false" update="growl, panel" 
-                                 title="Logar" icon="ui-icon-check" validateClient="true"/>            
+                                 title="Logar" icon="ui-icon-check" validateClient="true"/> 
+                <p:commandButton action="#{loginBean.cadastrar()}" value="Cadastrar" ajax="false" title="Cadastrar" icon="ui-icon-person" immediate="true"/>
             </p:panel>
         </h:form>
     </h:body>

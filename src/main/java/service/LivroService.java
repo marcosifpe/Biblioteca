@@ -20,7 +20,6 @@ import javax.ejb.TransactionManagementType;
 @Stateless
 @LocalBean
 @TransactionManagement(TransactionManagementType.CONTAINER)
-@TransactionAttribute(TransactionAttributeType.SUPPORTS)
 @DeclareRoles({Papel.ADMINISTRADOR, Papel.USUARIO})
 public class LivroService extends Service<Livro> {
     @TransactionAttribute(TransactionAttributeType.REQUIRED)    

@@ -36,9 +36,12 @@ import org.hibernate.validator.constraints.NotBlank;
 @Entity
 @Table(name = "tb_usuario")
 @NamedQueries({
-    @NamedQuery(name = "Usuarios", query = "SELECT u FROM Usuario u ORDER BY u.primeiroNome, u.ultimoNome")})
+    @NamedQuery(name = Usuario.USUARIOS, query = "SELECT u FROM Usuario u ORDER BY u.primeiroNome, u.ultimoNome"),
+    @NamedQuery(name = Usuario.USUARIO_POR_LOGIN, query = "SELECT u FROM Usuario u WHERE u.login = ?1")
+})
 public class Usuario extends Entidade implements Serializable {
-
+    public static final String USUARIO_POR_LOGIN = "UsuarioPorLogin";
+    public static final String USUARIOS = "Usuarios";
     @NotNull
     @Size(min = 1, max = 45)
     @Column(name = "TXT_LOGIN")
@@ -166,7 +169,6 @@ public class Usuario extends Entidade implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Usuario)) {
             return false;
         }
