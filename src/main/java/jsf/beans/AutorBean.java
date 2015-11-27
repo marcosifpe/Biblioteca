@@ -3,7 +3,6 @@ package jsf.beans;
 import biblioteca.Autor;
 import java.io.Serializable;
 import javax.ejb.EJB;
-import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import service.AutorService;
@@ -14,37 +13,17 @@ import service.AutorService;
  */
 @ManagedBean(name = "autorBean")
 @ViewScoped
-public class AutorBean extends Bean implements Serializable {
-    private Autor autor;
-    @EJB(name = "autorService")
+public class AutorBean extends Bean<Autor> implements Serializable {
+    @EJB
     private AutorService autorService;
-    /**
-     * Creates a new instance of AutorBean
-     */
-    public AutorBean() {
-        iniciarCampos();
+
+    @Override
+    protected void iniciarCampos() {
+        this.entidade = new Autor();
     }
-    
-    public Autor getAutor() {
-        return this.autor;
+
+    @Override
+    protected void salvar(Autor entidade) {
+        autorService.salvar(entidade);
     }
-    
-    public void salvar() {
-        try {
-            autorService.salvar(autor);   
-            super.adicionarMessagem("Cadastro do autor realizado com sucesso!");
-        } catch (EJBException ex) {
-            if (super.entidadeExistente(ex)) {
-                return;
-            }
-            
-            throw ex;
-        } finally {
-            iniciarCampos();            
-        }
-    }
-    
-    private void iniciarCampos() {
-        this.autor = new Autor();
-    }    
 }

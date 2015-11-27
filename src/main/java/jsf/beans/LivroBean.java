@@ -7,7 +7,6 @@ import biblioteca.Livro;
 import java.io.Serializable;
 import java.util.List;
 import javax.ejb.EJB;
-import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import org.primefaces.event.FileUploadEvent;
@@ -22,9 +21,7 @@ import service.LivroService;
  */
 @ManagedBean(name = "livroBean")
 @SessionScoped
-public class LivroBean extends Bean implements Serializable {
-
-    private Livro livro;
+public class LivroBean extends Bean<Livro> implements Serializable {
     @EJB
     private AutorService autorService;
     @EJB
@@ -35,15 +32,9 @@ public class LivroBean extends Bean implements Serializable {
     private List<Editora> editoras;
     private List<Autor> autores;
 
-    /**
-     * Creates a new instance of LivroBean
-     */
-    public LivroBean() {
-        iniciarCampos();
-    }
-
-    private void iniciarCampos() {
-        this.livro = new Livro();
+    @Override
+    protected void iniciarCampos() {
+        setEntidade(new Livro());
     }
 
     public void upload(FileUploadEvent event) {
@@ -51,15 +42,11 @@ public class LivroBean extends Bean implements Serializable {
     }
 
     private void setFile(UploadedFile file) {
-        ArquivoDigital arquivoDigital = this.livro.criarArquivoDigital();
+        ArquivoDigital arquivoDigital = entidade.criarArquivoDigital();
         arquivoDigital.setArquivo(file.getContents());
         arquivoDigital.setExtensao(file.getContentType());
         arquivoDigital.setNome(file.getFileName());
-        this.livro.setArquivoDigital(arquivoDigital);
-    }
-
-    public Livro getLivro() {
-        return livro;
+        entidade.setArquivoDigital(arquivoDigital);
     }
 
     public List<Autor> getAutores() {
@@ -78,19 +65,8 @@ public class LivroBean extends Bean implements Serializable {
         return this.editoras;
     }
 
-    public void salvar() {
-        try {
-            livroService.salvar(livro);
-            super.adicionarMessagem("Cadastro do livro realizado com sucesso!");
-        } catch (EJBException ex) {
-            if (super.entidadeExistente(ex)) {
-                return;
-            }
-
-            throw ex;
-        } finally {
-            iniciarCampos();
-        }
+    @Override
+    protected void salvar(Livro entidade) {
+        this.livroService.salvar(entidade);
     }
-
 }

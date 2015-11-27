@@ -6,6 +6,7 @@
 package jsf.beans;
 
 import java.io.Serializable;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
@@ -18,24 +19,26 @@ import javax.servlet.http.HttpServletRequest;
  */
 @ManagedBean(name = "loginBean")
 @RequestScoped
-public class LoginBean extends Bean implements Serializable {
+public class LoginBean implements Serializable {
+
     private String usuario;
     private String senha;
 
     public String cadastrar() {
         return "/publico/usuario.xhtml";
     }
-    
+
     public String login() {
         try {
-            FacesContext facesContext =  FacesContext.getCurrentInstance();
+            FacesContext facesContext = FacesContext.getCurrentInstance();
             HttpServletRequest request = (HttpServletRequest) facesContext.getExternalContext().getRequest();
             request.login(usuario, senha);
             facesContext.getExternalContext().getSession(true);
 
         } catch (ServletException ex) {
             setUsuario("");
-            super.adicionarMessagem("Login inválido!");
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Login inválido!", null);
+            FacesContext.getCurrentInstance().addMessage(null, message);
             return "/publico/login_faces.xhtml";
         }
 

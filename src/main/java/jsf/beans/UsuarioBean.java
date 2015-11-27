@@ -7,7 +7,6 @@ package jsf.beans;
 
 import acesso.Usuario;
 import javax.ejb.EJB;
-import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import service.UsuarioService;
@@ -18,38 +17,17 @@ import service.UsuarioService;
  */
 @ManagedBean(name = "usuarioBean")
 @ViewScoped
-public class UsuarioBean extends Bean {
-    private Usuario usuario;
+public class UsuarioBean extends Bean<Usuario> {
     @EJB
     private UsuarioService usuarioService;
     
-    /**
-     * Creates a new instance of AutorBean
-     */
-    public UsuarioBean() {
-        iniciarCampos();
-    }
-    
-    public Usuario getUsuario() {
-        return this.usuario;
-    }
-    
-    public void salvar() {
-        try {
-            usuarioService.salvar(usuario);   
-            super.adicionarMessagem("Cadastro do usuário realizado com sucesso!");
-        } catch (EJBException ex) {
-            if (super.entidadeExistente(ex)) {
-                return;
-            }
-            
-            throw ex;
-        } finally {
-            iniciarCampos();            
-        }
-    }
-    
-    private void iniciarCampos() {
-        this.usuario = new Usuario();
+    @Override
+    protected void iniciarCampos() {
+        this.entidade = new Usuario();
     }      
+
+    @Override
+    protected void salvar(Usuario entidade) {
+        usuarioService.salvar(entidade);
+    }
 }

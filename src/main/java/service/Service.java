@@ -5,6 +5,7 @@
  */
 package service;
 
+import acesso.Usuario;
 import biblioteca.Entidade;
 import java.util.List;
 import javax.ejb.TransactionAttribute;
@@ -27,7 +28,7 @@ public abstract class Service<T extends Entidade> {
     @PersistenceContext(name = "biblioteca", type = PersistenceContextType.TRANSACTION)
     protected EntityManager entityManager;
     protected Class<T> clazz;
-
+    
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)        
     protected List<T> getResultList(String nomeQuery) {
         TypedQuery<T> query = entityManager.createNamedQuery(nomeQuery, clazz);

@@ -14,27 +14,27 @@
             <p:panel id="panel" header="Cadastro de Livro" footer="Biblioteca - EJB 3">
                 <h:panelGrid columns="2" cellpadding="5">
                     <h:outputLabel for="isbn" value="ISBN: " />
-                    <p:inputMask id="isbn" value="#{livroBean.livro.isbn}" label="ISBN" mask="999-99-9999-999-9"/>
+                    <p:inputMask id="isbn" value="#{livroBean.entidade.isbn}" label="ISBN" mask="999-99-9999-999-9"/>
 
                     <h:outputLabel for="titulo" value="Título: " />
-                    <p:inputText id="titulo" value="#{livroBean.livro.titulo}" label="Título"/>
+                    <p:inputText id="titulo" value="#{livroBean.entidade.titulo}" label="Título"/>
 
                     <h:outputLabel for="dataLancamento" value="Data de Lançamento: " />
                     <p:inputMask id="dataLancamento"   
-                                 value="#{livroBean.livro.dataLancamento}"                                       
+                                 value="#{livroBean.entidade.dataLancamento}"                                       
                                  mask="99/99/9999">  
                         <f:convertDateTime pattern="dd/MM/yyyy" />  
                     </p:inputMask> 
 
                     <h:outputLabel for="autores" value="Autores: " />
-                    <p:selectCheckboxMenu id="autores" value="#{livroBean.livro.autores}" label="Autores"
+                    <p:selectCheckboxMenu id="autores" value="#{livroBean.entidade.autores}" label="Autores"
                                           filter="true" filterMatchMode="startsWith" 
                                           required="true" converter="entidadeConverter">
                         <f:selectItems value="#{livroBean.autores}" var="autor" itemLabel="#{autor.nome}" itemValue="#{autor}"/>
                     </p:selectCheckboxMenu>
 
                     <h:outputLabel for="editora" value="Editora: " />
-                    <p:selectOneMenu id="editora" value="#{livroBean.livro.editora}" required="true" filter="true" filterMatchMode="startsWith" converter="entidadeConverter">
+                    <p:selectOneMenu id="editora" value="#{livroBean.entidade.editora}" required="true" filter="true" filterMatchMode="startsWith" converter="entidadeConverter">
                         <f:selectItems value="#{livroBean.editoras}" var="editora" itemLabel="#{editora.nome}" itemValue="#{editora}" />
                     </p:selectOneMenu>
                     

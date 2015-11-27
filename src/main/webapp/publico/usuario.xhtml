@@ -12,25 +12,25 @@
             <p:panel id="panel" header="Cadastro de Usuário" footer="Biblioteca - EJB 3">
                 <h:panelGrid columns="2" cellpadding="5">
                     <h:outputLabel for="login" value="Login: " />
-                    <p:inputText id="login" value="#{usuarioBean.usuario.login}" label="Login" required="true"/>
+                    <p:inputText id="login" value="#{usuarioBean.entidade.login}" label="Login" required="true"/>
                     
                     <h:outputLabel for="senha" value="Senha: " />
-                    <p:password id="senha" value="#{usuarioBean.usuario.senha}" label="Senha" required="true" 
+                    <p:password id="senha" value="#{usuarioBean.entidade.senha}" label="Senha" required="true" 
                                 feedback="true" goodLabel="Boa" weakLabel="Fraca" strongLabel="Forte"
                                 promptLabel="Informe a senha" />
                     
                     <h:outputLabel for="primeiroNome" value="Primeiro Nome: " />
-                    <p:inputText id="primeiroNome" value="#{usuarioBean.usuario.primeiroNome}" label="Primeiro Nome" required="true"/>
+                    <p:inputText id="primeiroNome" value="#{usuarioBean.entidade.primeiroNome}" label="Primeiro Nome" required="true"/>
 
                     <h:outputLabel for="ultimoNome" value="Último Nome: " />
-                    <p:inputText id="ultimoNome" value="#{usuarioBean.usuario.ultimoNome}" label="Último Nome" required="true"/>
+                    <p:inputText id="ultimoNome" value="#{usuarioBean.entidade.ultimoNome}" label="Último Nome" required="true"/>
 
                     <h:outputLabel for="email" value="E-mail " />
-                    <p:inputText id="email" value="#{usuarioBean.usuario.email}" label="E-mail" required="true"/>
+                    <p:inputText id="email" value="#{usuarioBean.entidade.email}" label="E-mail" required="true"/>
                 </h:panelGrid>
                 <p:commandButton action="#{usuarioBean.salvar()}" value="Salvar" ajax="true" update="growl, panel" 
-                                 title="Salvar Autor" icon="ui-icon-check" validateClient="true"/>
-                <p:commandButton immediate="true" value="Cancelar" ajax="false" action="login_faces.xhtml" icon="ui-icon-trash"/>
+                                 title="Salvar Autor" icon="ui-icon-play" validateClient="true"/>
+                <p:commandButton immediate="true" value="Cancelar" ajax="false" action="login_faces.xhtml" icon="ui-icon-stop"/>
             </p:panel>
         </h:form>
     </h:body>

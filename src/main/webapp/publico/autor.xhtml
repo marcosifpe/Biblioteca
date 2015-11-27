@@ -13,13 +13,13 @@
             <p:panel id="panel" header="Cadastro de Autor" footer="Biblioteca - EJB 3">
                 <h:panelGrid columns="2" cellpadding="5">
                     <h:outputLabel for="primeiroNome" value="Primeiro Nome: " />
-                    <p:inputText id="primeiroNome" value="#{autorBean.autor.primeiroNome}" label="Name" />
+                    <p:inputText id="primeiroNome" value="#{autorBean.entidade.primeiroNome}" label="Name" />
 
                     <h:outputLabel for="ultimoNome" value="Último Nome: " />
-                    <p:inputText id="ultimoNome" value="#{autorBean.autor.ultimoNome}" label="Name"/>
+                    <p:inputText id="ultimoNome" value="#{autorBean.entidade.ultimoNome}" label="Name"/>
 
                     <h:outputLabel for="cpf" value="CPF: " />
-                    <p:inputMask id="cpf" value="#{autorBean.autor.cpf}" label="CPF" mask="999.999.999-99"/>
+                    <p:inputMask id="cpf" value="#{autorBean.entidade.cpf}" label="CPF" mask="999.999.999-99"/>
                 </h:panelGrid>
                 <p:commandButton action="#{autorBean.salvar()}" value="Salvar" ajax="true" update="growl, panel" 
                                  title="Salvar Autor" icon="ui-icon-check" validateClient="false"/>
