@@ -4,24 +4,24 @@
       xmlns:p="http://primefaces.org/ui">
     <p:menuButton value="Menu">
         <p:menuitem value="Cadastrar Autor" 
-                    outcome="/admin/autor.xhtml" 
+                    outcome="autor" 
                     icon="ui-icon-person" 
                     rendered="#{facesContext.externalContext.isUserInRole('administrador')}"
                     />
         <p:menuitem value="Cadastrar Editora" 
-                    outcome="/admin/editora.xhtml" 
+                    outcome="editora" 
                     icon="ui-icon-print"
                     rendered="#{facesContext.externalContext.isUserInRole('administrador')}" 
                     />
         <p:menuitem value="Cadastrar Livro" 
-                    outcome="/admin/livro.xhtml" 
+                    outcome="livro"
                     icon="ui-icon-document"
                     rendered="#{facesContext.externalContext.isUserInRole('administrador')}" 
                     />
         <p:separator rendered="#{facesContext.externalContext.isUserInRole('administrador')}" 
                      />
         <p:menuitem value="Listar Livro"
-                    outcome="/usuario/livros.xhtml"
+                    outcome="livros"
                     icon="ui-icon-document"
                     rendered="#{facesContext.externalContext.isUserInRole('usuario')}"
                     />      

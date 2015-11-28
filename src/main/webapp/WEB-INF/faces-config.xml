@@ -31,4 +31,32 @@
             <to-view-id>publico/login_faces.xhtml</to-view-id>
         </navigation-case>        
     </navigation-rule>        
+    <navigation-rule>
+        <from-view-id>*</from-view-id>
+        <navigation-case>
+            <from-outcome>autor</from-outcome>
+            <to-view-id>admin/autor.xhtml</to-view-id>
+        </navigation-case>        
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>*</from-view-id>
+        <navigation-case>
+            <from-outcome>editora</from-outcome>
+            <to-view-id>admin/editora.xhtml</to-view-id>
+        </navigation-case>        
+    </navigation-rule>           
+    <navigation-rule>
+        <from-view-id>*</from-view-id>
+        <navigation-case>
+            <from-outcome>livro</from-outcome>
+            <to-view-id>admin/livro.xhtml</to-view-id>
+        </navigation-case>        
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>*</from-view-id>
+        <navigation-case>
+            <from-outcome>livros</from-outcome>
+            <to-view-id>usuario/livros.xhtml</to-view-id>
+        </navigation-case>        
+    </navigation-rule>     
 </faces-config>
