@@ -25,6 +25,6 @@ public class LogoutBean implements Serializable {
         
         HttpServletRequest request = (HttpServletRequest) fc.getExternalContext().getRequest();        
         request.logout();
-        return "/publico/login_faces.xhtml";
+        return "logout";
     }
 }
