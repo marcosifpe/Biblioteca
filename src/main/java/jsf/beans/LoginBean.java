@@ -26,14 +26,9 @@ public class LoginBean implements Serializable {
     private String senha;
 
     private boolean captchaIsValid(HttpServletRequest request) {
-         String gRecaptchaResponse = request
+        String gRecaptchaResponse = request
                 .getParameter("g-recaptcha-response");
-        System.out.println(gRecaptchaResponse);
-        try {
-            return VerifyRecaptcha.verify(gRecaptchaResponse);
-        } catch (IOException ex) {
-            return false;
-        }
+        return Recaptcha.verificar(gRecaptchaResponse);
     }
 
     public String login() {
