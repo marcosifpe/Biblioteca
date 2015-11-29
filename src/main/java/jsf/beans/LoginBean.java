@@ -5,6 +5,7 @@
  */
 package jsf.beans;
 
+import java.io.IOException;
 import java.io.Serializable;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -24,12 +25,29 @@ public class LoginBean implements Serializable {
     private String usuario;
     private String senha;
 
+    private boolean captchaIsValid(HttpServletRequest request) {
+         String gRecaptchaResponse = request
+                .getParameter("g-recaptcha-response");
+        System.out.println(gRecaptchaResponse);
+        try {
+            return VerifyRecaptcha.verify(gRecaptchaResponse);
+        } catch (IOException ex) {
+            return false;
+        }
+    }
+
     public String login() {
         try {
             FacesContext facesContext = FacesContext.getCurrentInstance();
             HttpServletRequest request = (HttpServletRequest) facesContext.getExternalContext().getRequest();
-            request.login(usuario, senha);
-            facesContext.getExternalContext().getSession(true);
+            if (captchaIsValid(request)) {
+                request.login(usuario, senha);
+                facesContext.getExternalContext().getSession(true);
+            } else {
+                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Captcha inválido!", null);
+                FacesContext.getCurrentInstance().addMessage(null, message);
+                return "failure";
+            }
 
         } catch (ServletException ex) {
             setUsuario("");

@@ -99,6 +99,14 @@
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>/faces/*</url-pattern>
     </servlet-mapping>
+    <context-param>
+        <param-name>primefaces.PUBLIC_CAPTCHA_KEY</param-name>
+        <param-value>6LcA4BETAAAAAI-bIVcCocgXyiLZ43bCJ-JyCvWV</param-value>
+    </context-param>
+    <context-param>
+        <param-name>primefaces.PRIVATE_CAPTCHA_KEY</param-name>
+        <param-value>6LcA4BETAAAAABzA3uafX-n2AXnRHrVqDthSPwdX</param-value>
+    </context-param>
     <session-config>
         <session-timeout>
             20
