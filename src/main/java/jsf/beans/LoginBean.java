@@ -28,7 +28,8 @@ public class LoginBean implements Serializable {
         String recaptcha = request
                 .getParameter("g-recaptcha-response");
         String chavePrivada = facesContext.getExternalContext().getInitParameter("PRIVATE_CAPTCHA_KEY");
-        return Recaptcha.verificar(recaptcha, chavePrivada);
+        String url = facesContext.getExternalContext().getInitParameter("CAPTCHA_URL");
+        return Recaptcha.verificar(url, recaptcha, chavePrivada);
     }
 
     public String login() {

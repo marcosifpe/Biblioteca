@@ -20,25 +20,24 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class Recaptcha {
 
-    public static final String URL = "https://www.google.com/recaptcha/api/siteverify";
-    private static final String USER_AGENT = "Mozilla/5.0";
-    private static final String ACCEPT_LANGUAGE = "pt-br,pt;en-US,en;q=0.5";
     private static final Logger logger = Logger.getLogger(Recaptcha.class.getName());
 
-    public static boolean verificar(String recaptchaResponse, String secretKey) {
+    public static boolean verificar(String url, String recaptchaResponse, String secretKey) {
         if (recaptchaResponse == null || "".equals(recaptchaResponse)) {
-            logger.log(Level.INFO, "Recaptcha vazio");
+            if (logger.isLoggable(Level.INFO)) {
+                logger.log(Level.INFO, "Recaptcha vazio");
+            }
             return false;
         }
 
         try {
-            URL obj = new URL(URL);
+            URL obj = new URL(url);
             HttpsURLConnection urlConnection = (HttpsURLConnection) obj.openConnection();
 
             // add reuqest header
             urlConnection.setRequestMethod("POST");
-            urlConnection.setRequestProperty("User-Agent", USER_AGENT);
-            urlConnection.setRequestProperty("Accept-Language", ACCEPT_LANGUAGE);
+            urlConnection.setRequestProperty("User-Agent", "Mozilla/5.0");
+            urlConnection.setRequestProperty("Accept-Language", "pt-br,pt;en-US,en;q=0.5");
 
             StringBuilder postParams = new StringBuilder("secret=");
             postParams.append(secretKey);
@@ -52,9 +51,11 @@ public class Recaptcha {
             outputStream.flush();
             outputStream.close();
 
-            logger.log(Level.INFO, "Conectando {0}", URL);
-            logger.log(Level.INFO, "Parâmetros: {0}", postParams);
-            logger.log(Level.INFO, "Código de resposta: {0}", urlConnection.getResponseCode());
+            if (logger.isLoggable(Level.INFO)) {
+                logger.log(Level.INFO, "Conectando {0}", url);
+                logger.log(Level.INFO, "Parâmetros: {0}", postParams);
+                logger.log(Level.INFO, "Código de resposta: {0}", urlConnection.getResponseCode());
+            }
 
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
                     urlConnection.getInputStream()));
@@ -65,7 +66,10 @@ public class Recaptcha {
                 response.append(inputLine);
             }
             bufferedReader.close();
-            logger.log(Level.INFO, "Resposta: {0}", response.toString());
+
+            if (logger.isLoggable(Level.INFO)) {
+                logger.log(Level.INFO, "Resposta: {0}", response.toString());
+            }
 
             JsonReader jsonReader = Json.createReader(new StringReader(response.toString()));
             JsonObject jsonObject = jsonReader.readObject();
