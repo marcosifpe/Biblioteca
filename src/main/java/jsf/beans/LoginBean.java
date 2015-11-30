@@ -28,16 +28,12 @@ public class LoginBean implements Serializable {
     private String senha;
     private FacesContext facesContext;
 
-    private boolean validarCaptcha() {
-        Recaptcha recaptcha = new Recaptcha(facesContext);
-        return recaptcha.validar();
-    }
-
     public String login() {
         try {
             facesContext = FacesContext.getCurrentInstance();
+            Recaptcha recaptcha = new Recaptcha(facesContext);
 
-            if (validarCaptcha()) {
+            if (recaptcha.validar()) {
                 HttpServletRequest request = (HttpServletRequest) facesContext.getExternalContext().getRequest();
                 request.login(usuario, senha);
                 facesContext.getExternalContext().getSession(true);
