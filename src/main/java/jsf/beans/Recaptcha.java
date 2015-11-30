@@ -27,6 +27,7 @@ public class Recaptcha {
 
     public static boolean verificar(String recaptchaResponse, String secretKey) {
         if (recaptchaResponse == null || "".equals(recaptchaResponse)) {
+            logger.log(Level.INFO, "Recaptcha vazio");
             return false;
         }
 
