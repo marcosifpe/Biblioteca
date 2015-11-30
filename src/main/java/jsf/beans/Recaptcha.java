@@ -12,17 +12,29 @@ import java.io.StringReader;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.faces.context.FacesContext;
 
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 import javax.net.ssl.HttpsURLConnection;
+import javax.servlet.http.HttpServletRequest;
 
 public class Recaptcha {
 
     private static final Logger logger = Logger.getLogger(Recaptcha.class.getName());
+    private String recaptchaResponse;
+    private String secretKey;
+    private String url;
 
-    public static boolean verificar(String url, String recaptchaResponse, String secretKey) {
+    public Recaptcha(FacesContext facesContext) {
+        HttpServletRequest request = (HttpServletRequest) facesContext.getExternalContext().getRequest();
+        this.recaptchaResponse = request.getParameter("g-recaptcha-response");
+        this.secretKey = facesContext.getExternalContext().getInitParameter("PRIVATE_CAPTCHA_KEY");
+        this.url = facesContext.getExternalContext().getInitParameter("CAPTCHA_URL");
+    }
+
+    public boolean validar() {
         if (recaptchaResponse == null || "".equals(recaptchaResponse)) {
             if (logger.isLoggable(Level.INFO)) {
                 logger.log(Level.INFO, "Recaptcha vazio");

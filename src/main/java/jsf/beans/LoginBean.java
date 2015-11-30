@@ -12,6 +12,7 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  *
@@ -21,40 +22,43 @@ import javax.servlet.http.HttpServletRequest;
 @RequestScoped
 public class LoginBean implements Serializable {
 
+    @NotBlank
     private String usuario;
+    @NotBlank
     private String senha;
+    private FacesContext facesContext;
 
-    private boolean validarCaptcha(HttpServletRequest request, FacesContext facesContext) {
-        String recaptcha = request
-                .getParameter("g-recaptcha-response");
-        String chavePrivada = facesContext.getExternalContext().getInitParameter("PRIVATE_CAPTCHA_KEY");
-        String url = facesContext.getExternalContext().getInitParameter("CAPTCHA_URL");
-        return Recaptcha.verificar(url, recaptcha, chavePrivada);
+    private boolean validarCaptcha() {
+        Recaptcha recaptcha = new Recaptcha(facesContext);
+        return recaptcha.validar();
     }
 
     public String login() {
         try {
-            FacesContext facesContext = FacesContext.getCurrentInstance();
-            HttpServletRequest request = (HttpServletRequest) facesContext.getExternalContext().getRequest();
-            
-            if (validarCaptcha(request, facesContext)) {
+            facesContext = FacesContext.getCurrentInstance();
+
+            if (validarCaptcha()) {
+                HttpServletRequest request = (HttpServletRequest) facesContext.getExternalContext().getRequest();
                 request.login(usuario, senha);
                 facesContext.getExternalContext().getSession(true);
             } else {
-                setUsuario("");                
-                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Captcha inválido!", null);
-                FacesContext.getCurrentInstance().addMessage(null, message);
+                setUsuario(null);
+                adicionarMensagem("Captcha inválido!");
                 return "failure";
             }
 
         } catch (ServletException ex) {
-            setUsuario("");
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Login inválido!", null);
-            FacesContext.getCurrentInstance().addMessage(null, message);
+            setUsuario(null);
+            adicionarMensagem("Senha ou usuário inválidos!");
             return "failure";
         }
 
         return "success";
+    }
+
+    private void adicionarMensagem(String mensagem) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, mensagem, null);
+        facesContext.addMessage(null, message);
     }
 
     public String getUsuario() {
