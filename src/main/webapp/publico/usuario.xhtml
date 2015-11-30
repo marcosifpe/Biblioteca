@@ -4,6 +4,8 @@
       xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Cadastro de usuários</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/> 
+        <script src='https://www.google.com/recaptcha/api.js' />
     </h:head>
     <h:body>
         <h:form id="Autor">            
@@ -12,12 +14,12 @@
                 <h:panelGrid columns="2" cellpadding="5">
                     <h:outputLabel for="login" value="Login: " />
                     <p:inputText id="login" value="#{usuarioBean.entidade.login}" label="Login" required="true"/>
-                    
+
                     <h:outputLabel for="senha" value="Senha: " />
                     <p:password id="senha" value="#{usuarioBean.entidade.senha}" label="Senha" required="true" 
                                 feedback="true" goodLabel="Boa" weakLabel="Fraca" strongLabel="Forte"
                                 promptLabel="Informe a senha" />
-                    
+
                     <h:outputLabel for="primeiroNome" value="Primeiro Nome: " />
                     <p:inputText id="primeiroNome" value="#{usuarioBean.entidade.primeiroNome}" label="Primeiro Nome" required="true"/>
 
@@ -26,9 +28,11 @@
 
                     <h:outputLabel for="email" value="E-mail " />
                     <p:inputText id="email" value="#{usuarioBean.entidade.email}" label="E-mail" required="true"/>
+                    <h:outputLabel value="Captcha: " />
+                    <div class="g-recaptcha" data-sitekey="#{facesContext.externalContext.getInitParameter('PUBLIC_CAPTCHA_KEY')}"/>
                 </h:panelGrid>
-                <p:commandButton action="#{usuarioBean.salvar()}" value="Salvar" ajax="true" update="growl, panel" 
-                                 title="Salvar Autor" icon="ui-icon-play" validateClient="true"/>
+                <p:commandButton action="#{usuarioBean.salvar()}" value="Salvar" ajax="false" update="growl, panel" 
+                                 title="Salvar Usuário" icon="ui-icon-play" validateClient="true"/>
                 <p:commandButton immediate="true" value="Cancelar" ajax="false" action="login_faces.xhtml" icon="ui-icon-stop"/>
             </p:panel>
         </h:form>

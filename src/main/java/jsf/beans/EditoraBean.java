@@ -23,7 +23,8 @@ public class EditoraBean extends Bean<Editora> implements Serializable {
     }
 
     @Override
-    protected void salvar(Editora entidade) {
+    protected boolean salvar(Editora entidade) {
         this.editoraService.salvar(entidade);
+        return true;
     }
 }

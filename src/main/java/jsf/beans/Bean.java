@@ -17,15 +17,16 @@ import javax.persistence.EntityExistsException;
  * @param <T>
  */
 public abstract class Bean<T extends Entidade> {
+
     protected T entidade;
-    
+
     public Bean() {
         iniciarCampos();
     }
-    
+
     protected abstract void iniciarCampos();
-    protected abstract void salvar(T entidade);
-    
+
+    protected abstract boolean salvar(T entidade);
 
     public T getEntidade() {
         return entidade;
@@ -37,27 +38,29 @@ public abstract class Bean<T extends Entidade> {
 
     public void salvar() {
         try {
-            salvar(entidade);
-            adicionarMessagem("Cadastro realizado com sucesso!");
+            boolean sucesso = salvar(entidade);
+            if (sucesso) {
+                adicionarMessagem(FacesMessage.SEVERITY_INFO, "Cadastro realizado com sucesso!");
+            }
         } catch (EJBException ex) {
             if (entidadeExistente(ex)) {
                 return;
             }
-            
+
             throw ex;
         } finally {
-            iniciarCampos();            
+            iniciarCampos();
         }
-    }    
-    
-    protected void adicionarMessagem(String mensagem) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, mensagem, null);
+    }
+
+    protected void adicionarMessagem(FacesMessage.Severity severity, String mensagem) {
+        FacesMessage message = new FacesMessage(severity, mensagem, null);
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
     protected boolean entidadeExistente(EJBException ex) {
         if (ex.getCause() instanceof EntityExistsException) {
-            adicionarMessagem("Objeto " + ex.getCause().getMessage() + " já cadastrado!");
+            adicionarMessagem(FacesMessage.SEVERITY_WARN, "Objeto " + ex.getCause().getMessage() + " já cadastrado!");
             return true;
         }
 

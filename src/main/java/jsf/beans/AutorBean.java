@@ -23,7 +23,8 @@ public class AutorBean extends Bean<Autor> implements Serializable {
     }
 
     @Override
-    protected void salvar(Autor entidade) {
+    protected boolean salvar(Autor entidade) {
         autorService.salvar(entidade);
+        return true;
     }
 }

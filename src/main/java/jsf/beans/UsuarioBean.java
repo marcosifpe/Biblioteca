@@ -8,8 +8,10 @@ package jsf.beans;
 import acesso.Usuario;
 import java.io.Serializable;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
 import service.UsuarioService;
 
 /**
@@ -17,18 +19,35 @@ import service.UsuarioService;
  * @author MASC
  */
 @ManagedBean(name = "usuarioBean")
-@ViewScoped
+@RequestScoped
 public class UsuarioBean extends Bean<Usuario> implements Serializable {
+
+    public UsuarioBean() {
+        this.entidade = new Usuario();
+    }
+
     @EJB
     private UsuarioService usuarioService;
-    
-    @Override
-    protected void iniciarCampos() {
-        this.entidade = new Usuario();
-    }      
+    private boolean sucesso = true;
 
     @Override
-    protected void salvar(Usuario entidade) {
-        usuarioService.salvar(entidade);
+    protected void iniciarCampos() {
+        if (sucesso) {
+            this.entidade = new Usuario();
+        }
+    }
+
+    @Override
+    protected boolean salvar(Usuario entidade) {
+        this.sucesso = false;
+        Recaptcha recaptcha = new Recaptcha(FacesContext.getCurrentInstance());
+        if (recaptcha.validar()) {
+            usuarioService.salvar(entidade);
+            this.sucesso = true;
+        } else {
+            super.adicionarMessagem(FacesMessage.SEVERITY_WARN, "Captcha inválido!");
+        }
+
+        return this.sucesso;
     }
 }

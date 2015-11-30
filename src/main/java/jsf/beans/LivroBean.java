@@ -66,7 +66,8 @@ public class LivroBean extends Bean<Livro> implements Serializable {
     }
 
     @Override
-    protected void salvar(Livro entidade) {
+    protected boolean salvar(Livro entidade) {
         this.livroService.salvar(entidade);
+        return true;
     }
 }
