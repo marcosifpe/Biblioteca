@@ -24,7 +24,7 @@ public class LoginBean implements Serializable {
     private String usuario;
     private String senha;
 
-    private boolean captchaIsValid(HttpServletRequest request, FacesContext facesContext) {
+    private boolean validarCaptcha(HttpServletRequest request, FacesContext facesContext) {
         String recaptcha = request
                 .getParameter("g-recaptcha-response");
         String chavePrivada = facesContext.getExternalContext().getInitParameter("PRIVATE_CAPTCHA_KEY");
@@ -37,7 +37,7 @@ public class LoginBean implements Serializable {
             FacesContext facesContext = FacesContext.getCurrentInstance();
             HttpServletRequest request = (HttpServletRequest) facesContext.getExternalContext().getRequest();
             
-            if (captchaIsValid(request, facesContext)) {
+            if (validarCaptcha(request, facesContext)) {
                 request.login(usuario, senha);
                 facesContext.getExternalContext().getSession(true);
             } else {
