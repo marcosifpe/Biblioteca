@@ -51,7 +51,7 @@ public class Recaptcha {
             outputStream.flush();
             outputStream.close();
 
-            logger.log(Level.INFO, "Conectando: {0}", URL);
+            logger.log(Level.INFO, "Conectando {0}", URL);
             logger.log(Level.INFO, "Parâmetros: {0}", postParams);
             logger.log(Level.INFO, "Código de resposta: {0}", urlConnection.getResponseCode());
 
@@ -64,7 +64,7 @@ public class Recaptcha {
                 response.append(inputLine);
             }
             bufferedReader.close();
-            logger.log(Level.INFO, response.toString());
+            logger.log(Level.INFO, "Resposta: {0}", response.toString());
 
             JsonReader jsonReader = Json.createReader(new StringReader(response.toString()));
             JsonObject jsonObject = jsonReader.readObject();
