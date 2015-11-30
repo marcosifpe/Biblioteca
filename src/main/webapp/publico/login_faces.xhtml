@@ -23,7 +23,7 @@ and open the template in the editor.
                     <h:outputLabel for="senha" value="Senha:" />
                     <p:password id="senha" value="#{loginBean.senha}" required="true" label="Senha" />
                     <h:outputLabel value="Captcha: " />
-                    <div class="g-recaptcha" data-sitekey="6LcA4BETAAAAAI-bIVcCocgXyiLZ43bCJ-JyCvWV"/>
+                    <div class="g-recaptcha" data-sitekey="#{facesContext.externalContext.getInitParameter('PUBLIC_CAPTCHA_KEY')}"/>
                 </h:panelGrid>
                 <p:commandButton action="#{loginBean.login()}" value="Login" ajax="false" update="growl, panel" 
                                  title="Logar" icon="ui-icon-play" validateClient="true"/> 

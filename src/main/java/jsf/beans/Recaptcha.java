@@ -1,7 +1,7 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
+ * To change this license header, choose License Headers bufferedReader Project Properties.
  * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * and open the template bufferedReader the editor.
  */
 package jsf.beans;
 
@@ -10,6 +10,8 @@ import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -18,59 +20,59 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class Recaptcha {
 
-    public static final String url = "https://www.google.com/recaptcha/api/siteverify";
-    public static final String secret = "6LcA4BETAAAAABzA3uafX-n2AXnRHrVqDthSPwdX";
-    private final static String USER_AGENT = "Mozilla/5.0";
+    public static final String URL = "https://www.google.com/recaptcha/api/siteverify";
+    private static final String USER_AGENT = "Mozilla/5.0";
+    private static final String ACCEPT_LANGUAGE = "pt-br,pt;en-US,en;q=0.5";
+    private static final Logger logger = Logger.getLogger(Recaptcha.class.getName());
 
-    public static boolean verificar(String gRecaptchaResponse) {
-        if (gRecaptchaResponse == null || "".equals(gRecaptchaResponse)) {
+    public static boolean verificar(String recaptchaResponse, String secretKey) {
+        if (recaptchaResponse == null || "".equals(recaptchaResponse)) {
             return false;
         }
 
         try {
-            URL obj = new URL(url);
-            HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
+            URL obj = new URL(URL);
+            HttpsURLConnection urlConnection = (HttpsURLConnection) obj.openConnection();
 
             // add reuqest header
-            con.setRequestMethod("POST");
-            con.setRequestProperty("User-Agent", USER_AGENT);
-            con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+            urlConnection.setRequestMethod("POST");
+            urlConnection.setRequestProperty("User-Agent", USER_AGENT);
+            urlConnection.setRequestProperty("Accept-Language", ACCEPT_LANGUAGE);
 
-            String postParams = "secret=" + secret + "&response="
-                    + gRecaptchaResponse;
+            StringBuilder postParams = new StringBuilder("secret=");
+            postParams.append(secretKey);
+            postParams.append("&response=");
+            postParams.append(recaptchaResponse);
 
             // Send post request
-            con.setDoOutput(true);
-            DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-            wr.writeBytes(postParams);
-            wr.flush();
-            wr.close();
+            urlConnection.setDoOutput(true);
+            DataOutputStream outputStream = new DataOutputStream(urlConnection.getOutputStream());
+            outputStream.writeBytes(postParams.toString());
+            outputStream.flush();
+            outputStream.close();
 
-            int responseCode = con.getResponseCode();
-            System.out.println("\nSending 'POST' request to URL : " + url);
-            System.out.println("Post parameters : " + postParams);
-            System.out.println("Response Code : " + responseCode);
+            int responseCode = urlConnection.getResponseCode();
+            logger.log(Level.INFO, "Conectando Google...");
+            logger.log(Level.INFO, "Parâmetros : {0}", postParams);
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(
-                    con.getInputStream()));
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
+                    urlConnection.getInputStream()));
             String inputLine;
             StringBuilder response = new StringBuilder();
 
-            while ((inputLine = in.readLine()) != null) {
+            while ((inputLine = bufferedReader.readLine()) != null) {
                 response.append(inputLine);
             }
-            in.close();
+            bufferedReader.close();
+            logger.log(Level.INFO, response.toString());
 
-            // print result
-            System.out.println(response.toString());
-
-            //parse JSON response and return 'success' value
             JsonReader jsonReader = Json.createReader(new StringReader(response.toString()));
             JsonObject jsonObject = jsonReader.readObject();
             jsonReader.close();
 
             return jsonObject.getBoolean("success");
-        } catch (Exception e) {
+        } catch (Exception ex) {
+            logger.log(Level.SEVERE, ex.getMessage(), ex);
             return false;
         }
     }
