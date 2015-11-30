@@ -51,9 +51,9 @@ public class Recaptcha {
             outputStream.flush();
             outputStream.close();
 
-            int responseCode = urlConnection.getResponseCode();
-            logger.log(Level.INFO, "Conectando Google...");
-            logger.log(Level.INFO, "Parâmetros : {0}", postParams);
+            logger.log(Level.INFO, "Conectando: {0}", URL);
+            logger.log(Level.INFO, "Parâmetros: {0}", postParams);
+            logger.log(Level.INFO, "Código de resposta: {0}", urlConnection.getResponseCode());
 
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
                     urlConnection.getInputStream()));
