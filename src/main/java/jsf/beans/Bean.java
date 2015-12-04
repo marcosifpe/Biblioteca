@@ -14,7 +14,7 @@ import javax.persistence.EntityExistsException;
 /**
  *
  * @author MASC
- * @param <T>
+ * @param <T> Tipo da classe.
  */
 public abstract class Bean<T extends Entidade> {
 

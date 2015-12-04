@@ -20,7 +20,7 @@ import javax.persistence.TypedQuery;
 /**
  *
  * @author MASC
- * @param <T>
+ * @param <T> A classe do serviço
  */
 public abstract class Service<T extends Entidade> {
 

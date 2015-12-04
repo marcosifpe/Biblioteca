@@ -27,7 +27,7 @@ and open the template in the editor.
                 </h:panelGrid>
                 <p:commandButton action="#{loginBean.login()}" value="Login" ajax="false" update="growl, panel" 
                                  title="Logar" icon="ui-icon-play" validateClient="true"/> 
-                <p:commandButton action="usuario.xhtml" value="Cadastrar" ajax="false" title="Cadastrar" icon="ui-icon-person" immediate="true"/>
+                <p:commandButton value="Cadastrar" ajax="false" title="Cadastrar" action="cadastrar" icon="ui-icon-person" immediate="true"/>
             </p:panel>
         </h:form>
     </h:body>

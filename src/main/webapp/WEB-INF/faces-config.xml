@@ -14,20 +14,31 @@
         </exception-handler-factory>
     </factory>
     <navigation-rule>
+        <from-view-id>/publico/usuario.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>cancelar</from-outcome>
+            <to-view-id>/publico/login.xhtml</to-view-id>
+        </navigation-case>        
+    </navigation-rule>        
+    <navigation-rule>
         <from-view-id>/publico/login.xhtml</from-view-id>
         <navigation-case>
-            <from-outcome>success</from-outcome>
+            <from-outcome>sucesso</from-outcome>
             <to-view-id>/usuario/livros.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
-            <from-outcome>failure</from-outcome>
+            <from-outcome>falha</from-outcome>
             <to-view-id>/publico/login.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>cadastrar</from-outcome>
+            <to-view-id>/publico/usuario.xhtml</to-view-id>
         </navigation-case>        
     </navigation-rule>
     <navigation-rule>
         <from-view-id>*</from-view-id>
         <navigation-case>
-            <from-outcome>logout</from-outcome>
+            <from-outcome>sair</from-outcome>
             <to-view-id>/publico/login.xhtml</to-view-id>
         </navigation-case>        
     </navigation-rule>        
