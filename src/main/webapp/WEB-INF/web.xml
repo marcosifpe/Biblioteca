@@ -4,8 +4,8 @@
         <auth-method>FORM</auth-method>
         <realm-name>saltRealm</realm-name>
         <form-login-config>
-            <form-login-page>/faces/publico/login_faces.xhtml</form-login-page>
-            <form-error-page>/faces/publico/login_faces.xhtml</form-error-page>
+            <form-login-page>/faces/publico/login.xhtml</form-login-page>
+            <form-error-page>/faces/publico/login.xhtml</form-error-page>
         </form-login-config>
     </login-config>
     <security-constraint>
@@ -55,8 +55,8 @@
     <security-constraint>
         <display-name>Pg Publicas</display-name>
         <web-resource-collection>
-            <web-resource-name>Protected Public Area</web-resource-name>
-            <description>Protected Public Area</description>
+            <web-resource-name>Public Area</web-resource-name>
+            <description>Public Area</description>
             <url-pattern>/faces/publico/*</url-pattern>
             <http-method>GET</http-method>
             <http-method>POST</http-method>

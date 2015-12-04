@@ -26,11 +26,14 @@ import javax.ejb.TransactionManagementType;
 public class UsuarioService extends Service<Usuario> {
     @EJB
     private GrupoService grupoService;
+    @EJB
+    private EmailService emailService;
 
     @TransactionAttribute(TransactionAttributeType.REQUIRED)    
     public void salvar(Usuario usuario) {
         checkExistence(Usuario.USUARIO_POR_LOGIN, usuario.getLogin());
         usuario.adicionarGrupo(grupoService.getGrupo(Grupo.USUARIO));
         entityManager.persist(usuario);
+        emailService.enviarMensagem(usuario.getEmail());
     }
 }
