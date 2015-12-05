@@ -45,10 +45,10 @@ public class EmailService {
     public Future<Boolean> enviarEmail(String para) {
         return new AsyncResult<>(enviar(para));
     }
+    
     private boolean enviar(String para) {
         try {
             Message message = new MimeMessage(sessao);
-            message.setFrom(new InternetAddress("softwarecorporativo@yahoo.com.br"));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(para));
             message.setSubject("Cadastro realizado com sucesso");
