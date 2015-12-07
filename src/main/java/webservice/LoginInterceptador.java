@@ -5,7 +5,9 @@
  */
 package webservice;
 
+import acesso.Papel;
 import java.util.logging.Logger;
+import javax.ejb.SessionContext;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
 import javax.servlet.ServletException;
