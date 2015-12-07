@@ -15,7 +15,9 @@ import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.interceptor.Interceptors;
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -29,19 +31,29 @@ import service.AutorService;
  */
 @Path("autor")
 @Stateless
-@Interceptors({LoginInterceptador.class})
 @TransactionManagement(TransactionManagementType.CONTAINER)
 @TransactionAttribute(TransactionAttributeType.SUPPORTS)
 public class AutorWebService {
     @EJB
     private AutorService autorService;
 
+    //TODO: fazer tratamento quando não existir autor ligado ao cpf
     @GET
     @Path("get")
     @Produces("application/json")    
+    @Interceptors({LoginInterceptador.class, ConsultaUnicaInterceptador.class})
     public String getAutor(@QueryParam("cpf") String cpf, @Context HttpServletRequest request,
             @Context HttpHeaders httpHeaders) {
         Autor autor = autorService.getAutor(cpf);
         return new Gson().toJson(autor.getMap());
+    }
+    
+    @POST
+    @Path("salvar")
+    @Produces("application/json")
+    @Consumes("application/json")    
+    public String salvarAutor(String jsonAutor, @Context HttpServletRequest request,
+            @Context HttpHeaders httpHeaders) {
+        return null;
     }
 }

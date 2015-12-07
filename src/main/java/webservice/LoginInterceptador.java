@@ -6,9 +6,6 @@
 package webservice;
 
 import acesso.Papel;
-import com.google.gson.Gson;
-import java.util.Map;
-import java.util.HashMap;
 import javax.annotation.Resource;
 import javax.ejb.SessionContext;
 import javax.interceptor.AroundInvoke;
@@ -21,7 +18,7 @@ import javax.ws.rs.core.HttpHeaders;
  *
  * @author MASC
  */
-public class LoginInterceptador {
+public class LoginInterceptador extends JsonInterceptador {
 
     @Resource
     private SessionContext sessionContext;
@@ -51,14 +48,6 @@ public class LoginInterceptador {
 
     private boolean isValid(String value) {
         return value != null && value.trim().length() > 0;
-    }
-
-    private String getResult(String status, String mensage) {
-        Gson gson = new Gson();
-        Map jsonMap = new HashMap<String, String>();
-        jsonMap.put("status", status);
-        jsonMap.put("mensagem", mensage);
-        return gson.toJson(jsonMap);
     }
 
     @AroundInvoke
