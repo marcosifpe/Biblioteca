@@ -37,7 +37,6 @@ public class AutorWebService {
     @EJB
     private AutorService autorService;
 
-    //TODO: fazer tratamento quando não existir autor ligado ao cpf
     @GET
     @Path("get")
     @Produces("application/json")    
