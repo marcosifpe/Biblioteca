@@ -5,13 +5,10 @@
  */
 package webservice;
 
-import acesso.Papel;
 import biblioteca.Livro;
 import com.google.gson.Gson;
 import java.io.StringReader;
-import javax.annotation.Resource;
 import javax.ejb.EJB;
-import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
