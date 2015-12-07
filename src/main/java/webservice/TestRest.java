@@ -51,6 +51,6 @@ public class TestRest {
         }
 
         Gson gson = new Gson();
-        return gson.toJson("Hello, world");                    
+        return gson.toJson("Sucesso");                    
     }
 }
