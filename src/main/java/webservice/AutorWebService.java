@@ -78,9 +78,9 @@ public class AutorWebService {
 
     private Autor lerAutor(String jsonAutor) {
         Autor autor = new Autor();
-        autor.setCpf(this.get(jsonAutor, "cpf"));
-        autor.setPrimeiroNome(this.get(jsonAutor, "primeiroNome"));
-        autor.setUltimoNome(this.get(jsonAutor, "ultimoNome"));
+        autor.setCpf(get(jsonAutor, "cpf"));
+        autor.setPrimeiroNome(get(jsonAutor, "primeiroNome"));
+        autor.setUltimoNome(get(jsonAutor, "ultimoNome"));
         return autor;
     }
 }
