@@ -2,7 +2,9 @@ package biblioteca;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Column;
@@ -93,5 +95,13 @@ public class Autor extends Entidade implements Serializable {
 
     public boolean add(Livro livro) {
         return livros.add(livro);
+    }
+    
+    public Map<String, String> getMap() {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("primeiroNome", primeiroNome);
+        map.put("ultimoNome", ultimoNome);
+        map.put("cpf", cpf);
+        return map;
     }
 }

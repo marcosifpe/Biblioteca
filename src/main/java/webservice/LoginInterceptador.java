@@ -7,7 +7,6 @@ package webservice;
 
 import acesso.Papel;
 import com.google.gson.Gson;
-import java.util.logging.Logger;
 import java.util.Map;
 import java.util.HashMap;
 import javax.annotation.Resource;
@@ -54,45 +53,49 @@ public class LoginInterceptador {
         return value != null && value.trim().length() > 0;
     }
 
+    private String getResult(String status, String mensage) {
+        Gson gson = new Gson();
+        Map jsonMap = new HashMap<String, String>();
+        jsonMap.put("status", status);
+        jsonMap.put("mensagem", mensage);
+        return gson.toJson(jsonMap);
+    }
+
     @AroundInvoke
     public Object intercept(InvocationContext context) throws Exception {
-        Object result = null;
+        Object result;
         HttpServletRequest servletRequest = null;
         HttpHeaders httpHeaders;
+
         try {
             servletRequest = getHttpServletRequest(context);
             httpHeaders = getHttpHeaders(context);
-            Logger.getGlobal().info("Trying Login...");
 
             String login = httpHeaders.getHeaderString("login");
             String senha = httpHeaders.getHeaderString("senha");
-            Logger.getGlobal().info(login);
-            Logger.getGlobal().info(senha);
 
             if (isValid(login) && isValid(senha)) {
-                servletRequest.login(login, senha);
-                Logger.getGlobal().info("Login ok");
-                if (sessionContext.isCallerInRole(Papel.ADMINISTRADOR)) {
-                    result = context.proceed();
-                } else {
-                    Gson gson = new Gson();
-                    Map jsonMap = new HashMap<String, String>();
-                    jsonMap.put("status", "erro");
-                    jsonMap.put("mensagem", "acesso não autorizado");
-                    result = gson.toJson(jsonMap);
+                try {
+                    servletRequest.login(login, senha);
+                    servletRequest.getSession(true);
+
+                    if (sessionContext.isCallerInRole(Papel.ADMINISTRADOR)) {
+                        result = context.proceed();
+                    } else {
+                        result = getResult("erro", "acesso desautorizado");
+                    }
+
+                } catch (ServletException ex) {
+                    result = getResult("erro", "falha na tentativa de login: " + ex.getMessage());
                 }
             } else {
-                    Gson gson = new Gson();
-                    Map jsonMap = new HashMap<String, String>();
-                    jsonMap.put("status", "erro");
-                    jsonMap.put("mensagem", "credenciais não informadas");
-                    result = gson.toJson(jsonMap);                
+                result = getResult("erro", "credenciais omitidas");
             }
-
-        } catch (ServletException ex) {
-            Logger.getGlobal().severe(ex.getMessage());
         } finally {
-            servletRequest.logout();
+            if (servletRequest != null) {
+                servletRequest.getSession().invalidate();
+                servletRequest.logout();
+            }
         }
 
         return result;

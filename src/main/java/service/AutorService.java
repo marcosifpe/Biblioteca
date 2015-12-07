@@ -34,4 +34,10 @@ public class AutorService extends Service<Autor> {
     public List<Autor> getAutores() {
         return getResultList(Autor.AUTORES);
     }
+    
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)   
+    @PermitAll
+    public Autor getAutor(String cpf) {
+        return super.getSingleResult(Autor.AUTOR_POR_CPF, new Object[] {cpf});
+    }
 }
