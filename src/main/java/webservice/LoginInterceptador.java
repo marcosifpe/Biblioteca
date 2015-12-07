@@ -7,6 +7,7 @@ package webservice;
 
 import acesso.Papel;
 import java.util.logging.Logger;
+import javax.annotation.Resource;
 import javax.ejb.SessionContext;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
@@ -19,6 +20,9 @@ import javax.ws.rs.core.HttpHeaders;
  * @author MASC
  */
 public class LoginInterceptador {
+    @Resource
+    private SessionContext sessionContext;    
+    
     private HttpServletRequest getHttpServletRequest(InvocationContext ic) {
         HttpServletRequest request = null;
         for (Object parameter : ic.getParameters()) {
@@ -57,7 +61,12 @@ public class LoginInterceptador {
             Logger.getGlobal().info(senha);
             servletRequest.login(login, senha);
             Logger.getGlobal().info("Login ok");
-            result = context.proceed();
+            if (sessionContext.isCallerInRole(Papel.ADMINISTRADOR)) {
+                result = context.proceed();    
+            } else {
+                throw new SecurityException("Você não tem acesso a esse recurso");
+            }
+            
         } catch (ServletException ex) {
             Logger.getGlobal().severe(ex.getMessage());
         } finally {

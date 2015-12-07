@@ -44,26 +44,16 @@ public class LivroWebService {
     @EJB
     private LivroService livroService;
 
-    @Resource
-    private SessionContext context;
-
     @POST
     @Path("isbn")
     @Produces("application/json")
     @Consumes("application/json")
     public String getLivro(String jsonIsbn, @Context HttpServletRequest request,
             @Context HttpHeaders httpHeaders) {
-        String resultado = null;
-        if (context.isCallerInRole(Papel.ADMINISTRADOR)) {
-            String isbn = getIsbn(jsonIsbn);
-            Livro livro = livroService.getLivro(isbn);
-            Gson gson = new Gson();
-            resultado = gson.toJson(livro.getMap());
-        } else {
-            throw new SecurityException("Você não tem acesso a esse recurso");
-        }
-        
-        return resultado;
+        String isbn = getIsbn(jsonIsbn);
+        Livro livro = livroService.getLivro(isbn);
+        Gson gson = new Gson();
+        return gson.toJson(livro.getMap());
     }
 
     private String getIsbn(String jsonIsbn) {
