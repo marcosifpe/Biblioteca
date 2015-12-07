@@ -7,6 +7,9 @@ package webservice;
 
 import biblioteca.Autor;
 import com.google.gson.Gson;
+import java.io.StringReader;
+import java.util.Map;
+import java.util.HashMap;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -14,6 +17,9 @@ import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.interceptor.Interceptors;
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -51,8 +57,29 @@ public class AutorWebService {
     @Path("salvar")
     @Produces("application/json")
     @Consumes("application/json")    
+    @Interceptors({LoginInterceptador.class})
     public String salvarAutor(String jsonAutor, @Context HttpServletRequest request,
             @Context HttpHeaders httpHeaders) {
-        return null;
+        Autor autor = lerAutor(jsonAutor);
+        autorService.salvar(autor);
+        Gson gson = new Gson();
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("status", "sucesso");
+        return gson.toJson(map);
+    }
+    
+    private String get(String json, String chave) {
+        JsonReader jsonReader = Json.createReader(new StringReader(json));
+        JsonObject jsonObject = jsonReader.readObject();
+        jsonReader.close();
+        return jsonObject.getString(chave);
+    }    
+
+    private Autor lerAutor(String jsonAutor) {
+        Autor autor = new Autor();
+        autor.setCpf(this.get(jsonAutor, "cpf"));
+        autor.setPrimeiroNome(this.get(jsonAutor, "primeiroNome"));
+        autor.setUltimoNome(this.get(jsonAutor, "ultimoNome"));
+        return autor;
     }
 }
