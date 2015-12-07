@@ -15,7 +15,8 @@ import javax.persistence.NoResultException;
  * @author MASC
  */
 public class ConsultaUnicaInterceptador extends JsonInterceptador {
-        @AroundInvoke
+
+    @AroundInvoke
     public Object intercept(InvocationContext context) throws Exception {
         Object result;
         try {
@@ -27,7 +28,7 @@ public class ConsultaUnicaInterceptador extends JsonInterceptador {
                 throw ex;
             }
         }
-        
+
         return result;
     }
 

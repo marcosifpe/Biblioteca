@@ -57,7 +57,7 @@ public class AutorWebService {
     @Path("salvar")
     @Produces("application/json")
     @Consumes("application/json")    
-    @Interceptors({LoginInterceptador.class})
+    @Interceptors({LoginInterceptador.class, SalvarInterceptador.class})
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public String salvarAutor(String jsonAutor, @Context HttpServletRequest request,
             @Context HttpHeaders httpHeaders) {
