@@ -6,7 +6,10 @@
 package webservice;
 
 import acesso.Papel;
+import com.google.gson.Gson;
 import java.util.logging.Logger;
+import java.util.Map;
+import java.util.HashMap;
 import javax.annotation.Resource;
 import javax.ejb.SessionContext;
 import javax.interceptor.AroundInvoke;
@@ -64,7 +67,11 @@ public class LoginInterceptador {
             if (sessionContext.isCallerInRole(Papel.ADMINISTRADOR)) {
                 result = context.proceed();    
             } else {
-                throw new SecurityException("Você não tem acesso a esse recurso");
+                Gson gson = new Gson();
+                Map jsonMap = new HashMap<String, String>();
+                jsonMap.put("status", "erro");
+                jsonMap.put("mensagem", "acesso não autorizado");
+                result = gson.toJson(jsonMap);
             }
             
         } catch (ServletException ex) {
