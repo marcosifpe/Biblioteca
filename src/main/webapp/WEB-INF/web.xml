@@ -69,7 +69,25 @@
         <user-data-constraint>
             <transport-guarantee>CONFIDENTIAL</transport-guarantee>
         </user-data-constraint>   
-    </security-constraint>    
+    </security-constraint>
+    <security-constraint>
+        <display-name>Jersey Security</display-name>
+        <web-resource-collection>
+            <web-resource-name>Jersey Security</web-resource-name>
+            <description>Jersey Security</description>
+            <url-pattern>/webservice/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+            <http-method>HEAD</http-method>
+            <http-method>PUT</http-method>
+            <http-method>OPTIONS</http-method>
+            <http-method>TRACE</http-method>
+            <http-method>DELETE</http-method>
+        </web-resource-collection>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>            
     <error-page>
         <error-code>500</error-code>
         <location>/faces/publico/erro.xhtml</location>
@@ -99,6 +117,18 @@
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>/faces/*</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>Jersey REST Service</servlet-name>
+        <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+        <init-param>
+            <param-name>jersey.config.server.provider.packages</param-name>
+            <param-value>webservice</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Jersey REST Service</servlet-name>
+        <url-pattern>/webservice/*</url-pattern>
+    </servlet-mapping>        
     <context-param>
         <param-name>CAPTCHA_URL</param-name>
         <param-value>https://www.google.com/recaptcha/api/siteverify</param-value>
