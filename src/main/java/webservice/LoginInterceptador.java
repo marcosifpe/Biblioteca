@@ -86,7 +86,7 @@ public class LoginInterceptador {
                     }
 
                 } catch (ServletException ex) {
-                    result = getResult("erro", "falha na tentativa de login: " + ex.getMessage());
+                    result = getResult("erro", "falha na tentativa de login");
                 }
             } else {
                 result = getResult("erro", "credenciais omitidas");
