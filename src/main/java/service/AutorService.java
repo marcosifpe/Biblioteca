@@ -29,6 +29,20 @@ public class AutorService extends Service<Autor> {
         entityManager.persist(autor);
     }
     
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)    
+    @RolesAllowed({Papel.ADMINISTRADOR})
+    public void remover(Autor autor) {
+        entityManager.merge(autor);
+        entityManager.remove(autor);
+    }
+    
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)    
+    @RolesAllowed({Papel.ADMINISTRADOR})
+    public void remover(String cpf) {
+        Autor autor = getAutor(cpf);
+        remover(autor);
+    }    
+    
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)   
     @PermitAll
     public List<Autor> getAutores() {
