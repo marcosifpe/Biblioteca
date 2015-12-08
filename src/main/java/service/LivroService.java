@@ -1,6 +1,11 @@
 package service;
 
-import acesso.Papel;
+import static acesso.Papel.ADMINISTRADOR;
+import static acesso.Papel.USUARIO;
+import static biblioteca.Livro.LIVRO_POR_ISBN;
+import static javax.ejb.TransactionAttributeType.REQUIRED;
+import static javax.ejb.TransactionAttributeType.SUPPORTS;
+import static javax.ejb.TransactionManagementType.CONTAINER;
 import biblioteca.Livro;
 import java.util.List;
 import javax.annotation.security.DeclareRoles;
@@ -9,9 +14,7 @@ import javax.annotation.security.RolesAllowed;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
-import javax.ejb.TransactionManagementType;
 
 /**
  *
@@ -19,25 +22,25 @@ import javax.ejb.TransactionManagementType;
  */
 @Stateless
 @LocalBean
-@TransactionManagement(TransactionManagementType.CONTAINER)
-@DeclareRoles({Papel.ADMINISTRADOR, Papel.USUARIO})
+@TransactionManagement(CONTAINER)
+@DeclareRoles({ADMINISTRADOR, USUARIO})
 public class LivroService extends Service<Livro> {
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)    
-    @RolesAllowed({Papel.ADMINISTRADOR})    
+    @TransactionAttribute(REQUIRED)    
+    @RolesAllowed({ADMINISTRADOR})    
     public void salvar(Livro livro) {
-        checkExistence(Livro.LIVRO_POR_ISBN, livro.getIsbn());
+        checkExistence(LIVRO_POR_ISBN, livro.getIsbn());
         entityManager.persist(livro);
     }
      
-    @TransactionAttribute(TransactionAttributeType.SUPPORTS)       
-    @RolesAllowed({Papel.USUARIO})          
+    @TransactionAttribute(SUPPORTS)       
+    @RolesAllowed({USUARIO})          
     public List<Livro> getLivros() {
         return getResultList(Livro.LIVROS);
     }
     
-    @TransactionAttribute(TransactionAttributeType.SUPPORTS)       
+    @TransactionAttribute(SUPPORTS)       
     @PermitAll    
     public Livro getLivro(String isbn) {
-        return getSingleResult(Livro.LIVRO_POR_ISBN, new Object[]{isbn});
+        return getSingleResult(LIVRO_POR_ISBN, new Object[]{isbn});
     }
 }
