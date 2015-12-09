@@ -7,6 +7,8 @@ package webservice;
 
 import biblioteca.Autor;
 import com.google.gson.Gson;
+import java.io.IOException;
+import java.io.Reader;
 import java.io.StringReader;
 import java.util.Map;
 import java.util.HashMap;
@@ -41,7 +43,7 @@ import service.AutorService;
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
 @TransactionAttribute(TransactionAttributeType.SUPPORTS)
-public class AutorWebService {
+public class AutorWebService extends JsonWebService<Autor>{
     @EJB
     private AutorService autorService;
 
@@ -62,13 +64,10 @@ public class AutorWebService {
     @Interceptors({LoginInterceptador.class, SalvarInterceptador.class})
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public String salvarAutor(String jsonAutor, @Context HttpServletRequest request,
-            @Context HttpHeaders httpHeaders) {
-        Autor autor = lerAutor(jsonAutor);
+            @Context HttpHeaders httpHeaders) throws IOException {
+        Autor autor = super.get(jsonAutor, Autor.class);
         autorService.salvar(autor);
-        Gson gson = new Gson();
-        Map<String, String> map = new HashMap<String, String>();
-        map.put("status", "sucesso");
-        return gson.toJson(map);
+        return super.getResposta(true, "Sucesso");
     }
     
     @DELETE
@@ -78,24 +77,6 @@ public class AutorWebService {
     public String removerAutor(@PathParam("cfp") String cpf, @Context HttpServletRequest request,
             @Context HttpHeaders httpHeaders) {
         autorService.remover(cpf);
-        Gson gson = new Gson();        
-        Map<String, String> map = new HashMap<String, String>();
-        map.put("status", "sucesso");        
-        return gson.toJson(map);
-    }
-    
-    private String get(String json, String chave) {
-        JsonReader jsonReader = Json.createReader(new StringReader(json));
-        JsonObject jsonObject = jsonReader.readObject();
-        jsonReader.close();
-        return jsonObject.getString(chave);
-    }    
-
-    private Autor lerAutor(String jsonAutor) {
-        Autor autor = new Autor();
-        autor.setCpf(get(jsonAutor, "cpf"));
-        autor.setPrimeiroNome(get(jsonAutor, "primeiroNome"));
-        autor.setUltimoNome(get(jsonAutor, "ultimoNome"));
-        return autor;
-    }
+        return super.getResposta(true, "Sucesso");
+    } 
 }
