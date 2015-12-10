@@ -88,6 +88,7 @@ public class AutorWebService extends JsonWebService<Autor>{
     }
     
     private void atualizar(Autor autorAlterado, Autor autor) {
+        autor.setCpf(autorAlterado.getCpf());
         autor.setPrimeiroNome(autorAlterado.getPrimeiroNome());
         autor.setUltimoNome(autorAlterado.getUltimoNome());
     }
