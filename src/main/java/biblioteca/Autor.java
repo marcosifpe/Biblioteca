@@ -63,6 +63,10 @@ public class Autor extends Entidade implements Serializable {
         this.livros = new ArrayList<>();
     }
 
+    public static Autor criar(String json) {
+        return (Autor) Entidade.criar(json, Autor.class);
+    }
+    
     public String getPrimeiroNome() {
         return primeiroNome;
     }

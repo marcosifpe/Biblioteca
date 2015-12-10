@@ -6,12 +6,7 @@
 package webservice;
 
 import biblioteca.Autor;
-import com.google.gson.Gson;
 import java.io.IOException;
-import java.io.Reader;
-import java.io.StringReader;
-import java.util.Map;
-import java.util.HashMap;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -19,9 +14,6 @@ import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.interceptor.Interceptors;
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonReader;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -65,7 +57,7 @@ public class AutorWebService extends JsonWebService<Autor>{
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public String salvarAutor(String jsonAutor, @Context HttpServletRequest request,
             @Context HttpHeaders httpHeaders) throws IOException {
-        Autor autor = super.get(jsonAutor, Autor.class);
+        Autor autor = Autor.criar(jsonAutor);
         autorService.salvar(autor);
         return super.getRespostaSucesso();
     }

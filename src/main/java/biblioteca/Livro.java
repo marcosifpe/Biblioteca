@@ -46,7 +46,7 @@ import org.hibernate.validator.constraints.NotEmpty;
             ),
             @NamedQuery (
                     name = "LivroPorIsbn",
-                    query = "SELECT l FROM Livro l WHERE l.isbn = ?1"
+                    query = "SELECT l FROM Livro l JOIN FETCH l.editora WHERE l.isbn = ?1"
             )
         }
 )

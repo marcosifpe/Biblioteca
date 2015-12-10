@@ -2,7 +2,10 @@ package biblioteca;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import java.io.IOException;
+import java.io.Reader;
 import java.io.Serializable;
+import java.io.StringReader;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -59,4 +62,17 @@ public abstract class Entidade implements Serializable {
         Gson gson = new GsonBuilder().setExclusionStrategies(new JsonExclusionStrategy()).create();
         return gson.toJson(this);
     }
+    
+    protected static Entidade criar(String json, Class clazz) {
+        Entidade entidade = null;
+        try {
+            Gson gson = new Gson();
+            Reader reader = new StringReader(json);
+            entidade = (Entidade) gson.fromJson(reader, clazz);
+            reader.close();
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+        return entidade;
+    }    
 }

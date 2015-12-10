@@ -49,8 +49,7 @@ public class LivroWebService {
             @Context HttpHeaders httpHeaders) {
         String isbn = getIsbn(jsonIsbn);
         Livro livro = livroService.getLivro(isbn);
-        Gson gson = new Gson();
-        return gson.toJson(livro.getMap());
+        return livro.toJson();
     }
 
     private String getIsbn(String jsonIsbn) {

@@ -16,7 +16,7 @@ public class JsonExclusionStrategy implements ExclusionStrategy {
 
     @Override
     public boolean shouldSkipField(FieldAttributes fa) {
-        return fa.getAnnotation(JsonExclude.class) != null;
+        return fa.getAnnotation(JsonExclude.class) != null || fa.getName().startsWith("_persistence_");
     }
 
     @Override
