@@ -42,7 +42,7 @@ public class AutorService extends Service<Autor> {
         if (autor.isInativo())
             entityManager.remove(autor);
         else
-            throw new ExcecaoNegocio("Autor não está inativo");
+            throw new ExcecaoNegocio("Existem livros associados ao autor " + autor.getCpf());
     }
     
     @TransactionAttribute(TransactionAttributeType.REQUIRED)    
