@@ -56,14 +56,14 @@ public abstract class Entidade implements Serializable {
     }
     
     public String toJson() {
-        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setDateFormat(DateFormat.SHORT).create();
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setDateFormat("dd/MM/yyyy hh:mm:ss").create();
         return gson.toJson(this);
     }
     
     protected static Entidade criar(String json, Class clazz) {
         Entidade entidade = null;
         try {
-            Gson gson = new Gson();
+            Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
             Reader reader = new StringReader(json);
             entidade = (Entidade) gson.fromJson(reader, clazz);
             reader.close();
