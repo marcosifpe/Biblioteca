@@ -54,7 +54,7 @@ public class AutorWebService extends JsonWebService<Autor>{
     public String getAutor(@QueryParam("cpf") String cpf, @Context HttpServletRequest request,
             @Context HttpHeaders httpHeaders) {
         Autor autor = autorService.getAutor(cpf);
-        return new Gson().toJson(autor.getMap());
+        return autor.toJson();
     }
     
     @POST
@@ -67,7 +67,7 @@ public class AutorWebService extends JsonWebService<Autor>{
             @Context HttpHeaders httpHeaders) throws IOException {
         Autor autor = super.get(jsonAutor, Autor.class);
         autorService.salvar(autor);
-        return super.getResposta(true, "Sucesso");
+        return super.getRespostaSucesso();
     }
     
     @DELETE
@@ -77,6 +77,6 @@ public class AutorWebService extends JsonWebService<Autor>{
     public String removerAutor(@PathParam("cfp") String cpf, @Context HttpServletRequest request,
             @Context HttpHeaders httpHeaders) {
         autorService.remover(cpf);
-        return super.getResposta(true, "Sucesso");
+        return super.getRespostaSucesso();
     } 
 }

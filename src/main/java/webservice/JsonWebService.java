@@ -31,6 +31,10 @@ public abstract class JsonWebService<T extends Entidade> {
         return result;
     }
     
+    protected String getRespostaSucesso() {
+        return getResposta(true, "Sucesso");
+    }
+    
     protected String getResposta(boolean sucesso, String mensagem) {
         RespostaJson respostaJson = new RespostaJson(sucesso, mensagem);
         Gson gson = new Gson();

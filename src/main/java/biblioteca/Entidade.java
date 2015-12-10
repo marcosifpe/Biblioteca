@@ -1,10 +1,14 @@
 package biblioteca;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import java.io.Serializable;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import json.JsonExclude;
+import json.JsonExclusionStrategy;
 
 /**
  *
@@ -12,6 +16,8 @@ import javax.persistence.MappedSuperclass;
  */
 @MappedSuperclass
 public abstract class Entidade implements Serializable {
+
+    @JsonExclude
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
@@ -48,5 +54,11 @@ public abstract class Entidade implements Serializable {
     public String toString() {
         return this.getClass().getName() + "[ id=" + id + " ]";
     }
+    
+  
 
+    public String toJson() {
+        Gson gson = new GsonBuilder().setExclusionStrategies(new JsonExclusionStrategy()).create();
+        return gson.toJson(this);
+    }
 }

@@ -17,6 +17,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import json.JsonExclude;
 import org.hibernate.validator.constraints.br.CPF;
 
 /**
@@ -54,6 +55,7 @@ public class Autor extends Entidade implements Serializable {
     @CPF
     @Column(name = "TXT_CPF", length = 14, nullable = false)
     private String cpf;
+    @JsonExclude
     @ManyToMany(mappedBy = "autores", fetch = FetchType.LAZY)
     private List<Livro> livros;
 
@@ -95,13 +97,5 @@ public class Autor extends Entidade implements Serializable {
 
     public boolean add(Livro livro) {
         return livros.add(livro);
-    }
-    
-    public Map<String, String> getMap() {
-        Map<String, String> map = new HashMap<String, String>();
-        map.put("primeiroNome", primeiroNome);
-        map.put("ultimoNome", ultimoNome);
-        map.put("cpf", cpf);
-        return map;
     }
 }
