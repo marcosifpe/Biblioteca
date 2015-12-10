@@ -80,7 +80,7 @@ public class AutorWebService extends JsonWebService<Autor>{
     @DELETE
     @Path("remover/{cfp}")
     @Produces("application/json")   
-    @Interceptors({LoginInterceptador.class})
+    @Interceptors({LoginInterceptador.class, ConsultaUnicaInterceptador.class})
     public String removerAutor(@PathParam("cfp") String cpf, @Context HttpServletRequest request,
             @Context HttpHeaders httpHeaders) {
         autorService.remover(cpf);
