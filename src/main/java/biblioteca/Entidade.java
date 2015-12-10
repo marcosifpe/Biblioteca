@@ -55,8 +55,6 @@ public abstract class Entidade implements Serializable {
         return this.getClass().getName() + "[ id=" + id + " ]";
     }
     
-  
-
     public String toJson() {
         Gson gson = new GsonBuilder().setExclusionStrategies(new JsonExclusionStrategy()).create();
         return gson.toJson(this);
