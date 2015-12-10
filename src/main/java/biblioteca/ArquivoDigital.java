@@ -1,5 +1,6 @@
 package biblioteca;
 
+import com.google.gson.annotations.Expose;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.Serializable;
@@ -8,7 +9,6 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.FetchType;
 import javax.persistence.Lob;
-import json.JsonExclude;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
@@ -18,15 +18,14 @@ import org.primefaces.model.StreamedContent;
  */
 @Embeddable
 public class ArquivoDigital implements Serializable {
-    @JsonExclude
     @Lob
     @Basic(fetch = FetchType.LAZY, optional = true)
     @Column(name = "BLOB_ARQUIVO", nullable = true)
     private byte[] arquivo;   
-    @JsonExclude    
     @ExtensaoDocumento
     @Column(name = "TXT_EXTENSAO_ARQUIVO", nullable = true)
     private String extensao;
+    @Expose
     @Column(name = "TXT_NOME_ARQUIVO", nullable = true)
     private String nome;
 

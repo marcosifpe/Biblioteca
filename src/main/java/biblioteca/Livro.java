@@ -1,5 +1,6 @@
 package biblioteca;
 
+import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -54,27 +55,33 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class Livro extends Entidade implements Serializable {
     public static final String LIVROS = "Livros";
     public static final String LIVRO_POR_ISBN = "LivroPorIsbn";
+    @Expose
     @NotBlank
     @Size(max = 17)
     @Pattern(regexp = "[0-9]{3}-[0-9]{2}-[0-9]{4}-[0-9]{3}-[0-9]{1}")
     @Column(name = "TXT_ISBN", length = 17, nullable = false)
     private String isbn;
+    @Expose    
     @NotBlank
     @Size(max = 100)
     @Column(name = "TXT_TITULO", length = 100, nullable = false)
     private String titulo;
+    @Expose    
     @NotNull
     @Past
     @Temporal(TemporalType.DATE)
     @Column(name = "DT_LANCAMENTO", nullable = false)
     protected Date dataLancamento;
+    @Expose    
     @NotNull    
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DT_CRIACAO", nullable = false)
-    protected Date dataCriacao;    
+    protected Date dataCriacao;   
+    @Expose    
     @Valid
     @Embedded
     private ArquivoDigital arquivoDigital;
+    @Expose    
     @NotEmpty
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "TB_LIVRO_AUTOR", joinColumns = {
@@ -82,6 +89,7 @@ public class Livro extends Entidade implements Serializable {
             inverseJoinColumns = {
                 @JoinColumn(name = "ID_AUTOR")})
     private Collection<Autor> autores;    
+    @Expose    
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_EDITORA", referencedColumnName = "ID", nullable = false)

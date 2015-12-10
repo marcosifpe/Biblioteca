@@ -6,13 +6,11 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.Serializable;
 import java.io.StringReader;
+import java.text.DateFormat;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
-import json.JsonExclude;
-import json.JsonExclusionStrategy;
-
 /**
  *
  * @author MASC
@@ -20,7 +18,6 @@ import json.JsonExclusionStrategy;
 @MappedSuperclass
 public abstract class Entidade implements Serializable {
 
-    @JsonExclude
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
@@ -59,7 +56,7 @@ public abstract class Entidade implements Serializable {
     }
     
     public String toJson() {
-        Gson gson = new GsonBuilder().setExclusionStrategies(new JsonExclusionStrategy()).create();
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setDateFormat(DateFormat.SHORT).create();
         return gson.toJson(this);
     }
     

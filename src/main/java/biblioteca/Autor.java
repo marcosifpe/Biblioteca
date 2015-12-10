@@ -1,10 +1,9 @@
 package biblioteca;
 
+import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Column;
@@ -17,7 +16,6 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import json.JsonExclude;
 import org.hibernate.validator.constraints.br.CPF;
 
 /**
@@ -44,18 +42,20 @@ import org.hibernate.validator.constraints.br.CPF;
 public class Autor extends Entidade implements Serializable {
     public static final String AUTOR_POR_CPF = "AutorPorCpf";
     public static final String AUTORES = "Autores";
+    @Expose
     @Size(max = 20)
     @Pattern(regexp = "\\p{Upper}{1}\\p{Lower}+", message = "{biblioteca.Autor.nome}")
     @Column(name = "TXT_PRIMEIRO_NOME", length = 20, nullable = false)
     private String primeiroNome;
+    @Expose    
     @Size(max = 20)
     @Pattern(regexp = "[A-Z]{1}[a-z]+", message = "{biblioteca.Autor.nome}")
     @Column(name = "TXT_ULTIMO_NOME", length = 20, nullable = false)
     private String ultimoNome;
+    @Expose    
     @CPF
     @Column(name = "TXT_CPF", length = 14, nullable = false)
     private String cpf;
-    @JsonExclude
     @ManyToMany(mappedBy = "autores", fetch = FetchType.LAZY)
     private List<Livro> livros;
 
