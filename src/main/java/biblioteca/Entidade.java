@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.Serializable;
 import java.io.StringReader;
-import java.text.DateFormat;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
