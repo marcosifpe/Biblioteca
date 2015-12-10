@@ -28,7 +28,6 @@ import service.LivroService;
  */
 @Path("livro")
 @Stateless
-@Interceptors({LoginInterceptador.class})
 @TransactionManagement(TransactionManagementType.CONTAINER)
 @TransactionAttribute(TransactionAttributeType.SUPPORTS)
 public class LivroWebService {
@@ -39,6 +38,7 @@ public class LivroWebService {
     @GET
     @Path("isbn/{isbn}")
     @Produces("application/json")
+    @Interceptors({LoginInterceptador.class, ConsultaUnicaInterceptador.class})
     public String getLivro(@PathParam("isbn") String isbn, @Context HttpServletRequest request,
             @Context HttpHeaders httpHeaders) {
         Livro livro = livroService.getLivro(isbn);
