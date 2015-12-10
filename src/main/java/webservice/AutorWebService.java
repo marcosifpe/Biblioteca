@@ -26,6 +26,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import service.AutorService;
+import service.ExcecaoNegocio;
 
 /**
  *
@@ -42,7 +43,7 @@ public class AutorWebService extends JsonWebService<Autor>{
     @GET
     @Path("get")
     @Produces("application/json")    
-    @Interceptors({LoginInterceptador.class, ConsultaUnicaInterceptador.class})
+    @Interceptors({LoginInterceptador.class, ExcecaoInterceptador.class})
     public String getAutor(@QueryParam("cpf") String cpf, @Context HttpServletRequest request,
             @Context HttpHeaders httpHeaders) {
         Autor autor = autorService.getAutor(cpf);
@@ -53,7 +54,7 @@ public class AutorWebService extends JsonWebService<Autor>{
     @Path("salvar")
     @Produces("application/json")
     @Consumes("application/json")    
-    @Interceptors({LoginInterceptador.class, SalvarInterceptador.class})
+    @Interceptors({LoginInterceptador.class, ExcecaoInterceptador.class})
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public String salvarAutor(String jsonAutor, @Context HttpServletRequest request,
             @Context HttpHeaders httpHeaders) throws IOException {
@@ -66,7 +67,7 @@ public class AutorWebService extends JsonWebService<Autor>{
     @Path("atualizar")
     @Produces("application/json")
     @Consumes("application/json")    
-    @Interceptors({LoginInterceptador.class, SalvarInterceptador.class})
+    @Interceptors({LoginInterceptador.class, ExcecaoInterceptador.class})
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public String atualizarAutor(@QueryParam("cpf") String cpf, String jsonAutor, @Context HttpServletRequest request,
             @Context HttpHeaders httpHeaders) throws IOException {
@@ -80,9 +81,9 @@ public class AutorWebService extends JsonWebService<Autor>{
     @DELETE
     @Path("remover/{cfp}")
     @Produces("application/json")   
-    @Interceptors({LoginInterceptador.class, ConsultaUnicaInterceptador.class})
+    @Interceptors({LoginInterceptador.class, ExcecaoInterceptador.class})
     public String removerAutor(@PathParam("cfp") String cpf, @Context HttpServletRequest request,
-            @Context HttpHeaders httpHeaders) {
+            @Context HttpHeaders httpHeaders) throws ExcecaoNegocio {
         autorService.remover(cpf);
         return super.getRespostaSucesso();
     }

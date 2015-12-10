@@ -59,6 +59,10 @@ public abstract class Entidade implements Serializable {
         return gson.toJson(this);
     }
     
+    public boolean isInativo() {
+        return false;
+    }
+    
     protected static Entidade criar(String json, Class clazz) {
         Entidade entidade = null;
         try {

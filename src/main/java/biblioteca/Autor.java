@@ -102,4 +102,9 @@ public class Autor extends Entidade implements Serializable {
     public boolean add(Livro livro) {
         return livros.add(livro);
     }
+    
+    @Override
+    public boolean isInativo() {
+        return this.livros.isEmpty();
+    }
 }

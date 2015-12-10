@@ -37,14 +37,17 @@ public class AutorService extends Service<Autor> {
     
     @TransactionAttribute(TransactionAttributeType.REQUIRED)    
     @RolesAllowed({Papel.ADMINISTRADOR})
-    public void remover(Autor autor) {
-        entityManager.merge(autor);
-        entityManager.remove(autor);
+    public void remover(Autor autor) throws ExcecaoNegocio {
+        autor = entityManager.merge(autor);
+        if (autor.isInativo())
+            entityManager.remove(autor);
+        else
+            throw new ExcecaoNegocio("Autor não está inativo");
     }
     
     @TransactionAttribute(TransactionAttributeType.REQUIRED)    
     @RolesAllowed({Papel.ADMINISTRADOR})
-    public void remover(String cpf) {
+    public void remover(String cpf) throws ExcecaoNegocio {        
         Autor autor = getAutor(cpf);
         remover(autor);
     }    

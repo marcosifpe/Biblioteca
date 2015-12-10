@@ -38,7 +38,7 @@ public class LivroWebService {
     @GET
     @Path("isbn/{isbn}")
     @Produces("application/json")
-    @Interceptors({LoginInterceptador.class, ConsultaUnicaInterceptador.class})
+    @Interceptors({LoginInterceptador.class, ExcecaoInterceptador.class})
     public String getLivro(@PathParam("isbn") String isbn, @Context HttpServletRequest request,
             @Context HttpHeaders httpHeaders) {
         Livro livro = livroService.getLivro(isbn);
