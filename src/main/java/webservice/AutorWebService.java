@@ -62,6 +62,21 @@ public class AutorWebService extends JsonWebService<Autor>{
         return super.getRespostaSucesso();
     }
     
+    @POST
+    @Path("atualizar")
+    @Produces("application/json")
+    @Consumes("application/json")    
+    @Interceptors({LoginInterceptador.class, SalvarInterceptador.class})
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public String atualizarAutor(@QueryParam("cpf") String cpf, String jsonAutor, @Context HttpServletRequest request,
+            @Context HttpHeaders httpHeaders) throws IOException {
+        Autor autorAlterado = Autor.criar(jsonAutor);
+        Autor autor = autorService.getAutor(cpf);
+        atualizar(autorAlterado, autor);
+        autorService.atualizar(autor);
+        return super.getRespostaSucesso();
+    }
+
     @DELETE
     @Path("remover/{cfp}")
     @Produces("application/json")   
@@ -70,5 +85,10 @@ public class AutorWebService extends JsonWebService<Autor>{
             @Context HttpHeaders httpHeaders) {
         autorService.remover(cpf);
         return super.getRespostaSucesso();
-    } 
+    }
+    
+    private void atualizar(Autor autorAlterado, Autor autor) {
+        autor.setPrimeiroNome(autorAlterado.getPrimeiroNome());
+        autor.setUltimoNome(autorAlterado.getUltimoNome());
+    }
 }
