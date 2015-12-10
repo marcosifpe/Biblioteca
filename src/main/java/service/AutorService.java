@@ -33,6 +33,7 @@ public class AutorService extends Service<Autor> {
     @RolesAllowed({Papel.ADMINISTRADOR})
     public void atualizar(Autor autor) {
         entityManager.merge(autor);
+        entityManager.flush();
     }    
     
     @TransactionAttribute(TransactionAttributeType.REQUIRED)    

@@ -16,6 +16,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import javax.validation.groups.Default;
 import org.hibernate.validator.constraints.br.CPF;
 
 /**
@@ -43,17 +44,17 @@ public class Autor extends Entidade implements Serializable {
     public static final String AUTOR_POR_CPF = "AutorPorCpf";
     public static final String AUTORES = "Autores";
     @Expose
-    @Size(max = 20)
-    @Pattern(regexp = "\\p{Upper}{1}\\p{Lower}+", message = "{biblioteca.Autor.nome}")
+    @Size(max = 20, groups = {Default.class})
+    @Pattern(regexp = "\\p{Upper}{1}\\p{Lower}+", message = "{biblioteca.Autor.nome}", groups = {Default.class})
     @Column(name = "TXT_PRIMEIRO_NOME", length = 20, nullable = false)
     private String primeiroNome;
     @Expose    
-    @Size(max = 20)
-    @Pattern(regexp = "[A-Z]{1}[a-z]+", message = "{biblioteca.Autor.nome}")
+    @Size(max = 20, groups = {Default.class})
+    @Pattern(regexp = "[A-Z]{1}[a-z]+", message = "{biblioteca.Autor.nome}", groups = {Default.class})
     @Column(name = "TXT_ULTIMO_NOME", length = 20, nullable = false)
     private String ultimoNome;
     @Expose    
-    @CPF
+    @CPF(groups = {Default.class})
     @Column(name = "TXT_CPF", length = 14, nullable = false)
     private String cpf;
     @ManyToMany(mappedBy = "autores", fetch = FetchType.LAZY)

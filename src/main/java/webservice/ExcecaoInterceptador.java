@@ -26,7 +26,7 @@ public class ExcecaoInterceptador extends JsonInterceptador {
         boolean found = false;
         try {
             result = context.proceed();
-        } catch (Exception ex) {
+        } catch (Throwable ex) {
             @SuppressWarnings("ThrowableResultIgnored")
             Throwable ex1 = ex;
             while (ex1 != null) {
