@@ -1,5 +1,6 @@
 package biblioteca;
 
+import excecao.ExcecaoSistema;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.io.IOException;
@@ -69,36 +70,39 @@ public abstract class Entidade implements Serializable {
         return false;
     }
 
-    protected static Entidade criar(String json, Class clazz) {
-        Entidade entidade = null;
-        try {
-            Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
-            Reader reader = new StringReader(json);
-            entidade = (Entidade) gson.fromJson(reader, clazz);
-            reader.close();
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
+    private static Entidade criar(String json, Class clazz) throws IOException {
+        Entidade entidade;
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+        Reader reader = new StringReader(json);
+        entidade = (Entidade) gson.fromJson(reader, clazz);
+        reader.close();
+
         return entidade;
     }
 
-    public void set(Entidade outra) throws NoSuchMethodException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
-        Class classe = this.getClass();
-        for (Field atributo : classe.getDeclaredFields()) {
-            atributo.setAccessible(true);
-            if (!Modifier.isFinal(atributo.getModifiers())
-                    && !Modifier.isStatic(atributo.getModifiers())) {
-                Object valor = atributo.get(outra);
-                if (valor != null && !(valor instanceof Collection)) {
-                    StringBuilder nomeMetodo = new StringBuilder("set");
-                    nomeMetodo.append(atributo.getName().substring(0, 1).toUpperCase());
-                    nomeMetodo.append(atributo.getName().substring(1));
-                    
-                    Method metodo = classe.getDeclaredMethod(nomeMetodo.toString(), atributo.getType());
-                    metodo.setAccessible(true);
-                    metodo.invoke(this, valor);                           
+    public void setAtributos(String json) {
+        try {
+            Class classe = this.getClass();
+            Entidade entidade = criar(json, classe);
+
+            for (Field atributo : classe.getDeclaredFields()) {
+                atributo.setAccessible(true);
+                if (!Modifier.isFinal(atributo.getModifiers())
+                        && !Modifier.isStatic(atributo.getModifiers())) {
+                    Object valor = atributo.get(entidade);
+                    if (valor != null && !(valor instanceof Collection)) {
+                        StringBuilder nomeMetodo = new StringBuilder("set");
+                        nomeMetodo.append(atributo.getName().substring(0, 1).toUpperCase());
+                        nomeMetodo.append(atributo.getName().substring(1));
+
+                        Method metodo = classe.getDeclaredMethod(nomeMetodo.toString(), atributo.getType());
+                        metodo.setAccessible(true);
+                        metodo.invoke(this, valor);
+                    }
                 }
             }
+        } catch (IOException | SecurityException | IllegalArgumentException | IllegalAccessException | NoSuchMethodException | InvocationTargetException ex) {
+            throw new ExcecaoSistema(ex);
         }
     }
 

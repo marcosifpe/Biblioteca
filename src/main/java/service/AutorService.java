@@ -1,5 +1,6 @@
 package service;
 
+import excecao.ExcecaoNegocio;
 import acesso.Papel;
 import biblioteca.Autor;
 import java.util.List;

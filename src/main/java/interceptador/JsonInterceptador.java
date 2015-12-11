@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package webservice;
+package interceptador;
 
 import com.google.gson.Gson;
 import java.io.IOException;
@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import webservice.RespostaJson;
 
 /**
  *

@@ -1,14 +1,18 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package interceptador;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
+import interceptador.JsonInterceptador;
+import excecao.ExcecaoNegocio;
+import excecao.ExcecaoSistema;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
 import javax.persistence.EntityExistsException;
+import javax.persistence.NoResultException;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
@@ -16,56 +20,59 @@ import javax.validation.ConstraintViolationException;
  *
  * @author MASC
  */
-public class ExcecaoInterceptador {
-    private Properties properties;
-    private static final Logger LOGGER = Logger.getLogger(ExcecaoInterceptador.class.getName());
-    
-    public ExcecaoInterceptador() {
-        properties = new Properties();
-        InputStream is = this.getClass().getClassLoader().getResourceAsStream("Exception.properties");
-        
-        if (is != null) {
-            try {
-                properties.load(is);
-            } catch (IOException ex) {
-                LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
-            }
-        }
-    }
-    
+public class ExcecaoInterceptador extends JsonInterceptador {
+
     @AroundInvoke
     public Object intercept(InvocationContext context) throws Exception {
-        StringBuilder str, str2;
+        Object result = null;
+        boolean found = false;
         try {
-            return context.proceed();
-        } catch (ConstraintViolationException ex) {
-            str = new StringBuilder();
-            str2 = new StringBuilder();
-            Set<ConstraintViolation<?>> constraintViolations = ex.getConstraintViolations();
-            
-            for (ConstraintViolation violation : constraintViolations) {
-                if (str2.length() != 0) {
-                    str2.append("; ");
-                }
+            result = context.proceed();
+        } catch (Throwable throwable) {
+            @SuppressWarnings("ThrowableResultIgnored")
+            Throwable cause = throwable;
+            while (cause != null) {
+                if (cause instanceof EntityExistsException) {
+                    found = true;
+                    result = super.getJson(cause.getClass().getName());
+                    break;
+                } else if (cause instanceof NoResultException) {
+                    found = true;                    
+                    result = super.getJson(cause.getClass().getName());
+                    break;                    
+                } else if (cause instanceof ConstraintViolationException) {
+                    found = true;                    
+                    ConstraintViolationException violations = (ConstraintViolationException) cause;
+                    StringBuilder builder = new StringBuilder();
+                    Set<ConstraintViolation<?>> constraintViolations = violations.getConstraintViolations();
 
-                str2.append(violation.getPropertyPath());
-                str2.append(" ");
-                str2.append(violation.getMessage());
+                    for (ConstraintViolation violation : constraintViolations) {
+                        if (builder.length() != 0) {
+                            builder.append("; ");
+                        }
+
+                        builder.append(violation.getPropertyPath());
+                        builder.append(" ");
+                        builder.append(violation.getMessage());
+                    }
+
+                    result = super.getJson(cause.getClass().getName(), builder.toString());
+                    break;                  
+                } else if (cause instanceof ExcecaoNegocio) {
+                    found = true;                    
+                    result = super.getJson(cause);
+                } else if (cause instanceof ExcecaoSistema) {
+                    found = true;
+                    result = super.getJson(cause);
+                }
+                
+                cause = cause.getCause();
             }
-            
-            str.append(String.format((String) properties.get("javax.validation.ConstraintViolationException"), str2.toString()));
-            LOGGER.log(Level.WARNING, ex.getMessage(), ex);
-            return new String[]{Boolean.FALSE.toString(), str.toString()};
-        } catch (EntityExistsException ex) {
-            str = new StringBuilder();
-            str.append(String.format(properties.get("javax.persistence.EntityExistsException").toString(), ex.getMessage()));
-            LOGGER.log(Level.WARNING, ex.getMessage(), ex);
-            return new String[]{Boolean.FALSE.toString(), str.toString()};
-        } catch (Exception ex) {
-            str = new StringBuilder();
-            str.append(properties.get("java.lang.Exception"));
-            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
-            return new String[]{Boolean.FALSE.toString(), str.toString()};            
+
+            if (!found)
+                throw throwable;
         }
+
+        return result;
     }
 }

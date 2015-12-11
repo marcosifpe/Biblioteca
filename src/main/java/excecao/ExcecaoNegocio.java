@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package service;
+package excecao;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,7 +18,7 @@ import javax.ejb.ApplicationException;
 @ApplicationException(rollback = true)
 public class ExcecaoNegocio extends Exception {
     private static final Properties properties = new Properties();
-    public static final String AUTOR_SERVICE_REMOVER = "service.ExcecaoNegocio.AutorService.remover";
+    public static final String AUTOR_SERVICE_REMOVER = "excecao.ExcecaoNegocio.AutorService.remover";
     
     static {
         InputStream is = ExcecaoNegocio.class.getClassLoader().getResourceAsStream("Exception.properties");

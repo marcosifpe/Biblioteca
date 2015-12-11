@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package webservice;
+package interceptador;
 
+import interceptador.JsonInterceptador;
 import acesso.Papel;
 import javax.annotation.Resource;
 import javax.ejb.SessionContext;

@@ -5,6 +5,8 @@
  */
 package webservice;
 
+import interceptador.LoginInterceptador;
+import interceptador.ExcecaoInterceptador;
 import biblioteca.Livro;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
