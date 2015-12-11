@@ -20,6 +20,9 @@ import javax.ws.rs.core.HttpHeaders;
  */
 public class LoginInterceptador extends JsonInterceptador {
 
+    private static final String CHAVE_ACESSO_NAO_AUTORIZADO = "acesso.nao.autorizado";
+    private static final String CHAVE_CREDENCIAIS_OMITIDAS = "acesso.credenciais.omitidadas";
+
     @Resource
     private SessionContext sessionContext;
 
@@ -71,18 +74,20 @@ public class LoginInterceptador extends JsonInterceptador {
                     if (sessionContext.isCallerInRole(Papel.ADMINISTRADOR)) {
                         result = context.proceed();
                     } else {
-                        result = super.getJson(false, (String) properties.get("login.acessoNaoAutorizado"));
+                        result = super.getJson(CHAVE_ACESSO_NAO_AUTORIZADO);
                     }
 
                 } catch (ServletException ex) {
-                    result = super.getJson(false, (String) properties.get(ex.getClass().getName()));
+                    result = super.getJson(ex.getClass().getName());
                 }
             } else {
-                result = super.getJson(false, (String) properties.get("login.credenciaisOmitidadas"));
+                result = super.getJson(CHAVE_CREDENCIAIS_OMITIDAS);
             }
         } finally {
             if (servletRequest != null) {
-                servletRequest.getSession().invalidate();
+                if (servletRequest.getSession(false) != null) {
+                    servletRequest.getSession(false).invalidate();
+                }
                 servletRequest.logout();
             }
         }

@@ -8,7 +8,6 @@ package service;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.ApplicationException;
 

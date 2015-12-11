@@ -46,9 +46,21 @@ public abstract class JsonInterceptador {
         
     }    
 
-    protected String getJson(boolean sucesso, String mensagem) {
-        RespostaJson respostaJson = new RespostaJson(sucesso, mensagem);
+    protected String getJson(String chave) {
+        RespostaJson respostaJson = new RespostaJson(false, properties.getProperty(chave));
         Gson gson = new Gson();
         return gson.toJson(respostaJson);
+    }
+    
+    protected String getJson(String chave, String mensagemComplementar) {       
+        RespostaJson respostaJson = new RespostaJson(false, String.format((String) properties.get(chave), mensagemComplementar));
+        Gson gson = new Gson();
+        return gson.toJson(respostaJson);
+    }    
+
+    Object getJson(Throwable causa) {
+        RespostaJson respostaJson = new RespostaJson(false, causa.getMessage());
+        Gson gson = new Gson();
+        return gson.toJson(respostaJson);        
     }
 }

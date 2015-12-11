@@ -32,35 +32,33 @@ public class ExcecaoInterceptador extends JsonInterceptador {
             while (cause != null) {
                 if (cause instanceof EntityExistsException) {
                     found = true;
-                    result = super.getJson(false, (String) properties.get(cause.getClass().getName()));
+                    result = super.getJson(cause.getClass().getName());
                     break;
                 } else if (cause instanceof NoResultException) {
                     found = true;                    
-                    result = super.getJson(false, (String) properties.get(cause.getClass().getName()));
+                    result = super.getJson(cause.getClass().getName());
                     break;                    
                 } else if (cause instanceof ConstraintViolationException) {
                     found = true;                    
                     ConstraintViolationException violations = (ConstraintViolationException) cause;
-                    StringBuilder str = new StringBuilder();
-                    StringBuilder str2 = new StringBuilder();
+                    StringBuilder builder = new StringBuilder();
                     Set<ConstraintViolation<?>> constraintViolations = violations.getConstraintViolations();
 
                     for (ConstraintViolation violation : constraintViolations) {
-                        if (str2.length() != 0) {
-                            str2.append("; ");
+                        if (builder.length() != 0) {
+                            builder.append("; ");
                         }
 
-                        str2.append(violation.getPropertyPath());
-                        str2.append(" ");
-                        str2.append(violation.getMessage());
+                        builder.append(violation.getPropertyPath());
+                        builder.append(" ");
+                        builder.append(violation.getMessage());
                     }
 
-                    str.append(String.format((String) properties.get(cause.getClass().getName()), str2.toString()));
-                    result = super.getJson(false, str.toString());
+                    result = super.getJson(cause.getClass().getName(), builder.toString());
                     break;                  
                 } else if (cause instanceof ExcecaoNegocio) {
                     found = true;                    
-                    result = super.getJson(false, cause.getMessage());
+                    result = super.getJson(cause);
                 }
                 
                 cause = cause.getCause();
