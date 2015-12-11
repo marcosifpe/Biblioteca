@@ -59,6 +59,11 @@ public class Autor extends Entidade implements Serializable {
     @ManyToMany(mappedBy = "autores", fetch = FetchType.LAZY)
     private List<Livro> livros;
 
+    public Autor(String json) {
+        super(json);        
+        this.livros = new ArrayList<>();
+    }
+    
     public Autor() {
         this.livros = new ArrayList<>();
     }

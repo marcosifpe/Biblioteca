@@ -60,8 +60,7 @@ public class AutorWebService extends JsonWebService<Autor> {
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public String salvarAutor(String jsonAutor, @Context HttpServletRequest request,
             @Context HttpHeaders httpHeaders) {
-        Autor autor = new Autor();
-        autor.setAtributos(jsonAutor);
+        Autor autor = new Autor(jsonAutor);
         autorService.salvar(autor);
         return super.getRespostaSucesso();
     }

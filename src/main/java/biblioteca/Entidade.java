@@ -27,6 +27,14 @@ public abstract class Entidade implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
+    
+    public Entidade() {
+        
+    }
+    
+    public Entidade(String json) {
+        setAtributos(json);
+    }
 
     public Long getId() {
         return id;
