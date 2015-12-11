@@ -82,6 +82,7 @@ public class AutorWebService extends JsonWebService<Autor>{
     @Path("remover/{cfp}")
     @Produces("application/json")   
     @Interceptors({LoginInterceptador.class, ExcecaoInterceptador.class})
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)    
     public String removerAutor(@PathParam("cfp") String cpf, @Context HttpServletRequest request,
             @Context HttpHeaders httpHeaders) throws ExcecaoNegocio {
         autorService.remover(cpf);
