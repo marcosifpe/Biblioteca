@@ -30,7 +30,9 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import service.AutorService;
 import excecao.ExcecaoNegocio;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -62,10 +64,19 @@ public class AutorWebService extends JsonWebService<Autor> {
     public String getAutores(@Context HttpServletRequest request,
             @Context HttpHeaders httpHeaders) {
         List<Autor> autores = autorService.getAutores();
-        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setDateFormat("dd/MM/yyyy hh:mm:ss").create();        
-        return gson.toJson(autores);
+        return getAutores(autores);
     }
 
+    private String getAutores(List<Autor> autores) {
+        GsonBuilder builder = new GsonBuilder();
+        builder = builder.excludeFieldsWithoutExposeAnnotation();
+        builder = builder.setDateFormat("dd/MM/yyyy hh:mm:ss");
+        Gson gson = builder.create();
+        Map autoresMap = new HashMap<String, List<Autor>>();
+        autoresMap.put("autores", autores);
+        return gson.toJson(autoresMap);        
+    }
+    
     @POST
     @Path("salvar")
     @Produces("application/json")
