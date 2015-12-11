@@ -26,21 +26,21 @@ public class ExcecaoInterceptador extends JsonInterceptador {
         boolean found = false;
         try {
             result = context.proceed();
-        } catch (Throwable ex) {
+        } catch (Throwable throwable) {
             @SuppressWarnings("ThrowableResultIgnored")
-            Throwable ex1 = ex;
-            while (ex1 != null) {
-                if (ex1 instanceof EntityExistsException) {
+            Throwable cause = throwable;
+            while (cause != null) {
+                if (cause instanceof EntityExistsException) {
                     found = true;
                     result = getResult("erro", "Objeto existente");
                     break;
-                } else if (ex1 instanceof NoResultException) {
+                } else if (cause instanceof NoResultException) {
                     found = true;                    
                     result = getResult("erro", "Objeto inexistente");
                     break;                    
-                } else if (ex1 instanceof ConstraintViolationException) {
+                } else if (cause instanceof ConstraintViolationException) {
                     found = true;                    
-                    ConstraintViolationException violations = (ConstraintViolationException) ex1;
+                    ConstraintViolationException violations = (ConstraintViolationException) cause;
                     StringBuilder str = new StringBuilder();
                     StringBuilder str2 = new StringBuilder();
                     Set<ConstraintViolation<?>> constraintViolations = violations.getConstraintViolations();
@@ -58,16 +58,16 @@ public class ExcecaoInterceptador extends JsonInterceptador {
                     str.append(String.format("Erro(s) de validação: %s", str2.toString()));
                     result = getResult("erro", str.toString());
                     break;                  
-                } else if (ex1 instanceof ExcecaoNegocio) {
+                } else if (cause instanceof ExcecaoNegocio) {
                     found = true;                    
-                    result = getResult("erro", ex1.getMessage());
+                    result = getResult("erro", cause.getMessage());
                 }
                 
-                ex1 = ex1.getCause();
+                cause = cause.getCause();
             }
 
             if (!found)
-                throw ex;
+                throw throwable;
         }
 
         return result;
