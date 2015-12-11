@@ -6,6 +6,7 @@
 package jsf.beans;
 
 import biblioteca.Entidade;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJBException;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -19,10 +20,11 @@ import javax.persistence.EntityExistsException;
 public abstract class Bean<T extends Entidade> {
 
     protected T entidade;
-
-    public Bean() {
+    
+    @PostConstruct
+    public void init() {
         iniciarCampos();
-    }
+    }    
 
     protected abstract void iniciarCampos();
 

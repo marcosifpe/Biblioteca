@@ -34,7 +34,7 @@ public class LivroBean extends Bean<Livro> implements Serializable {
 
     @Override
     protected void iniciarCampos() {
-        setEntidade(new Livro());
+        setEntidade(livroService.criar());
     }
 
     public void upload(FileUploadEvent event) {

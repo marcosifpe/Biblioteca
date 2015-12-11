@@ -43,4 +43,10 @@ public class LivroService extends Service<Livro> {
     public Livro getLivro(String isbn) {
         return getSingleResult(LIVRO_POR_ISBN, new Object[]{isbn});
     }
+    
+    @TransactionAttribute(SUPPORTS)
+    @PermitAll
+    public Livro criar() {
+        return new Livro();
+    }    
 }

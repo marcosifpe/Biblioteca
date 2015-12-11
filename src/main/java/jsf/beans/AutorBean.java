@@ -2,6 +2,7 @@ package jsf.beans;
 
 import biblioteca.Autor;
 import java.io.Serializable;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -14,12 +15,13 @@ import service.AutorService;
 @ManagedBean(name = "autorBean")
 @ViewScoped
 public class AutorBean extends Bean<Autor> implements Serializable {
+
     @EJB
     private AutorService autorService;
 
     @Override
     protected void iniciarCampos() {
-        this.entidade = new Autor();
+        setEntidade(autorService.criar());
     }
 
     @Override

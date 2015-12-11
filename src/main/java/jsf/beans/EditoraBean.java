@@ -19,7 +19,7 @@ public class EditoraBean extends Bean<Editora> implements Serializable {
 
     @Override
     protected void iniciarCampos() {
-        setEntidade(new Editora());
+        setEntidade(editoraService.criar());
     }
 
     @Override

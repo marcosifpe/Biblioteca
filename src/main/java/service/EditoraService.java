@@ -44,4 +44,9 @@ public class EditoraService extends Service<Editora> {
     public List<Editora> getEditoras() {
         return getResultList(EDITORAS);
     }
+    
+    @TransactionAttribute(SUPPORTS)
+    public Editora criar() {
+        return new Editora();
+    }
 }
