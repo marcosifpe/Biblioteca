@@ -37,7 +37,7 @@ public class Editora extends Entidade implements Serializable {
     @Expose
     @NotBlank
     @Size(max = 50)
-    @Column(name = "TXT_NOME", length = 50, nullable = false)
+    @Column(name = "TXT_NOME", length = 50, nullable = false, updatable = false)
     private String nome;
     
     public String getNome() {

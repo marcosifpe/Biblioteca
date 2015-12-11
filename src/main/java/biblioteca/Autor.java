@@ -54,7 +54,7 @@ public class Autor extends Entidade implements Serializable {
     private String ultimoNome;
     @Expose    
     @CPF
-    @Column(name = "TXT_CPF", length = 14, nullable = false)
+    @Column(name = "TXT_CPF", length = 14, nullable = false, updatable = false)
     private String cpf;
     @ManyToMany(mappedBy = "autores", fetch = FetchType.LAZY)
     private List<Livro> livros;

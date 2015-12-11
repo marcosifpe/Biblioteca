@@ -59,7 +59,7 @@ public class Livro extends Entidade implements Serializable {
     @NotBlank
     @Size(max = 17)
     @Pattern(regexp = "[0-9]{3}-[0-9]{2}-[0-9]{4}-[0-9]{3}-[0-9]{1}")
-    @Column(name = "TXT_ISBN", length = 17, nullable = false)
+    @Column(name = "TXT_ISBN", length = 17, nullable = false, updatable = false)
     private String isbn;
     @Expose    
     @NotBlank
