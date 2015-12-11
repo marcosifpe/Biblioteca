@@ -5,16 +5,18 @@
  */
 package service;
 
+import static acesso.Papel.ADMINISTRADOR;
+import static acesso.Papel.USUARIO;
+import static javax.ejb.TransactionAttributeType.SUPPORTS;
+import static javax.ejb.TransactionManagementType.CONTAINER;
+
 import acesso.Grupo;
-import acesso.Papel;
 import javax.annotation.security.DeclareRoles;
 import javax.annotation.security.PermitAll;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
-import javax.ejb.TransactionManagementType;
 
 /**
  *
@@ -22,10 +24,10 @@ import javax.ejb.TransactionManagementType;
  */
 @Stateless
 @LocalBean
-@TransactionManagement(TransactionManagementType.CONTAINER)
-@DeclareRoles({Papel.ADMINISTRADOR, Papel.USUARIO})
+@TransactionManagement(CONTAINER)
+@DeclareRoles({ADMINISTRADOR, USUARIO})
 public class GrupoService extends Service<Grupo> {
-    @TransactionAttribute(TransactionAttributeType.SUPPORTS)       
+    @TransactionAttribute(SUPPORTS)       
     @PermitAll    
     public Grupo getGrupo(String nomeGrupo) {
         return getSingleResult(Grupo.GRUPO_POR_NOME, new Object[]{nomeGrupo});

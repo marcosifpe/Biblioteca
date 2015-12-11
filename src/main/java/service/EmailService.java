@@ -5,6 +5,9 @@
  */
 package service;
 
+import static javax.ejb.TransactionAttributeType.SUPPORTS;
+import static javax.ejb.TransactionManagementType.CONTAINER;
+
 import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,9 +17,7 @@ import javax.ejb.Asynchronous;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
-import javax.ejb.TransactionManagementType;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -30,8 +31,8 @@ import javax.mail.internet.MimeMessage;
  */
 @Stateless
 @LocalBean
-@TransactionManagement(TransactionManagementType.CONTAINER)
-@TransactionAttribute(TransactionAttributeType.SUPPORTS)
+@TransactionManagement(CONTAINER)
+@TransactionAttribute(SUPPORTS)
 public class EmailService {
     @Resource(name = "mail/scSession")
     private Session sessao;

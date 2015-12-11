@@ -23,23 +23,23 @@ import javax.ejb.TransactionManagement;
 @Stateless
 @LocalBean
 @TransactionManagement(CONTAINER)
+@TransactionAttribute(REQUIRED)
 @DeclareRoles({ADMINISTRADOR, USUARIO})
 public class LivroService extends Service<Livro> {
-    @TransactionAttribute(REQUIRED)    
-    @RolesAllowed({ADMINISTRADOR})    
+    @RolesAllowed({ADMINISTRADOR})
     public void salvar(Livro livro) {
         checkExistence(LIVRO_POR_ISBN, livro.getIsbn());
         entityManager.persist(livro);
     }
-     
-    @TransactionAttribute(SUPPORTS)       
-    @RolesAllowed({USUARIO})          
+
+    @TransactionAttribute(SUPPORTS)
+    @RolesAllowed({USUARIO})
     public List<Livro> getLivros() {
         return getResultList(Livro.LIVROS);
     }
-    
-    @TransactionAttribute(SUPPORTS)       
-    @PermitAll    
+
+    @TransactionAttribute(SUPPORTS)
+    @PermitAll
     public Livro getLivro(String isbn) {
         return getSingleResult(LIVRO_POR_ISBN, new Object[]{isbn});
     }
