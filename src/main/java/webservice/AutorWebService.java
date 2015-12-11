@@ -70,10 +70,10 @@ public class AutorWebService extends JsonWebService<Autor>{
     @Interceptors({LoginInterceptador.class, ExcecaoInterceptador.class})
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public String atualizarAutor(@QueryParam("cpf") String cpf, String jsonAutor, @Context HttpServletRequest request,
-            @Context HttpHeaders httpHeaders) throws IOException {
+            @Context HttpHeaders httpHeaders) throws IOException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException {
         Autor autorAlterado = Autor.criar(jsonAutor);
         Autor autor = autorService.getAutor(cpf);
-        atualizar(autorAlterado, autor);
+        autor.set(autorAlterado);
         autorService.atualizar(autor);
         return super.getRespostaSucesso();
     }
@@ -87,10 +87,5 @@ public class AutorWebService extends JsonWebService<Autor>{
             @Context HttpHeaders httpHeaders) throws ExcecaoNegocio {
         autorService.remover(cpf);
         return super.getRespostaSucesso();
-    }
-    
-    private void atualizar(Autor autorAlterado, Autor autor) {
-        autor.setPrimeiroNome(autorAlterado.getPrimeiroNome());
-        autor.setUltimoNome(autorAlterado.getUltimoNome());
     }
 }
