@@ -7,6 +7,8 @@ package webservice;
 
 import biblioteca.Entidade;
 import com.google.gson.Gson;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 /**
  *
@@ -23,5 +25,9 @@ public abstract class JsonWebService<T extends Entidade> {
         RespostaJson respostaJson = new RespostaJson(sucesso, mensagem);
         Gson gson = new Gson();
         return gson.toJson(respostaJson);
+    }
+    
+    protected Response response(T entidade) {
+        return Response.ok(entidade.toJson(), MediaType.APPLICATION_JSON).build();
     }
 }

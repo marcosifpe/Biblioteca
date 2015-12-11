@@ -43,7 +43,7 @@ public class LivroWebService extends JsonWebService<Livro> {
     @Interceptors({ExcecaoInterceptador.class})
     public Response getLivro(@PathParam("isbn") String isbn) {
         Livro livro = livroService.getLivro(isbn);
-        return Response.ok(livro.toJson(), MediaType.APPLICATION_JSON).build();
+        return super.response(livro);
     }
 
     @GET
