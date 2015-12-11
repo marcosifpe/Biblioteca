@@ -70,7 +70,7 @@ public abstract class Entidade implements Serializable {
         return false;
     }
 
-    private static Entidade criar(String json, Class clazz) throws IOException {
+    private Entidade criar(String json, Class clazz) throws IOException {
         Entidade entidade;
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         Reader reader = new StringReader(json);
