@@ -41,9 +41,9 @@ public class LivroWebService extends JsonWebService<Livro> {
     @Path("isbn/{isbn}")
     @Produces("application/json")
     @Interceptors({ExcecaoInterceptador.class})
-    public String getLivro(@PathParam("isbn") String isbn) {
+    public Response getLivro(@PathParam("isbn") String isbn) {
         Livro livro = livroService.getLivro(isbn);
-        return livro.toJson();
+        return Response.ok(livro.toJson(), MediaType.APPLICATION_JSON).build();
     }
 
     @GET
@@ -56,7 +56,7 @@ public class LivroWebService extends JsonWebService<Livro> {
 
         if (arquivoDigital != null) {
             return Response.ok(arquivoDigital.getArquivo(), MediaType.APPLICATION_OCTET_STREAM).
-                    header("content-disposition", "attachment; filename =" + arquivoDigital.getNome())
+                    header("content-disposition", "attachment; filename=" + arquivoDigital.getNome())
                     .build();
         } else {
             return Response.ok(getResposta(false, "Arquivo não encontrado"), MediaType.APPLICATION_JSON).build();
