@@ -8,6 +8,8 @@ package webservice;
 import interceptador.LoginInterceptador;
 import interceptador.ExcecaoInterceptador;
 import biblioteca.Autor;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -28,6 +30,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import service.AutorService;
 import excecao.ExcecaoNegocio;
+import java.util.List;
 
 /**
  *
@@ -50,6 +53,17 @@ public class AutorWebService extends JsonWebService<Autor> {
             @Context HttpHeaders httpHeaders) {
         Autor autor = autorService.getAutor(cpf);
         return autor.toJson();
+    }
+
+    @GET
+    @Path("get/autores")
+    @Produces("application/json")
+    @Interceptors({LoginInterceptador.class, ExcecaoInterceptador.class})
+    public String getAutores(@Context HttpServletRequest request,
+            @Context HttpHeaders httpHeaders) {
+        List<Autor> autores = autorService.getAutores();
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setDateFormat("dd/MM/yyyy hh:mm:ss").create();        
+        return gson.toJson(autores);
     }
 
     @POST
