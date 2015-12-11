@@ -25,12 +25,12 @@ import javax.ejb.TransactionManagement;
 @Stateless
 @LocalBean
 @TransactionManagement(CONTAINER)
+@TransactionAttribute(REQUIRED)
 public class EditoraService extends Service<Editora> {
 
     @Resource
     private SessionContext sessionContext;
 
-    @TransactionAttribute(REQUIRED)
     public void salvar(Editora editora) {
         if (sessionContext.isCallerInRole(ADMINISTRADOR)) {
             checkExistence(EDITORA_POR_NOME, editora.getNome());

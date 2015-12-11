@@ -1,7 +1,12 @@
 package service;
 
+import static acesso.Papel.ADMINISTRADOR;
+import static acesso.Papel.USUARIO;
+import static javax.ejb.TransactionManagementType.CONTAINER;
+import static javax.ejb.TransactionAttributeType.REQUIRED;
+import static javax.ejb.TransactionAttributeType.SUPPORTS;
+
 import excecao.ExcecaoNegocio;
-import acesso.Papel;
 import biblioteca.Autor;
 import java.util.List;
 import javax.annotation.security.DeclareRoles;
@@ -10,9 +15,7 @@ import javax.annotation.security.RolesAllowed;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
-import javax.ejb.TransactionManagementType;
 
 /**
  *
@@ -20,25 +23,23 @@ import javax.ejb.TransactionManagementType;
  */
 @Stateless(name = "autorService")
 @LocalBean
-@DeclareRoles({Papel.ADMINISTRADOR, Papel.USUARIO})
-@TransactionManagement(TransactionManagementType.CONTAINER)
-public class AutorService extends Service<Autor> {
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)    
-    @RolesAllowed({Papel.ADMINISTRADOR})
+@DeclareRoles({ADMINISTRADOR, USUARIO})
+@TransactionManagement(CONTAINER)
+@TransactionAttribute(REQUIRED) 
+public class AutorService extends Service<Autor> {   
+    @RolesAllowed({ADMINISTRADOR})
     public void salvar(Autor autor) {
         checkExistence(Autor.AUTOR_POR_CPF, autor.getCpf());
         entityManager.persist(autor);
     }
     
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)    
-    @RolesAllowed({Papel.ADMINISTRADOR})
+    @RolesAllowed({ADMINISTRADOR})
     public void atualizar(Autor autor) {
         entityManager.merge(autor);
         entityManager.flush();
     }    
     
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)    
-    @RolesAllowed({Papel.ADMINISTRADOR})
+    @RolesAllowed({ADMINISTRADOR})
     public void remover(Autor autor) throws ExcecaoNegocio {
         autor = entityManager.merge(autor);
         if (autor.isInativo())
@@ -47,22 +48,33 @@ public class AutorService extends Service<Autor> {
             throw new ExcecaoNegocio(ExcecaoNegocio.AUTOR_SERVICE_REMOVER);
     }
     
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)    
-    @RolesAllowed({Papel.ADMINISTRADOR})
+    @RolesAllowed({ADMINISTRADOR})
     public void remover(String cpf) throws ExcecaoNegocio {        
         Autor autor = getAutor(cpf);
         remover(autor);
     }    
     
-    @TransactionAttribute(TransactionAttributeType.SUPPORTS)   
+    @TransactionAttribute(SUPPORTS)   
     @PermitAll
     public List<Autor> getAutores() {
         return getResultList(Autor.AUTORES);
     }
     
-    @TransactionAttribute(TransactionAttributeType.SUPPORTS)   
+    @TransactionAttribute(SUPPORTS)   
     @PermitAll
     public Autor getAutor(String cpf) {
         return super.getSingleResult(Autor.AUTOR_POR_CPF, new Object[] {cpf});
     }
+
+    @TransactionAttribute(SUPPORTS)   
+    @PermitAll
+    public Autor criar() {
+        return new Autor();
+    }
+    
+    @TransactionAttribute(SUPPORTS)   
+    @PermitAll
+    public Autor criar(String json) {
+        return new Autor(json);
+    }    
 }
