@@ -5,16 +5,17 @@
  */
 package service;
 
+import static javax.persistence.PersistenceContextType.TRANSACTION;
+import static javax.ejb.TransactionAttributeType.SUPPORTS;
+
 import biblioteca.Entidade;
 import java.util.List;
 import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
 import javax.persistence.TypedQuery;
 
 /**
@@ -24,17 +25,17 @@ import javax.persistence.TypedQuery;
  */
 public abstract class Service<T extends Entidade> {
 
-    @PersistenceContext(name = "biblioteca", type = PersistenceContextType.TRANSACTION)
+    @PersistenceContext(name = "biblioteca", type = TRANSACTION)
     protected EntityManager entityManager;
     protected Class<T> clazz;
     
-    @TransactionAttribute(TransactionAttributeType.SUPPORTS)        
+    @TransactionAttribute(SUPPORTS)        
     protected List<T> getResultList(String nomeQuery) {
         TypedQuery<T> query = entityManager.createNamedQuery(nomeQuery, clazz);
         return query.getResultList();
     }
 
-    @TransactionAttribute(TransactionAttributeType.SUPPORTS)        
+    @TransactionAttribute(SUPPORTS)        
     protected List<T> getResultList(String nomeQuery, Object[] parametros) {
         TypedQuery<T> query = entityManager.createNamedQuery(nomeQuery, clazz);
 
@@ -46,7 +47,7 @@ public abstract class Service<T extends Entidade> {
         return query.getResultList();
     }
 
-    @TransactionAttribute(TransactionAttributeType.SUPPORTS)    
+    @TransactionAttribute(SUPPORTS)    
     protected T getSingleResult(String nomeQuery, Object[] parametros) {
         TypedQuery<T> query = entityManager.createNamedQuery(nomeQuery, clazz);
 
@@ -58,7 +59,7 @@ public abstract class Service<T extends Entidade> {
         return query.getSingleResult();
     }
 
-    @TransactionAttribute(TransactionAttributeType.SUPPORTS)        
+    @TransactionAttribute(SUPPORTS)        
     protected void checkExistence(String nomeQuery, Object parametro)
             throws EntityExistsException {
         T object;
