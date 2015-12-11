@@ -5,7 +5,6 @@
  */
 package interceptador;
 
-import interceptador.JsonInterceptador;
 import acesso.Papel;
 import javax.annotation.Resource;
 import javax.ejb.SessionContext;

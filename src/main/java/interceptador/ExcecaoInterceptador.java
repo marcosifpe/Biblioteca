@@ -5,7 +5,6 @@
  */
 package interceptador;
 
-import interceptador.JsonInterceptador;
 import excecao.ExcecaoNegocio;
 import excecao.ExcecaoSistema;
 import java.util.Set;
