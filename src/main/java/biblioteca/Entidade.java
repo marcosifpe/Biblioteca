@@ -69,9 +69,12 @@ public abstract class Entidade implements Serializable {
         return this.getClass().getName() + "[ id=" + id + " ]";
     }
 
+    protected Gson getGson() {
+        return new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setDateFormat("dd/MM/yyyy hh:mm:ss").create();
+    }
+    
     public String toJson() {
-        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setDateFormat("dd/MM/yyyy hh:mm:ss").create();
-        return gson.toJson(this);
+        return getGson().toJson(this);
     }
 
     public boolean isInativo() {
