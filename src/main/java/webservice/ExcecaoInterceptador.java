@@ -32,11 +32,11 @@ public class ExcecaoInterceptador extends JsonInterceptador {
             while (cause != null) {
                 if (cause instanceof EntityExistsException) {
                     found = true;
-                    result = getResult("erro", "Objeto existente");
+                    result = super.getJson(false, (String) properties.get(cause.getClass().getName()));
                     break;
                 } else if (cause instanceof NoResultException) {
                     found = true;                    
-                    result = getResult("erro", "Objeto inexistente");
+                    result = super.getJson(false, (String) properties.get(cause.getClass().getName()));
                     break;                    
                 } else if (cause instanceof ConstraintViolationException) {
                     found = true;                    
@@ -55,12 +55,12 @@ public class ExcecaoInterceptador extends JsonInterceptador {
                         str2.append(violation.getMessage());
                     }
 
-                    str.append(String.format("Erro(s) de validação: %s", str2.toString()));
-                    result = getResult("erro", str.toString());
+                    str.append(String.format((String) properties.get(cause.getClass().getName()), str2.toString()));
+                    result = super.getJson(false, str.toString());
                     break;                  
                 } else if (cause instanceof ExcecaoNegocio) {
                     found = true;                    
-                    result = getResult("erro", cause.getMessage());
+                    result = super.getJson(false, cause.getMessage());
                 }
                 
                 cause = cause.getCause();

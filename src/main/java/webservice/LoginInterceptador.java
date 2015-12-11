@@ -71,14 +71,14 @@ public class LoginInterceptador extends JsonInterceptador {
                     if (sessionContext.isCallerInRole(Papel.ADMINISTRADOR)) {
                         result = context.proceed();
                     } else {
-                        result = getResult("erro", "acesso desautorizado");
+                        result = super.getJson(false, (String) properties.get("login.acessoNaoAutorizado"));
                     }
 
                 } catch (ServletException ex) {
-                    result = getResult("erro", "falha na tentativa de login");
+                    result = super.getJson(false, (String) properties.get(ex.getClass().getName()));
                 }
             } else {
-                result = getResult("erro", "credenciais omitidas");
+                result = super.getJson(false, (String) properties.get("login.credenciaisOmitidadas"));
             }
         } finally {
             if (servletRequest != null) {

@@ -6,20 +6,49 @@
 package webservice;
 
 import com.google.gson.Gson;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author MASC
  */
-abstract class JsonInterceptador {
+public abstract class JsonInterceptador {
+    protected Properties properties;
+    protected static final Logger LOGGER = Logger.getLogger(JsonInterceptador.class.getName());    
+    
+    public JsonInterceptador() {
+        properties = new Properties();
+        InputStream is = this.getClass().getClassLoader().getResourceAsStream("Exception.properties");
+        
+        if (is != null) {
+            try {
+                properties.load(is);
+                is.close();
+            } catch (IOException ex) {
+                LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+            }
+        }      
+        
+        is = this.getClass().getClassLoader().getResourceAsStream("ValidationMessages_pt_BR.properties");
+        
+        if (is != null) {
+            try {
+                properties.load(is);
+                is.close();
+            } catch (IOException ex) {
+                LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+            }
+        }      
+        
+    }    
 
-    protected String getResult(String status, String mensage) {
+    protected String getJson(boolean sucesso, String mensagem) {
+        RespostaJson respostaJson = new RespostaJson(sucesso, mensagem);
         Gson gson = new Gson();
-        Map jsonMap = new HashMap<String, String>();
-        jsonMap.put("status", status);
-        jsonMap.put("mensagem", mensage);
-        return gson.toJson(jsonMap);
+        return gson.toJson(respostaJson);
     }
 }
