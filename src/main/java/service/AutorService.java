@@ -21,7 +21,7 @@ import javax.ejb.TransactionManagement;
  *
  * @author MASC
  */
-@Stateless(name = "autorService")
+@Stateless
 @LocalBean
 @DeclareRoles({ADMINISTRADOR, USUARIO})
 @TransactionManagement(CONTAINER)
