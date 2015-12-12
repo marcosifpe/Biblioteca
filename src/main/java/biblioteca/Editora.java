@@ -32,7 +32,7 @@ import org.hibernate.validator.constraints.NotBlank;
 )
 @Access(AccessType.FIELD)
 /**
- * Teste
+ * Teste...
  */
 public class Editora extends Entidade implements Serializable {
     public static final String EDITORA_POR_NOME = "EditoraPorNome";
