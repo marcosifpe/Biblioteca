@@ -50,7 +50,7 @@ public class LivroWebService extends JsonWebService<Livro> {
 
     @GET
     @Path("pdf")
-    @Produces({"application/pdf", "application/json; charset=ISO-8859-1"})
+    @Produces({"application/pdf", "application/json"})
     @Interceptors({ExcecaoInterceptador.class})
     public Response getPdf(@QueryParam("isbn") String isbn) {
         Livro livro = livroService.getLivro(isbn);
