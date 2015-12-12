@@ -11,6 +11,8 @@ import java.io.InputStream;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import webservice.RespostaJson;
 
 /**
@@ -46,22 +48,26 @@ public abstract class JsonInterceptador {
         }      
         
     }    
+    
+    protected Response response(String json) {
+        return Response.ok(json, MediaType.APPLICATION_JSON).build();
+    }
 
-    protected String getJson(String chave) {
+    protected Response getJson(String chave) {
         RespostaJson respostaJson = new RespostaJson(false, properties.getProperty(chave));
         Gson gson = new Gson();
-        return gson.toJson(respostaJson);
+        return response(gson.toJson(respostaJson));
     }
     
-    protected String getJson(String chave, String mensagemComplementar) {       
+    protected Response getJson(String chave, String mensagemComplementar) {       
         RespostaJson respostaJson = new RespostaJson(false, String.format((String) properties.get(chave), mensagemComplementar));
         Gson gson = new Gson();
-        return gson.toJson(respostaJson);
+        return response(gson.toJson(respostaJson));
     }    
 
-    Object getJson(Throwable causa) {
+    protected Response getJson(Throwable causa) {
         RespostaJson respostaJson = new RespostaJson(false, causa.getMessage());
         Gson gson = new Gson();
-        return gson.toJson(respostaJson);        
+        return response(gson.toJson(respostaJson));        
     }
 }

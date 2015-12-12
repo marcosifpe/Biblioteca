@@ -20,7 +20,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import service.LivroService;
 
@@ -39,7 +38,7 @@ public class LivroWebService extends JsonWebService<Livro> {
 
     @GET
     @Path("isbn/{isbn}")
-    @Produces("application/json")
+    @Produces("application/json; charset=ISO-8859-1")
     @Interceptors({ExcecaoInterceptador.class})
     public Response getLivro(@PathParam("isbn") String isbn) {
         Livro livro = livroService.getLivro(isbn);
@@ -48,18 +47,16 @@ public class LivroWebService extends JsonWebService<Livro> {
 
     @GET
     @Path("pdf")
-    @Produces({"application/pdf", "application/json"})
+    @Produces({"application/pdf", "application/json; charset=ISO-8859-1"})
     @Interceptors({ExcecaoInterceptador.class})
     public Response getPdf(@QueryParam("isbn") String isbn) {
         Livro livro = livroService.getLivro(isbn);
         ArquivoDigital arquivoDigital = livro.getArquivoDigital();
 
         if (arquivoDigital != null) {
-            return Response.ok(arquivoDigital.getArquivo(), MediaType.APPLICATION_OCTET_STREAM).
-                    header("content-disposition", "attachment; filename=" + arquivoDigital.getNome())
-                    .build();
+            return super.response(arquivoDigital.getArquivo(), arquivoDigital.getNome());
         } else {
-            return Response.ok(getResposta(false, "Arquivo não encontrado"), MediaType.APPLICATION_JSON).build();
+            return super.response(errorMessage("Livro não encontrado"));
         }
     }
 }
