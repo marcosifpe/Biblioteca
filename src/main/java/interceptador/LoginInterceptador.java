@@ -5,6 +5,8 @@
  */
 package interceptador;
 
+import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+
 import acesso.Papel;
 import javax.annotation.Resource;
 import javax.ejb.SessionContext;
@@ -48,22 +50,20 @@ public class LoginInterceptador extends JsonInterceptador {
 
             if (isValid(login) && isValid(senha)) {
                 try {
+                    response.setContentType(APPLICATION_JSON + ";charset=utf-8");                    
                     servletRequest.login(login, senha);
                     servletRequest.getSession(true);
 
                     if (sessionContext.isCallerInRole(Papel.ADMINISTRADOR)) {
                         result = context.proceed();
                     } else {
-                        response.setContentType("application/json; charset=utf-8");
                         result = super.getJson(CHAVE_ACESSO_NAO_AUTORIZADO);
                     }
 
                 } catch (ServletException ex) {
-                    response.setContentType("application/json; charset=utf-8");
                     result = super.getJson(ex.getClass().getName());
                 }
             } else {
-                response.setContentType("application/json; charset=utf-8");
                 result = super.getJson(CHAVE_CREDENCIAIS_OMITIDAS);
             }
         } finally {

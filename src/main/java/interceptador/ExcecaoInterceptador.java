@@ -5,6 +5,8 @@
  */
 package interceptador;
 
+import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+
 import excecao.ExcecaoNegocio;
 import excecao.ExcecaoSistema;
 import java.util.Set;
@@ -15,7 +17,6 @@ import javax.persistence.NoResultException;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-import javax.ws.rs.core.MediaType;
 
 /**
  *
@@ -30,7 +31,7 @@ public class ExcecaoInterceptador extends JsonInterceptador {
         HttpServletResponse response = super.getHttpServletResponse(context);
         
         try {
-            response.setContentType(MediaType.APPLICATION_JSON + ";charset=utf-8");            
+            response.setContentType(APPLICATION_JSON + ";charset=utf-8");            
             result = context.proceed();
         } catch (Throwable throwable) {
             Throwable cause = throwable;
