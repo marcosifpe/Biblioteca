@@ -47,7 +47,7 @@ public class LivroWebService extends JsonWebService<Livro> {
     @Interceptors({ExcecaoInterceptador.class})
     public Response getLivro(@PathParam("isbn") String isbn, @Context HttpServletResponse response) {
         Livro livro = livroService.getLivro(isbn);
-        return super.response(livro);
+        return super.getJsonResponse(livro);
     }
 
     @GET
@@ -59,9 +59,9 @@ public class LivroWebService extends JsonWebService<Livro> {
         ArquivoDigital arquivoDigital = livro.getArquivoDigital();
 
         if (arquivoDigital != null) {
-            return super.response(arquivoDigital.getArquivo(), arquivoDigital.getNome());
+            return super.getPdfResponse(arquivoDigital.getArquivo(), arquivoDigital.getNome());
         } else {
-            return super.response(errorMessage("Livro não encontrado"));
+            return super.getJsonResponse(getErrorMessage("Livro não encontrado"));
         }
     }
 }

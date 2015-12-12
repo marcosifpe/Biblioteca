@@ -19,32 +19,32 @@ import javax.ws.rs.core.Response;
  */
 public abstract class JsonWebService<T extends Entidade> {
 
-    protected String getRespostaSucesso() {
+    protected String sucess() {
         return getResposta(true, "Sucesso");
     }
 
-    protected String getResposta(boolean sucesso, String mensagem) {
+    private String getResposta(boolean sucesso, String mensagem) {
         RespostaJson respostaJson = new RespostaJson(sucesso, mensagem);
         Gson gson = new Gson();
         return gson.toJson(respostaJson);
     }
 
-    protected Response response(byte[] bytes, String fileName) {
+    protected Response getPdfResponse(byte[] bytes, String fileName) {
         return Response.ok(bytes, APPLICATION_OCTET_STREAM).
                 header("content-disposition", "attachment; filename=" + fileName)
                 .build();
     }
 
-    protected String errorMessage(String mensagem) {
+    protected String getErrorMessage(String mensagem) {
         RespostaJson respostaJson = new RespostaJson(false, mensagem);
         return new Gson().toJson(respostaJson);
     }
 
-    protected Response response(T entidade) {
-        return response(entidade.toJson());
+    protected Response getJsonResponse(T entidade) {
+        return getJsonResponse(entidade.toJson());
     }
 
-    protected Response response(String json) {
+    protected Response getJsonResponse(String json) {
         return Response.ok(json, APPLICATION_JSON).build();
     }
 }
