@@ -21,7 +21,7 @@ import org.hibernate.validator.constraints.br.CPF;
 /**
  *
  * @author MASC
- * Essa classe...
+ * Essa classe... bla bla bla
  */
 @Entity
 @Table(name = "TB_AUTOR",
