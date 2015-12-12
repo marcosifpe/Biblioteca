@@ -5,6 +5,8 @@
  */
 package webservice;
 
+import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+
 import interceptador.LoginInterceptador;
 import interceptador.ExcecaoInterceptador;
 import biblioteca.Autor;
@@ -51,7 +53,7 @@ public class AutorWebService extends JsonWebService<Autor> {
 
     @GET
     @Path("get")
-    @Produces("application/json")
+    @Produces(APPLICATION_JSON)
     @Interceptors({LoginInterceptador.class, ExcecaoInterceptador.class})
     public Response getAutor(@QueryParam("cpf") String cpf,
             @Context HttpServletRequest request,
@@ -63,7 +65,7 @@ public class AutorWebService extends JsonWebService<Autor> {
 
     @GET
     @Path("get/autores")
-    @Produces("application/json")
+    @Produces(APPLICATION_JSON)
     @Interceptors({LoginInterceptador.class, ExcecaoInterceptador.class})
     public Response getAutores(@Context HttpServletRequest request,
             @Context HttpServletResponse response,
@@ -84,8 +86,8 @@ public class AutorWebService extends JsonWebService<Autor> {
 
     @POST
     @Path("salvar")
-    @Produces("application/json")
-    @Consumes("application/json")
+    @Produces(APPLICATION_JSON)
+    @Consumes(APPLICATION_JSON)
     @Interceptors({LoginInterceptador.class, ExcecaoInterceptador.class})
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public Response salvarAutor(String jsonAutor,
@@ -99,8 +101,8 @@ public class AutorWebService extends JsonWebService<Autor> {
 
     @POST
     @Path("atualizar")
-    @Produces("application/json")
-    @Consumes("application/json")
+    @Produces(APPLICATION_JSON)
+    @Consumes(APPLICATION_JSON)
     @Interceptors({LoginInterceptador.class, ExcecaoInterceptador.class})
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public Response atualizarAutor(@QueryParam("cpf") String cpf,
@@ -116,7 +118,7 @@ public class AutorWebService extends JsonWebService<Autor> {
 
     @DELETE
     @Path("remover/{cfp}")
-    @Produces("application/json")
+    @Produces(APPLICATION_JSON)
     @Interceptors({LoginInterceptador.class, ExcecaoInterceptador.class})
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public Response removerAutor(@PathParam("cfp") String cpf,

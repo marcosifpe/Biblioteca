@@ -5,6 +5,9 @@
  */
 package webservice;
 
+import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+import static javax.ws.rs.core.MediaType.APPLICATION_OCTET_STREAM;
+
 import biblioteca.ArquivoDigital;
 import interceptador.ExcecaoInterceptador;
 import biblioteca.Livro;
@@ -40,7 +43,7 @@ public class LivroWebService extends JsonWebService<Livro> {
 
     @GET
     @Path("isbn/{isbn}")
-    @Produces("application/pdf")
+    @Produces(APPLICATION_JSON)
     @Interceptors({ExcecaoInterceptador.class})
     public Response getLivro(@PathParam("isbn") String isbn, @Context HttpServletResponse response) {
         Livro livro = livroService.getLivro(isbn);
@@ -51,7 +54,7 @@ public class LivroWebService extends JsonWebService<Livro> {
 
     @GET
     @Path("pdf")
-    @Produces({"application/pdf", "application/json"})
+    @Produces({APPLICATION_OCTET_STREAM, APPLICATION_JSON})
     @Interceptors({ExcecaoInterceptador.class})
     public Response getPdf(@QueryParam("isbn") String isbn, @Context HttpServletResponse response) {
         Livro livro = livroService.getLivro(isbn);
