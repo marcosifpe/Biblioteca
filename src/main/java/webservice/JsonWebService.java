@@ -5,9 +5,11 @@
  */
 package webservice;
 
+import static javax.ws.rs.core.MediaType.APPLICATION_OCTET_STREAM;
+import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+
 import biblioteca.Entidade;
 import com.google.gson.Gson;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 /**
@@ -28,7 +30,7 @@ public abstract class JsonWebService<T extends Entidade> {
     }
 
     protected Response response(byte[] bytes, String fileName) {
-        return Response.ok(bytes, MediaType.APPLICATION_OCTET_STREAM).
+        return Response.ok(bytes, APPLICATION_OCTET_STREAM).
                 header("content-disposition", "attachment; filename=" + fileName)
                 .build();
     }
@@ -43,6 +45,6 @@ public abstract class JsonWebService<T extends Entidade> {
     }
 
     protected Response response(String json) {
-        return Response.ok(json, MediaType.APPLICATION_JSON).build();
+        return Response.ok(json, APPLICATION_JSON).build();
     }
 }
