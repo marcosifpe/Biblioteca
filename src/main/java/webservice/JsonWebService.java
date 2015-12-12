@@ -35,8 +35,7 @@ public abstract class JsonWebService<T extends Entidade> {
 
     protected String errorMessage(String mensagem) {
         RespostaJson respostaJson = new RespostaJson(false, mensagem);
-        Gson gson = new Gson();
-        return gson.toJson(respostaJson);
+        return new Gson().toJson(respostaJson);
     }
 
     protected Response response(T entidade) {

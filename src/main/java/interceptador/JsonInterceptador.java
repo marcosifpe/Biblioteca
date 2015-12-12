@@ -87,25 +87,22 @@ public abstract class JsonInterceptador {
         return response;
     }
     
-    protected Response response(String json) {
-        return Response.ok(json, MediaType.APPLICATION_JSON).build();
+    private Response response(String json) {
+        return Response.ok(json).build();
     }
 
-    protected Response getJson(String chave) {
+    protected Response getJsonErrorResponse(String chave) {
         RespostaJson respostaJson = new RespostaJson(false, properties.getProperty(chave));
-        Gson gson = new Gson();
-        return response(gson.toJson(respostaJson));
+        return response(new Gson().toJson(respostaJson));
     }
     
-    protected Response getJson(String chave, String mensagemComplementar) {       
+    protected Response getJsonErrorResponse(String chave, String mensagemComplementar) {       
         RespostaJson respostaJson = new RespostaJson(false, String.format((String) properties.get(chave), mensagemComplementar));
-        Gson gson = new Gson();
-        return response(gson.toJson(respostaJson));
+        return response(new Gson().toJson(respostaJson));
     }    
 
-    protected Response getJson(Throwable causa) {
+    protected Response getJsonErrorResponse(Throwable causa) {
         RespostaJson respostaJson = new RespostaJson(false, causa.getMessage());
-        Gson gson = new Gson();
-        return response(gson.toJson(respostaJson));        
+        return response(new Gson().toJson(respostaJson));        
     }
 }

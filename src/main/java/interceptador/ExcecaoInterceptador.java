@@ -38,11 +38,11 @@ public class ExcecaoInterceptador extends JsonInterceptador {
             while (cause != null) {
                 if (cause instanceof EntityExistsException) {
                     found = true;
-                    result = super.getJson(cause.getClass().getName());
+                    result = super.getJsonErrorResponse(cause.getClass().getName());
                     break;
                 } else if (cause instanceof NoResultException) {
                     found = true;          
-                    result = super.getJson(cause.getClass().getName());
+                    result = super.getJsonErrorResponse(cause.getClass().getName());
                     break;                    
                 } else if (cause instanceof ConstraintViolationException) {                 
                     ConstraintViolationException violations = (ConstraintViolationException) cause;
@@ -60,14 +60,14 @@ public class ExcecaoInterceptador extends JsonInterceptador {
                     }
 
                     found = true;                    
-                    result = super.getJson(cause.getClass().getName(), builder.toString());
+                    result = super.getJsonErrorResponse(cause.getClass().getName(), builder.toString());
                     break;                  
                 } else if (cause instanceof ExcecaoNegocio) {
                     found = true;            
-                    result = super.getJson(cause);
+                    result = super.getJsonErrorResponse(cause);
                 } else if (cause instanceof ExcecaoSistema) {
                     found = true;
-                    result = super.getJson(cause);
+                    result = super.getJsonErrorResponse(cause);
                 }
                 
                 cause = cause.getCause();
