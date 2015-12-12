@@ -15,6 +15,7 @@ import javax.persistence.NoResultException;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
+import javax.ws.rs.core.MediaType;
 
 /**
  *
@@ -29,18 +30,17 @@ public class ExcecaoInterceptador extends JsonInterceptador {
         HttpServletResponse response = super.getHttpServletResponse(context);
         
         try {
+            response.setContentType(MediaType.APPLICATION_JSON + ";charset=utf-8");            
             result = context.proceed();
         } catch (Throwable throwable) {
             Throwable cause = throwable;
             while (cause != null) {
                 if (cause instanceof EntityExistsException) {
                     found = true;
-                    response.setContentType("application/json; charset=utf-8");
                     result = super.getJson(cause.getClass().getName());
                     break;
                 } else if (cause instanceof NoResultException) {
                     found = true;          
-                    response.setContentType("application/json; charset=utf-8");
                     result = super.getJson(cause.getClass().getName());
                     break;                    
                 } else if (cause instanceof ConstraintViolationException) {                 
@@ -59,16 +59,13 @@ public class ExcecaoInterceptador extends JsonInterceptador {
                     }
 
                     found = true;                    
-                    response.setContentType("application/json; charset=utf-8");
                     result = super.getJson(cause.getClass().getName(), builder.toString());
                     break;                  
                 } else if (cause instanceof ExcecaoNegocio) {
                     found = true;            
-                    response.setContentType("application/json; charset=utf-8");                    
                     result = super.getJson(cause);
                 } else if (cause instanceof ExcecaoSistema) {
                     found = true;
-                    response.setContentType("application/json; charset=utf-8");                    
                     result = super.getJson(cause);
                 }
                 

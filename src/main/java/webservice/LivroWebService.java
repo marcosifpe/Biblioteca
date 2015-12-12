@@ -47,8 +47,6 @@ public class LivroWebService extends JsonWebService<Livro> {
     @Interceptors({ExcecaoInterceptador.class})
     public Response getLivro(@PathParam("isbn") String isbn, @Context HttpServletResponse response) {
         Livro livro = livroService.getLivro(isbn);
-        //TODO: verificar forma melhor de fazer isto.
-        response.setContentType("application/json; charset=utf-8");
         return super.response(livro);
     }
 
