@@ -47,10 +47,10 @@ public class LoginInterceptador extends JsonInterceptador {
 
             String login = httpHeaders.getHeaderString("login");
             String senha = httpHeaders.getHeaderString("senha");
+            response.setContentType(APPLICATION_JSON + ";charset=utf-8");
 
             if (isValid(login) && isValid(senha)) {
                 try {
-                    response.setContentType(APPLICATION_JSON + ";charset=utf-8");                    
                     servletRequest.login(login, senha);
                     servletRequest.getSession(true);
 
