@@ -12,6 +12,7 @@ import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.HttpHeaders;
 
 /**
@@ -35,9 +36,11 @@ public class LoginInterceptador extends JsonInterceptador {
         Object result;
         HttpServletRequest servletRequest = null;
         HttpHeaders httpHeaders;
+        HttpServletResponse response;
 
         try {
             servletRequest = getHttpServletRequest(context);
+            response = getHttpServletResponse(context);
             httpHeaders = getHttpHeaders(context);
 
             String login = httpHeaders.getHeaderString("login");
@@ -51,13 +54,16 @@ public class LoginInterceptador extends JsonInterceptador {
                     if (sessionContext.isCallerInRole(Papel.ADMINISTRADOR)) {
                         result = context.proceed();
                     } else {
+                        response.setContentType("application/json; charset=utf-8");
                         result = super.getJson(CHAVE_ACESSO_NAO_AUTORIZADO);
                     }
 
                 } catch (ServletException ex) {
+                    response.setContentType("application/json; charset=utf-8");
                     result = super.getJson(ex.getClass().getName());
                 }
             } else {
+                response.setContentType("application/json; charset=utf-8");
                 result = super.getJson(CHAVE_CREDENCIAIS_OMITIDAS);
             }
         } finally {
