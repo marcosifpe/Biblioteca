@@ -31,7 +31,6 @@ public class ExcecaoInterceptador extends JsonInterceptador {
         try {
             result = context.proceed();
         } catch (Throwable throwable) {
-            @SuppressWarnings("ThrowableResultIgnored")
             Throwable cause = throwable;
             while (cause != null) {
                 if (cause instanceof EntityExistsException) {
