@@ -15,11 +15,13 @@ import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.interceptor.Interceptors;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import service.LivroService;
 
@@ -38,10 +40,12 @@ public class LivroWebService extends JsonWebService<Livro> {
 
     @GET
     @Path("isbn/{isbn}")
-    @Produces("application/json; charset=ISO-8859-1")
+    @Produces("application/json; charset=utf-8")
     @Interceptors({ExcecaoInterceptador.class})
-    public Response getLivro(@PathParam("isbn") String isbn) {
+    public Response getLivro(@PathParam("isbn") String isbn, @Context HttpServletResponse response) {
         Livro livro = livroService.getLivro(isbn);
+        //TODO: verificar forma melhor de fazer isto.
+        response.setContentType("application/json; charset=utf-8");
         return super.response(livro);
     }
 
