@@ -40,7 +40,6 @@ public class LivroWebService extends JsonWebService<Livro> {
 
     @GET
     @Path("isbn/{isbn}")
-    @Produces("application/json; charset=utf-8")
     @Interceptors({ExcecaoInterceptador.class})
     public Response getLivro(@PathParam("isbn") String isbn, @Context HttpServletResponse response) {
         Livro livro = livroService.getLivro(isbn);
