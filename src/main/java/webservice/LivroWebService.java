@@ -40,6 +40,7 @@ public class LivroWebService extends JsonWebService<Livro> {
 
     @GET
     @Path("isbn/{isbn}")
+    @Produces("application/pdf")
     @Interceptors({ExcecaoInterceptador.class})
     public Response getLivro(@PathParam("isbn") String isbn, @Context HttpServletResponse response) {
         Livro livro = livroService.getLivro(isbn);
@@ -52,7 +53,7 @@ public class LivroWebService extends JsonWebService<Livro> {
     @Path("pdf")
     @Produces({"application/pdf", "application/json"})
     @Interceptors({ExcecaoInterceptador.class})
-    public Response getPdf(@QueryParam("isbn") String isbn) {
+    public Response getPdf(@QueryParam("isbn") String isbn, @Context HttpServletResponse response) {
         Livro livro = livroService.getLivro(isbn);
         ArquivoDigital arquivoDigital = livro.getArquivoDigital();
 

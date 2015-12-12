@@ -26,29 +26,6 @@ public class LoginInterceptador extends JsonInterceptador {
     @Resource
     private SessionContext sessionContext;
 
-    private HttpServletRequest getHttpServletRequest(InvocationContext ic) {
-        HttpServletRequest request = null;
-        for (Object parameter : ic.getParameters()) {
-            if (parameter instanceof HttpServletRequest) {
-                request = (HttpServletRequest) parameter;
-            }
-        }
-
-        return request;
-    }
-
-    private HttpHeaders getHttpHeaders(InvocationContext ic) {
-        HttpHeaders headers = null;
-
-        for (Object parameter : ic.getParameters()) {
-            if (parameter instanceof HttpHeaders) {
-                headers = (HttpHeaders) parameter;
-            }
-        }
-
-        return headers;
-    }
-
     private boolean isValid(String value) {
         return value != null && value.trim().length() > 0;
     }

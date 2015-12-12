@@ -11,6 +11,10 @@ import java.io.InputStream;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.interceptor.InvocationContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import webservice.RespostaJson;
@@ -48,6 +52,40 @@ public abstract class JsonInterceptador {
         }      
         
     }    
+    
+    protected HttpServletRequest getHttpServletRequest(InvocationContext ic) {
+        HttpServletRequest request = null;
+        for (Object parameter : ic.getParameters()) {
+            if (parameter instanceof HttpServletRequest) {
+                request = (HttpServletRequest) parameter;
+            }
+        }
+
+        return request;
+    }
+
+    protected HttpHeaders getHttpHeaders(InvocationContext ic) {
+        HttpHeaders headers = null;
+
+        for (Object parameter : ic.getParameters()) {
+            if (parameter instanceof HttpHeaders) {
+                headers = (HttpHeaders) parameter;
+            }
+        }
+
+        return headers;
+    }
+      
+    protected HttpServletResponse getHttpServletResponse(InvocationContext ic) {
+        HttpServletResponse response = null;
+        for (Object parameter : ic.getParameters()) {
+            if (parameter instanceof HttpServletResponse) {
+                response = (HttpServletResponse) parameter;
+            }
+        }
+
+        return response;
+    }
     
     protected Response response(String json) {
         return Response.ok(json, MediaType.APPLICATION_JSON).build();

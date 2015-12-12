@@ -33,6 +33,7 @@ import excecao.ExcecaoNegocio;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.Response;
 
 /**
@@ -52,7 +53,9 @@ public class AutorWebService extends JsonWebService<Autor> {
     @Path("get")
     @Produces("application/json")
     @Interceptors({LoginInterceptador.class, ExcecaoInterceptador.class})
-    public Response getAutor(@QueryParam("cpf") String cpf, @Context HttpServletRequest request,
+    public Response getAutor(@QueryParam("cpf") String cpf,
+            @Context HttpServletRequest request,
+            @Context HttpServletResponse response,
             @Context HttpHeaders httpHeaders) {
         Autor autor = autorService.getAutor(cpf);
         return super.response(autor);
@@ -63,6 +66,7 @@ public class AutorWebService extends JsonWebService<Autor> {
     @Produces("application/json")
     @Interceptors({LoginInterceptador.class, ExcecaoInterceptador.class})
     public Response getAutores(@Context HttpServletRequest request,
+            @Context HttpServletResponse response,
             @Context HttpHeaders httpHeaders) {
         List<Autor> autores = autorService.getAutores();
         return getAutores(autores);
@@ -75,16 +79,18 @@ public class AutorWebService extends JsonWebService<Autor> {
         Gson gson = builder.create();
         Map autoresMap = new HashMap<String, List<Autor>>();
         autoresMap.put("autores", autores);
-        return response(gson.toJson(autoresMap));        
+        return response(gson.toJson(autoresMap));
     }
-    
+
     @POST
     @Path("salvar")
     @Produces("application/json")
     @Consumes("application/json")
     @Interceptors({LoginInterceptador.class, ExcecaoInterceptador.class})
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public Response salvarAutor(String jsonAutor, @Context HttpServletRequest request,
+    public Response salvarAutor(String jsonAutor,
+            @Context HttpServletRequest request,
+            @Context HttpServletResponse response,
             @Context HttpHeaders httpHeaders) {
         Autor autor = autorService.criar(jsonAutor);
         autorService.salvar(autor);
@@ -97,7 +103,10 @@ public class AutorWebService extends JsonWebService<Autor> {
     @Consumes("application/json")
     @Interceptors({LoginInterceptador.class, ExcecaoInterceptador.class})
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public Response atualizarAutor(@QueryParam("cpf") String cpf, String jsonAutor, @Context HttpServletRequest request,
+    public Response atualizarAutor(@QueryParam("cpf") String cpf,
+            String jsonAutor,
+            @Context HttpServletRequest request,
+            @Context HttpServletResponse response,
             @Context HttpHeaders httpHeaders) {
         Autor autor = autorService.getAutor(cpf);
         autor.setAtributos(jsonAutor);
@@ -110,7 +119,9 @@ public class AutorWebService extends JsonWebService<Autor> {
     @Produces("application/json")
     @Interceptors({LoginInterceptador.class, ExcecaoInterceptador.class})
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public Response removerAutor(@PathParam("cfp") String cpf, @Context HttpServletRequest request,
+    public Response removerAutor(@PathParam("cfp") String cpf,
+            @Context HttpServletRequest request,
+            @Context HttpServletResponse response,
             @Context HttpHeaders httpHeaders) throws ExcecaoNegocio {
         autorService.remover(cpf);
         return response(super.getRespostaSucesso());
