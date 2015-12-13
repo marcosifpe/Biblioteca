@@ -77,17 +77,6 @@ public abstract class JsonInterceptador {
 
         return headers;
     }
-      
-    protected HttpServletResponse getHttpServletResponse(InvocationContext ic) {
-        HttpServletResponse response = null;
-        for (Object parameter : ic.getParameters()) {
-            if (parameter instanceof HttpServletResponse) {
-                response = (HttpServletResponse) parameter;
-            }
-        }
-
-        return response;
-    }
     
     private Response response(String json) {
         return Response.ok(json, MediaType.valueOf(APPLICATION_JSON + ";charset=UTF-8")).build();
