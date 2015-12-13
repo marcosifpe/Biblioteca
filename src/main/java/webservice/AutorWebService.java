@@ -96,7 +96,7 @@ public class AutorWebService extends JsonWebService<Autor> {
             @Context HttpHeaders httpHeaders) {
         Autor autor = autorService.criar(jsonAutor);
         autorService.salvar(autor);
-        return getJsonResponse(super.sucess());
+        return getJsonResponse(super.sucesso());
     }
 
     @POST
@@ -113,7 +113,7 @@ public class AutorWebService extends JsonWebService<Autor> {
         Autor autor = autorService.getAutor(cpf);
         autor.setAtributos(jsonAutor);
         autorService.atualizar(autor);
-        return getJsonResponse(super.sucess());
+        return getJsonResponse(super.sucesso());
     }
 
     @DELETE
@@ -126,6 +126,6 @@ public class AutorWebService extends JsonWebService<Autor> {
             @Context HttpServletResponse response,
             @Context HttpHeaders httpHeaders) throws ExcecaoNegocio {
         autorService.remover(cpf);
-        return getJsonResponse(super.sucess());
+        return getJsonResponse(super.sucesso());
     }
 }

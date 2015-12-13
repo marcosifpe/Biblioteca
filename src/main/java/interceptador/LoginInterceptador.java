@@ -5,8 +5,6 @@
  */
 package interceptador;
 
-import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
-
 import acesso.Papel;
 import javax.annotation.Resource;
 import javax.ejb.SessionContext;
@@ -14,7 +12,6 @@ import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.HttpHeaders;
 
 /**
@@ -27,51 +24,51 @@ public class LoginInterceptador extends JsonInterceptador {
     private static final String CHAVE_CREDENCIAIS_OMITIDAS = "acesso.credenciais.omitidadas";
 
     @Resource
-    private SessionContext sessionContext;
+    private SessionContext contexto;
 
-    private boolean isValid(String value) {
-        return value != null && value.trim().length() > 0;
+    private boolean valido(String valor) {
+        return valor != null && valor.trim().length() > 0;
     }
 
     @AroundInvoke
-    public Object intercept(InvocationContext context) throws Exception {
-        Object result;
-        HttpServletRequest servletRequest = null;
-        HttpHeaders httpHeaders;
+    public Object interceptar(InvocationContext ic) throws Exception {
+        Object resultado;
+        HttpServletRequest request = null;
+        HttpHeaders headers;
 
         try {
-            servletRequest = getHttpServletRequest(context);
-            httpHeaders = getHttpHeaders(context);
+            request = getHttpServletRequest(ic);
+            headers = getHttpHeaders(ic);
 
-            String login = httpHeaders.getHeaderString("login");
-            String senha = httpHeaders.getHeaderString("senha");
+            String login = headers.getHeaderString("login");
+            String senha = headers.getHeaderString("senha");
 
-            if (isValid(login) && isValid(senha)) {
+            if (valido(login) && valido(senha)) {
                 try {
-                    servletRequest.login(login, senha);
-                    servletRequest.getSession(true);
+                    request.login(login, senha);
+                    request.getSession(true);
 
-                    if (sessionContext.isCallerInRole(Papel.ADMINISTRADOR)) {
-                        result = context.proceed();
+                    if (contexto.isCallerInRole(Papel.ADMINISTRADOR)) {
+                        resultado = ic.proceed();
                     } else {
-                        result = super.getJsonErrorResponse(CHAVE_ACESSO_NAO_AUTORIZADO);
+                        resultado = super.getJsonErrorResponse(CHAVE_ACESSO_NAO_AUTORIZADO);
                     }
 
                 } catch (ServletException ex) {
-                    result = super.getJsonErrorResponse(ex.getClass().getName());
+                    resultado = super.getJsonErrorResponse(ex.getClass().getName());
                 }
             } else {
-                result = super.getJsonErrorResponse(CHAVE_CREDENCIAIS_OMITIDAS);
+                resultado = super.getJsonErrorResponse(CHAVE_CREDENCIAIS_OMITIDAS);
             }
         } finally {
-            if (servletRequest != null) {
-                if (servletRequest.getSession(false) != null) {
-                    servletRequest.getSession(false).invalidate();
+            if (request != null) {
+                if (request.getSession(false) != null) {
+                    request.getSession(false).invalidate();
                 }
-                servletRequest.logout();
+                request.logout();
             }
         }
 
-        return result;
+        return resultado;
     }
 }

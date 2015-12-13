@@ -12,6 +12,7 @@ import biblioteca.Entidade;
 import com.google.gson.Gson;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import util.LeitorPropriedades;
 
 /**
  *
@@ -19,9 +20,14 @@ import javax.ws.rs.core.Response;
  * @param <T> Tipo de Entidade
  */
 public abstract class JsonWebService<T extends Entidade> {
+    private LeitorPropriedades leitorPropriedades;
+    
+    public JsonWebService() {
+        this.leitorPropriedades = new LeitorPropriedades(new String[]{"Mensagens.properties"});
+    }
 
-    protected String sucess() {
-        return getResposta(true, "Sucesso");
+    protected String sucesso() {
+        return getResposta(true, leitorPropriedades.get("mensagem.sucesso"));
     }
 
     private String getResposta(boolean sucesso, String mensagem) {
@@ -36,8 +42,8 @@ public abstract class JsonWebService<T extends Entidade> {
                 .build();
     }
 
-    protected String getErrorMessage(String mensagem) {
-        RespostaJson respostaJson = new RespostaJson(false, mensagem);
+    protected String getErrorMessage(String chave) {
+        RespostaJson respostaJson = new RespostaJson(false, leitorPropriedades.get(chave));
         return new Gson().toJson(respostaJson);
     }
 

@@ -8,17 +8,13 @@ package interceptador;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 import com.google.gson.Gson;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.interceptor.InvocationContext;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import util.LeitorPropriedades;
 import webservice.RespostaJson;
 
 /**
@@ -26,33 +22,11 @@ import webservice.RespostaJson;
  * @author MASC
  */
 public abstract class JsonInterceptador {
-    protected Properties properties;
-    protected static final Logger LOGGER = Logger.getLogger(JsonInterceptador.class.getName());    
+    protected static final Logger LOGGER = Logger.getLogger(JsonInterceptador.class.getName()); 
+    protected LeitorPropriedades leitorPropriedades;
     
     public JsonInterceptador() {
-        properties = new Properties();
-        InputStream is = this.getClass().getClassLoader().getResourceAsStream("Exception.properties");
-        
-        if (is != null) {
-            try {
-                properties.load(is);
-                is.close();
-            } catch (IOException ex) {
-                LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
-            }
-        }      
-        
-        is = this.getClass().getClassLoader().getResourceAsStream("ValidationMessages_pt_BR.properties");
-        
-        if (is != null) {
-            try {
-                properties.load(is);
-                is.close();
-            } catch (IOException ex) {
-                LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
-            }
-        }      
-        
+        this.leitorPropriedades = new LeitorPropriedades(new String[]{"Exception.properties", "Mensagens.properties"});
     }    
     
     protected HttpServletRequest getHttpServletRequest(InvocationContext ic) {
@@ -83,12 +57,12 @@ public abstract class JsonInterceptador {
     }
 
     protected Response getJsonErrorResponse(String chave) {
-        RespostaJson respostaJson = new RespostaJson(false, properties.getProperty(chave));
+        RespostaJson respostaJson = new RespostaJson(false, leitorPropriedades.get(chave));
         return response(new Gson().toJson(respostaJson));
     }
     
     protected Response getJsonErrorResponse(String chave, String mensagemComplementar) {       
-        RespostaJson respostaJson = new RespostaJson(false, String.format((String) properties.get(chave), mensagemComplementar));
+        RespostaJson respostaJson = new RespostaJson(false, String.format(leitorPropriedades.get(chave), mensagemComplementar));
         return response(new Gson().toJson(respostaJson));
     }    
 

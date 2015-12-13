@@ -5,7 +5,6 @@
  */
 package interceptador;
 
-import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 import excecao.ExcecaoNegocio;
 import excecao.ExcecaoSistema;
@@ -14,7 +13,6 @@ import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
 import javax.persistence.EntityExistsException;
 import javax.persistence.NoResultException;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
@@ -25,27 +23,27 @@ import javax.validation.ConstraintViolationException;
 public class ExcecaoInterceptador extends JsonInterceptador {
 
     @AroundInvoke
-    public Object intercept(InvocationContext context) throws Exception {
-        Object result = null;
-        boolean found = false;
+    public Object interceptar(InvocationContext ic) throws Exception {
+        Object resultado = null;
+        boolean encontrado = false;
         
         try {        
-            result = context.proceed();
+            resultado = ic.proceed();
         } catch (Throwable throwable) {
-            Throwable cause = throwable;
-            while (cause != null) {
-                if (cause instanceof EntityExistsException) {
-                    found = true;
-                    result = super.getJsonErrorResponse(cause.getClass().getName());
+            Throwable causa = throwable;
+            while (causa != null) {
+                if (causa instanceof EntityExistsException) {
+                    encontrado = true;
+                    resultado = super.getJsonErrorResponse(causa.getClass().getName());
                     break;
-                } else if (cause instanceof NoResultException) {
-                    found = true;          
-                    result = super.getJsonErrorResponse(cause.getClass().getName());
+                } else if (causa instanceof NoResultException) {
+                    encontrado = true;          
+                    resultado = super.getJsonErrorResponse(causa.getClass().getName());
                     break;                    
-                } else if (cause instanceof ConstraintViolationException) {                 
-                    ConstraintViolationException violations = (ConstraintViolationException) cause;
+                } else if (causa instanceof ConstraintViolationException) {                 
+                    ConstraintViolationException violacoes = (ConstraintViolationException) causa;
                     StringBuilder builder = new StringBuilder();
-                    Set<ConstraintViolation<?>> constraintViolations = violations.getConstraintViolations();
+                    Set<ConstraintViolation<?>> constraintViolations = violacoes.getConstraintViolations();
 
                     for (ConstraintViolation violation : constraintViolations) {
                         if (builder.length() != 0) {
@@ -57,24 +55,24 @@ public class ExcecaoInterceptador extends JsonInterceptador {
                         builder.append(violation.getMessage());
                     }
 
-                    found = true;                    
-                    result = super.getJsonErrorResponse(cause.getClass().getName(), builder.toString());
+                    encontrado = true;                    
+                    resultado = super.getJsonErrorResponse(causa.getClass().getName(), builder.toString());
                     break;                  
-                } else if (cause instanceof ExcecaoNegocio) {
-                    found = true;            
-                    result = super.getJsonErrorResponse(cause);
-                } else if (cause instanceof ExcecaoSistema) {
-                    found = true;
-                    result = super.getJsonErrorResponse(cause);
+                } else if (causa instanceof ExcecaoNegocio) {
+                    encontrado = true;            
+                    resultado = super.getJsonErrorResponse(causa);
+                } else if (causa instanceof ExcecaoSistema) {
+                    encontrado = true;
+                    resultado = super.getJsonErrorResponse(causa);
                 }
                 
-                cause = cause.getCause();
+                causa = causa.getCause();
             }
 
-            if (!found)
+            if (!encontrado)
                 throw throwable;
         }
         
-        return result;
+        return resultado;
     }
 }
