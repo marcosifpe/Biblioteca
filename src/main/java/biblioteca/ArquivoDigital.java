@@ -12,6 +12,8 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.FetchType;
 import javax.persistence.Lob;
+import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.NotBlank;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
@@ -21,13 +23,16 @@ import org.primefaces.model.StreamedContent;
  */
 @Embeddable
 public class ArquivoDigital implements Serializable {
+    @NotNull
     @Lob
     @Basic(fetch = FetchType.LAZY, optional = true)
     @Column(name = "BLOB_ARQUIVO", nullable = true)
-    private byte[] arquivo;   
+    private byte[] arquivo;
+    @NotNull    
     @ExtensaoDocumento
     @Column(name = "TXT_EXTENSAO_ARQUIVO", nullable = true)
     private String extensao;
+    @NotBlank
     @Expose
     @Column(name = "TXT_NOME_ARQUIVO", nullable = true)
     private String nome;

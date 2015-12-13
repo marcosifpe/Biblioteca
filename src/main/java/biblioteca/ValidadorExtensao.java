@@ -22,6 +22,6 @@ public class ValidadorExtensao implements ConstraintValidator<ExtensaoDocumento,
 
     @Override
     public boolean isValid(String valor, ConstraintValidatorContext cvc) {
-        return valor == null ? true : extensoesValidas.contains(valor);
+        return valor == null ? false : extensoesValidas.contains(valor);
     }    
 }
