@@ -13,7 +13,7 @@
             <p:panel id="panel" header="Cadastro de Editora" footer="Biblioteca - EJB 3">
                 <h:panelGrid columns="2" cellpadding="5">
                     <h:outputLabel for="nome" value="Nome: " />
-                    <p:inputText id="nome" value="#{editoraBean.entidade.nome}" label="Nome" required="true" />
+                    <p:inputText id="nome" value="#{editoraBean.entidade.nome}" label="Nome" required="true" maxlength="50"/>
                 </h:panelGrid>
                 <p:commandButton action="#{editoraBean.salvar()}" value="Salvar" ajax="true" update="growl, panel" 
                                  title="Salvar Editora" icon="ui-icon-check" validateClient="true"/>

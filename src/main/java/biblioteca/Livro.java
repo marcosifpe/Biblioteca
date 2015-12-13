@@ -63,8 +63,8 @@ public class Livro extends Entidade implements Serializable {
     private String isbn;
     @Expose    
     @NotBlank
-    @Size(max = 100)
-    @Column(name = "TXT_TITULO", length = 100, nullable = false)
+    @Size(max = 50)
+    @Column(name = "TXT_TITULO", length = 50, nullable = false)
     private String titulo;
     @Expose    
     @NotNull

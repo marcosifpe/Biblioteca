@@ -17,7 +17,7 @@
                     <p:inputMask id="isbn" value="#{livroBean.entidade.isbn}" label="ISBN" mask="999-99-9999-999-9"/>
 
                     <h:outputLabel for="titulo" value="Título: " />
-                    <p:inputText id="titulo" value="#{livroBean.entidade.titulo}" label="Título" required="true"/>
+                    <p:inputText id="titulo" value="#{livroBean.entidade.titulo}" label="Título" required="true" maxlength="50"/>
 
                     <h:outputLabel for="dataLancamento" value="Data de Lançamento: " />
                     <p:inputMask id="dataLancamento"   
