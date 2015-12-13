@@ -17,12 +17,12 @@
                     <p:inputMask id="isbn" value="#{livroBean.entidade.isbn}" label="ISBN" mask="999-99-9999-999-9"/>
 
                     <h:outputLabel for="titulo" value="Título: " />
-                    <p:inputText id="titulo" value="#{livroBean.entidade.titulo}" label="Título"/>
+                    <p:inputText id="titulo" value="#{livroBean.entidade.titulo}" label="Título" required="true"/>
 
                     <h:outputLabel for="dataLancamento" value="Data de Lançamento: " />
                     <p:inputMask id="dataLancamento"   
                                  value="#{livroBean.entidade.dataLancamento}"                                       
-                                 mask="99/99/9999">  
+                                 mask="99/99/9999" required="true">  
                         <f:convertDateTime pattern="dd/MM/yyyy" />  
                     </p:inputMask> 
 
@@ -45,7 +45,7 @@
                                   fileUploadListener="#{livroBean.upload}" dragDropSupport="true"/>
                 </h:panelGrid>
                 <p:commandButton action="#{livroBean.salvar()}" value="Salvar" ajax="true" update="growl, panel" 
-                                 title="Salvar Autor" icon="ui-icon-check" validateClient="false"/>
+                                 title="Salvar Autor" icon="ui-icon-check" validateClient="true"/>
             </p:panel>
         </h:form>
     </h:body>
