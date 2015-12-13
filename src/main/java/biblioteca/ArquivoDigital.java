@@ -1,9 +1,12 @@
 package biblioteca;
 
 import com.google.gson.annotations.Expose;
+import excecao.ExcecaoSistema;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -46,14 +49,20 @@ public class ArquivoDigital implements Serializable {
     }
 
     public String getNome() {
-        return nome;
+        String nomeCodificado = null;
+        
+        try {
+            nomeCodificado = URLEncoder.encode(this.nome, "UTF-8");
+        } catch (UnsupportedEncodingException ex) {
+            throw new ExcecaoSistema(ex);
+        }
+        return nomeCodificado;
     }
 
     public void setNome(String nome) {
         this.nome = nome;
     }
     
-    //TODO: Transformar em converter
     public StreamedContent getFile() {
         InputStream stream = new ByteArrayInputStream(arquivo);
         return new DefaultStreamedContent(stream, extensao, nome);

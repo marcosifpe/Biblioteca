@@ -58,7 +58,7 @@ public class LivroWebService extends JsonWebService<Livro> {
         Livro livro = livroService.getLivro(isbn);
         ArquivoDigital arquivoDigital = livro.getArquivoDigital();
         if (arquivoDigital != null) {
-            return super.getPdfResponse(arquivoDigital.getArquivo(), arquivoDigital.getNome());
+            return super.getPdfResponse(arquivoDigital);
         } else {
             return super.getJsonResponse(getErrorMessage("livro.nao.encontrado"));
         }

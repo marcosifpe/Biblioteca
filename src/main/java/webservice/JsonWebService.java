@@ -5,11 +5,17 @@
  */
 package webservice;
 
+import biblioteca.ArquivoDigital;
 import static javax.ws.rs.core.MediaType.APPLICATION_OCTET_STREAM;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 import biblioteca.Entidade;
 import com.google.gson.Gson;
+import excecao.ExcecaoSistema;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import util.LeitorPropriedades;
@@ -20,8 +26,9 @@ import util.LeitorPropriedades;
  * @param <T> Tipo de Entidade
  */
 public abstract class JsonWebService<T extends Entidade> {
+
     private LeitorPropriedades leitorPropriedades;
-    
+
     public JsonWebService() {
         this.leitorPropriedades = new LeitorPropriedades(new String[]{"Mensagens.properties"});
     }
@@ -36,9 +43,9 @@ public abstract class JsonWebService<T extends Entidade> {
         return gson.toJson(respostaJson);
     }
 
-    protected Response getPdfResponse(byte[] bytes, String fileName) {
-        return Response.ok(bytes, APPLICATION_OCTET_STREAM).
-                header("content-disposition", "attachment; filename=" + fileName)
+    protected Response getPdfResponse(ArquivoDigital arquivoDigital) {
+        return Response.ok(arquivoDigital.getArquivo(), APPLICATION_OCTET_STREAM).
+                header("content-disposition", "attachment; filename=" + arquivoDigital.getNome())
                 .build();
     }
 
