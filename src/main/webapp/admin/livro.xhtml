@@ -14,7 +14,7 @@
             <p:panel id="panel" header="Cadastro de Livro" footer="Biblioteca - EJB 3">
                 <h:panelGrid columns="2" cellpadding="5">
                     <h:outputLabel for="isbn" value="ISBN: " />
-                    <p:inputMask id="isbn" value="#{livroBean.entidade.isbn}" label="ISBN" mask="999-99-9999-999-9"/>
+                    <p:inputMask id="isbn" value="#{livroBean.entidade.isbn}" label="ISBN" mask="999-99-9999-999-9" required="true"/>
 
                     <h:outputLabel for="titulo" value="Título: " />
                     <p:inputText id="titulo" value="#{livroBean.entidade.titulo}" label="Título" required="true" maxlength="50"/>
@@ -22,7 +22,9 @@
                     <h:outputLabel for="dataLancamento" value="Data de Lançamento: " />
                     <p:inputMask id="dataLancamento"   
                                  value="#{livroBean.entidade.dataLancamento}"                                       
-                                 mask="99/99/9999" required="true">  
+                                 mask="99/99/9999" 
+                                 label="Data de Lançamento"
+                                 required="true">  
                         <f:convertDateTime pattern="dd/MM/yyyy" />  
                     </p:inputMask> 
 
