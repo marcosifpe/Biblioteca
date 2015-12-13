@@ -38,16 +38,13 @@ public class LoginInterceptador extends JsonInterceptador {
         Object result;
         HttpServletRequest servletRequest = null;
         HttpHeaders httpHeaders;
-        HttpServletResponse response;
 
         try {
             servletRequest = getHttpServletRequest(context);
-            response = getHttpServletResponse(context);
             httpHeaders = getHttpHeaders(context);
 
             String login = httpHeaders.getHeaderString("login");
             String senha = httpHeaders.getHeaderString("senha");
-            response.setContentType(APPLICATION_JSON + ";charset=utf-8");
 
             if (isValid(login) && isValid(senha)) {
                 try {

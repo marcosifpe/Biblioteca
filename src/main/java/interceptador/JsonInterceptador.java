@@ -5,6 +5,8 @@
  */
 package interceptador;
 
+import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.InputStream;
@@ -88,7 +90,7 @@ public abstract class JsonInterceptador {
     }
     
     private Response response(String json) {
-        return Response.ok(json).build();
+        return Response.ok(json, MediaType.valueOf(APPLICATION_JSON + ";charset=UTF-8")).build();
     }
 
     protected Response getJsonErrorResponse(String chave) {

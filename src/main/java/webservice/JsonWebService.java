@@ -10,6 +10,7 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 import biblioteca.Entidade;
 import com.google.gson.Gson;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 /**
@@ -45,6 +46,6 @@ public abstract class JsonWebService<T extends Entidade> {
     }
 
     protected Response getJsonResponse(String json) {
-        return Response.ok(json, APPLICATION_JSON).build();
+        return Response.ok(json, MediaType.valueOf(APPLICATION_JSON + ";charset=UTF-8")).build();
     }
 }

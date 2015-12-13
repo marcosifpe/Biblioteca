@@ -28,10 +28,8 @@ public class ExcecaoInterceptador extends JsonInterceptador {
     public Object intercept(InvocationContext context) throws Exception {
         Object result = null;
         boolean found = false;
-        HttpServletResponse response = super.getHttpServletResponse(context);
         
-        try {
-            response.setContentType(APPLICATION_JSON + ";charset=utf-8");            
+        try {        
             result = context.proceed();
         } catch (Throwable throwable) {
             Throwable cause = throwable;
