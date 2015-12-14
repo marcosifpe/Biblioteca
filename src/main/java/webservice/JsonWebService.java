@@ -11,11 +11,6 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 import biblioteca.Entidade;
 import com.google.gson.Gson;
-import excecao.ExcecaoSistema;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import util.LeitorPropriedades;
