@@ -7,9 +7,12 @@ package jsf.beans;
 
 import biblioteca.Entidade;
 import excecao.ExcecaoNegocio;
+import excecao.util.MensagemExcecao;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJBException;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.validation.ConstraintViolationException;
 
 /**
  *
@@ -45,6 +48,13 @@ public abstract class Bean<T extends Entidade> {
             }
         } catch (ExcecaoNegocio ex) {
             adicionarMessagem(FacesMessage.SEVERITY_WARN, ex.getMessage());
+        } catch (EJBException ex) {
+            if (ex.getCause() instanceof ConstraintViolationException) {
+                MensagemExcecao mensagemExcecao = new MensagemExcecao(ex.getCause());
+                adicionarMessagem(FacesMessage.SEVERITY_WARN, mensagemExcecao.getMensagem());
+            } else {
+                throw ex;
+            }
         } finally {
             iniciarCampos();
         }
