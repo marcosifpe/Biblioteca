@@ -82,6 +82,8 @@ public class MapeadorExcecao implements ExceptionMapper<Exception> {
                 respostaJson = getRespostaJson(String.format(leitor.get(causa.getClass().getName()), builder.toString()));
                 break;
             }
+            
+            causa = causa.getCause();
         }
 
         /*
