@@ -12,9 +12,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
-import service.AutorServico;
-import service.EditoraServico;
-import service.LivroServico;
+import servico.AutorServico;
+import servico.EditoraServico;
+import servico.LivroServico;
 
 /**
  *

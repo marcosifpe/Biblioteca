@@ -29,7 +29,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
-import service.AutorServico;
+import servico.AutorServico;
 import excecao.ExcecaoNegocio;
 import java.util.HashMap;
 import java.util.List;
