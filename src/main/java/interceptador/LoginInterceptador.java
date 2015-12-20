@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 import javax.ejb.SessionContext;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
+import javax.security.auth.login.LoginException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.HttpHeaders;
@@ -22,7 +23,8 @@ public class LoginInterceptador extends JsonInterceptador {
 
     private static final String CHAVE_ACESSO_NAO_AUTORIZADO = "acesso.nao.autorizado";
     private static final String CHAVE_CREDENCIAIS_OMITIDAS = "acesso.credenciais.omitidadas";
-
+    private static final String CHAVE_LOGIN_INVALIDO = "acesso.login.invalido";
+    
     @Resource
     private SessionContext contexto;
 
@@ -51,20 +53,21 @@ public class LoginInterceptador extends JsonInterceptador {
                     if (contexto.isCallerInRole(Papel.ADMINISTRADOR)) {
                         resultado = ic.proceed();
                     } else {
-                        resultado = super.getJsonErrorResponse(CHAVE_ACESSO_NAO_AUTORIZADO);
+                        throw new LoginException(getMensagem(CHAVE_ACESSO_NAO_AUTORIZADO));
                     }
 
                 } catch (ServletException ex) {
-                    resultado = super.getJsonErrorResponse(ex.getClass().getName());
+                    throw new LoginException(getMensagem(CHAVE_LOGIN_INVALIDO));
                 }
             } else {
-                resultado = super.getJsonErrorResponse(CHAVE_CREDENCIAIS_OMITIDAS);
+                throw new LoginException(getMensagem(CHAVE_CREDENCIAIS_OMITIDAS));
             }
         } finally {
             if (request != null) {
                 if (request.getSession(false) != null) {
                     request.getSession(false).invalidate();
                 }
+
                 request.logout();
             }
         }

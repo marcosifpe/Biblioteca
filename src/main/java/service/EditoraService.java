@@ -45,6 +45,11 @@ public class EditoraService extends Service<Editora> {
         return getResultList(EDITORAS);
     }
     
+    @TransactionAttribute(SUPPORTS)    
+    public Editora getEditora(String nome) {
+        return super.getSingleResult(EDITORA_POR_NOME, new Object[]{nome});
+    }
+    
     @TransactionAttribute(SUPPORTS)
     public Editora criar() {
         return new Editora();

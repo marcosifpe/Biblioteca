@@ -52,6 +52,15 @@ public abstract class JsonInterceptador {
         return headers;
     }
     
+    /**
+     *
+     * @param chave
+     * @return
+     */
+    protected String getMensagem(String chave) {
+        return leitorPropriedades.get(chave);
+    }    
+    
     private Response response(String json) {
         return Response.ok(json, MediaType.valueOf(APPLICATION_JSON + ";charset=UTF-8")).build();
     }
