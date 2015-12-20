@@ -19,11 +19,34 @@ import javax.ws.rs.core.HttpHeaders;
  *
  * @author MASC
  */
-public class LoginInterceptador extends JsonInterceptador {
+public class LoginInterceptador {
     
     @Resource
     private SessionContext contexto;
 
+    private HttpServletRequest getHttpServletRequest(InvocationContext ic) {
+        HttpServletRequest request = null;
+        for (Object parameter : ic.getParameters()) {
+            if (parameter instanceof HttpServletRequest) {
+                request = (HttpServletRequest) parameter;
+            }
+        }
+
+        return request;
+    }
+
+    private HttpHeaders getHttpHeaders(InvocationContext ic) {
+        HttpHeaders headers = null;
+
+        for (Object parameter : ic.getParameters()) {
+            if (parameter instanceof HttpHeaders) {
+                headers = (HttpHeaders) parameter;
+            }
+        }
+
+        return headers;
+    }    
+    
     private boolean valido(String valor) {
         return valor != null && valor.trim().length() > 0;
     }
