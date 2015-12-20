@@ -34,6 +34,7 @@ import excecao.ExcecaoNegocio;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.ws.rs.PUT;
 import javax.ws.rs.core.Response;
 
 /**
@@ -94,7 +95,7 @@ public class AutorWebService extends JsonWebService<Autor> {
         return getJsonResponse(super.sucesso());
     }
 
-    @POST
+    @PUT
     @Path("atualizar")
     @Produces(APPLICATION_JSON)
     @Consumes(APPLICATION_JSON)
