@@ -31,10 +31,6 @@ public abstract class Entidade implements Serializable {
     public Entidade() {
         
     }
-    
-    public Entidade(String json) {
-        setAtributos(json);
-    }
 
     public Long getId() {
         return id;

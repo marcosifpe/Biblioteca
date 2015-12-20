@@ -87,6 +87,9 @@ public class AutorWebService extends JsonWebService<Autor> {
     @Consumes(APPLICATION_JSON)
     @Interceptors({LoginInterceptador.class})
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    /*
+    * Está dando bug quando eu tento incluir e é levantada a exceção EntityExistsException (por quê?)
+    */
     public Response salvarAutor(Autor jsonAutor,
             @Context HttpServletRequest request,
             @Context HttpHeaders httpHeaders) {

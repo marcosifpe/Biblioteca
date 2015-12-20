@@ -71,10 +71,4 @@ public class AutorService extends Service<Autor> {
     public Autor criar() {
         return new Autor();
     }
-    
-    @TransactionAttribute(SUPPORTS)   
-    @PermitAll
-    public Autor criar(String json) {
-        return new Autor(json);
-    }    
 }
