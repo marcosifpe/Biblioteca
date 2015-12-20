@@ -2,7 +2,9 @@ package service;
 
 import static acesso.Papel.ADMINISTRADOR;
 import static acesso.Papel.USUARIO;
+import biblioteca.ArquivoDigital;
 import static biblioteca.Livro.LIVRO_POR_ISBN;
+import static biblioteca.Livro.LIVRO_POR_ISBN_COM_ARQUIVO;
 import static javax.ejb.TransactionAttributeType.REQUIRED;
 import static javax.ejb.TransactionAttributeType.SUPPORTS;
 import static javax.ejb.TransactionManagementType.CONTAINER;
@@ -42,6 +44,12 @@ public class LivroService extends Service<Livro> {
     @PermitAll
     public Livro getLivro(String isbn) {
         return getSingleResult(LIVRO_POR_ISBN, new Object[]{isbn});
+    }
+    
+    @TransactionAttribute(SUPPORTS)
+    @PermitAll    
+    public Livro getLivroComArquivo(String isbn) {
+        return getSingleResult(LIVRO_POR_ISBN_COM_ARQUIVO, new Object[]{isbn});
     }
     
     @TransactionAttribute(SUPPORTS)

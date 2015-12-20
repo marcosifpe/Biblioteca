@@ -46,15 +46,21 @@ import org.hibernate.validator.constraints.NotEmpty;
                     query = "SELECT l FROM Livro l ORDER BY l.titulo"
             ),
             @NamedQuery (
-                    name = "LivroPorIsbn",
+                    name = Livro.LIVRO_POR_ISBN,
                     query = "SELECT l FROM Livro l JOIN FETCH l.editora WHERE l.isbn = ?1"
+            ),
+            @NamedQuery (
+                    name = Livro.LIVRO_POR_ISBN_COM_ARQUIVO,
+                    query = "SELECT l FROM Livro l WHERE l.isbn = ?1 AND l.arquivoDigital != null"
             )
+            
         }
 )
 @Access(AccessType.FIELD)
 public class Livro extends Entidade implements Serializable {
     public static final String LIVROS = "Livros";
     public static final String LIVRO_POR_ISBN = "LivroPorIsbn";
+    public static final String LIVRO_POR_ISBN_COM_ARQUIVO = "LivroPorIsbnComArquivo";
     @Expose
     @NotBlank
     @Size(max = 17)

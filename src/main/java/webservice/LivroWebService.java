@@ -53,12 +53,7 @@ public class LivroWebService extends JsonWebService<Livro> {
     @Path("pdf")
     @Produces({APPLICATION_OCTET_STREAM, APPLICATION_JSON})
     public Response getPdf(@QueryParam("isbn") String isbn, @Context HttpServletResponse response) {
-        Livro livro = livroService.getLivro(isbn);
-        ArquivoDigital arquivoDigital = livro.getArquivoDigital();
-        if (arquivoDigital != null) {
-            return super.getPdfResponse(arquivoDigital);
-        } else {
-            return super.getJsonResponse(getErrorMessage("livro.nao.encontrado"));
-        }
+        Livro livro = livroService.getLivroComArquivo(isbn);
+        return super.getPdfResponse(livro.getArquivoDigital());
     }
 }
