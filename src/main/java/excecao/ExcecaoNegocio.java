@@ -17,9 +17,9 @@ public class ExcecaoNegocio extends Exception {
     private String chave;
     public static final String REMOVER_AUTOR = "excecao.ExcecaoNegocio.autorServico.remover";
     public static final String OBJETO_EXISTENTE = "excecao.ExcecaoNegocio.objetoExistente";  
-    public static final String ACESSO_NAO_AUTORIZADO = "acesso.nao.autorizado";
-    public static final String CREDENCIAIS_OMITIDAS = "acesso.credenciais.omitidadas";
-    public static final String LOGIN_INVALIDO = "acesso.login.invalido";    
+    public static final String ACESSO_NAO_AUTORIZADO = "excecao.ExcecaoNegocio.acesso.nao.autorizado";
+    public static final String CREDENCIAIS_OMITIDAS = "excecao.ExcecaoNegocio.acesso.credenciais.omitidadas";
+    public static final String LOGIN_INVALIDO = "excecao.ExcecaoNegocio.acesso.login.invalido";    
     
     public ExcecaoNegocio(String chave) {
         this.chave = chave;
