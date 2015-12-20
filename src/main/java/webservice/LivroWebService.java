@@ -8,8 +8,6 @@ package webservice;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.APPLICATION_OCTET_STREAM;
 
-import biblioteca.ArquivoDigital;
-import interceptador.ExcecaoInterceptador;
 import biblioteca.Livro;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -17,7 +15,6 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
-import javax.interceptor.Interceptors;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
