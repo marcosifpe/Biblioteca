@@ -87,11 +87,10 @@ public class AutorWebService extends JsonWebService<Autor> {
     @Consumes(APPLICATION_JSON)
     @Interceptors({LoginInterceptador.class})
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public Response salvarAutor(String jsonAutor,
+    public Response salvarAutor(Autor jsonAutor,
             @Context HttpServletRequest request,
             @Context HttpHeaders httpHeaders) {
-        Autor autor = autorService.criar(jsonAutor);
-        autorService.salvar(autor);
+        autorService.salvar(jsonAutor);
         return getJsonResponse(super.sucesso());
     }
 
@@ -102,11 +101,12 @@ public class AutorWebService extends JsonWebService<Autor> {
     @Interceptors({LoginInterceptador.class})
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public Response atualizarAutor(@QueryParam("cpf") String cpf,
-            String jsonAutor,
+            Autor jsonAutor,
             @Context HttpServletRequest request,
             @Context HttpHeaders httpHeaders) {
         Autor autor = autorService.getAutor(cpf);
-        autor.setAtributos(jsonAutor);
+        autor.setPrimeiroNome(jsonAutor.getPrimeiroNome());
+        autor.setUltimoNome(jsonAutor.getUltimoNome());
         autorService.atualizar(autor);
         return getJsonResponse(super.sucesso());
     }
