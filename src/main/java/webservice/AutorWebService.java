@@ -29,7 +29,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
-import service.AutorService;
+import service.AutorServico;
 import excecao.ExcecaoNegocio;
 import java.util.HashMap;
 import java.util.List;
@@ -48,7 +48,7 @@ import javax.ws.rs.core.Response;
 public class AutorWebService extends JsonWebService<Autor> {
 
     @EJB
-    private AutorService autorService;
+    private AutorServico autorServico;
 
     @GET
     @Path("get")
@@ -57,7 +57,7 @@ public class AutorWebService extends JsonWebService<Autor> {
     public Response getAutor(@QueryParam("cpf") String cpf,
             @Context HttpServletRequest request,
             @Context HttpHeaders httpHeaders) {
-        Autor autor = autorService.getAutor(cpf);
+        Autor autor = autorServico.getAutor(cpf);
         return super.getJsonResponse(autor);
     }
 
@@ -67,7 +67,7 @@ public class AutorWebService extends JsonWebService<Autor> {
     @Interceptors({LoginInterceptador.class})
     public Response getAutores(@Context HttpServletRequest request,
             @Context HttpHeaders httpHeaders) {
-        List<Autor> autores = autorService.getAutores();
+        List<Autor> autores = autorServico.getAutores();
         return getAutores(autores);
     }
 
@@ -93,7 +93,7 @@ public class AutorWebService extends JsonWebService<Autor> {
     public Response salvarAutor(Autor autor,
             @Context HttpServletRequest request,
             @Context HttpHeaders httpHeaders) throws ExcecaoNegocio {
-        autorService.salvar(autor);
+        autorServico.salvar(autor);
         return getJsonResponse(super.sucesso());
     }
 
@@ -107,9 +107,9 @@ public class AutorWebService extends JsonWebService<Autor> {
             Autor autorJson,
             @Context HttpServletRequest request,
             @Context HttpHeaders httpHeaders) {
-        Autor autor = autorService.getAutor(cpf);
+        Autor autor = autorServico.getAutor(cpf);
         autor.setAtributos(autorJson);
-        autorService.atualizar(autor);
+        autorServico.atualizar(autor);
         return getJsonResponse(super.sucesso());
     }
 
@@ -121,7 +121,7 @@ public class AutorWebService extends JsonWebService<Autor> {
     public Response removerAutor(@PathParam("cfp") String cpf,
             @Context HttpServletRequest request,
             @Context HttpHeaders httpHeaders) throws ExcecaoNegocio {
-        autorService.remover(cpf);
+        autorServico.remover(cpf);
         return getJsonResponse(super.sucesso());
     }
 }

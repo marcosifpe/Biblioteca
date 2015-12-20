@@ -27,7 +27,7 @@ import javax.ejb.TransactionManagement;
 @TransactionManagement(CONTAINER)
 @TransactionAttribute(REQUIRED)
 @DeclareRoles({ADMINISTRADOR, USUARIO})
-public class LivroService extends Servico<Livro> {
+public class LivroServico extends Servico<Livro> {
     @RolesAllowed({ADMINISTRADOR})
     public void salvar(Livro livro) throws ExcecaoNegocio {
         checarExistencia(LIVRO_POR_ISBN, livro.getIsbn());

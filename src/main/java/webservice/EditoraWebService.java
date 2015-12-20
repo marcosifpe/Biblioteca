@@ -18,7 +18,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import javax.ws.rs.core.Response;
-import service.EditoraService;
+import service.EditoraServico;
 
 /**
  *
@@ -32,7 +32,7 @@ import service.EditoraService;
 public class EditoraWebService extends JsonWebService<Editora> {
 
     @EJB
-    private EditoraService editoraService;
+    private EditoraServico editoraService;
 
     @GET
     @Path("get/nome")

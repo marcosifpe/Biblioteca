@@ -23,7 +23,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
-import service.LivroService;
+import service.LivroServico;
 
 /**
  *
@@ -36,7 +36,7 @@ import service.LivroService;
 public class LivroWebService extends JsonWebService<Livro> {
 
     @EJB
-    private LivroService livroService;
+    private LivroServico livroService;
 
     @GET
     @Path("isbn/{isbn}")

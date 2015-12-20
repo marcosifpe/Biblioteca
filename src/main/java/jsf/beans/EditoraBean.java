@@ -6,7 +6,7 @@ import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import service.EditoraService;
+import service.EditoraServico;
 
 /**
  *
@@ -16,16 +16,16 @@ import service.EditoraService;
 @ViewScoped
 public class EditoraBean extends Bean<Editora> implements Serializable {
     @EJB
-    private EditoraService editoraService;
+    private EditoraServico editoraServico;
 
     @Override
     protected void iniciarCampos() {
-        setEntidade(editoraService.criar());
+        setEntidade(editoraServico.criar());
     }
 
     @Override
     protected boolean salvar(Editora entidade) throws ExcecaoNegocio {
-        this.editoraService.salvar(entidade);
+        this.editoraServico.salvar(entidade);
         return true;
     }
 }

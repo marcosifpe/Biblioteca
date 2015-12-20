@@ -6,7 +6,7 @@ import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import service.AutorService;
+import service.AutorServico;
 
 /**
  *
@@ -17,16 +17,16 @@ import service.AutorService;
 public class AutorBean extends Bean<Autor> implements Serializable {
 
     @EJB
-    private AutorService autorService;
+    private AutorServico servicoAutor;
 
     @Override
     protected void iniciarCampos() {
-        setEntidade(autorService.criar());
+        setEntidade(servicoAutor.criar());
     }
 
     @Override
     protected boolean salvar(Autor entidade) throws ExcecaoNegocio {
-        autorService.salvar(entidade);
+        servicoAutor.salvar(entidade);
         return true;
     }
 }

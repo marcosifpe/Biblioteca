@@ -13,7 +13,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
-import service.UsuarioService;
+import service.UsuarioServico;
 
 /**
  *
@@ -28,7 +28,7 @@ public class UsuarioBean extends Bean<Usuario> implements Serializable {
     }
 
     @EJB
-    private UsuarioService usuarioService;
+    private UsuarioServico usuarioServico;
     private boolean sucesso = true;
 
     @Override
@@ -43,7 +43,7 @@ public class UsuarioBean extends Bean<Usuario> implements Serializable {
         this.sucesso = false;
         Recaptcha recaptcha = new Recaptcha(FacesContext.getCurrentInstance());
         if (recaptcha.validar()) {
-            usuarioService.salvar(entidade);
+            usuarioServico.salvar(entidade);
             this.sucesso = true;
         } else {
             super.adicionarMessagem(FacesMessage.SEVERITY_WARN, "Captcha inválido!");

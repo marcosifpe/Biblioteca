@@ -11,7 +11,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import service.LivroService;
+import service.LivroServico;
 
 /**
  *
@@ -22,13 +22,13 @@ import service.LivroService;
 public class LivrosPaginator implements Serializable {
 
     @EJB
-    private LivroService livroService;
+    private LivroServico livroServico;
 
     private List<Livro> livros;
 
     public List<Livro> getLivros() {
         if (livros == null) {
-            livros = livroService.getLivros();
+            livros = livroServico.getLivros();
         }
 
         return livros;

@@ -33,7 +33,7 @@ import javax.mail.internet.MimeMessage;
 @LocalBean
 @TransactionManagement(CONTAINER)
 @TransactionAttribute(SUPPORTS)
-public class EmailService {
+public class EmailServico {
     @Resource(name = "mail/scSession")
     private Session sessao;
     
@@ -49,15 +49,15 @@ public class EmailService {
     
     private boolean enviar(String para) {
         try {
-            Message message = new MimeMessage(sessao);
-            message.setRecipients(Message.RecipientType.TO,
+            Message mensagem = new MimeMessage(sessao);
+            mensagem.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(para));
-            message.setSubject("Cadastro realizado com sucesso");
-            message.setText("Cadastro realizado com sucesso. E-mail automático.");
-            Transport.send(message);
+            mensagem.setSubject("Cadastro realizado com sucesso");
+            mensagem.setText("Cadastro realizado com sucesso. E-mail automático.");
+            Transport.send(mensagem);
             return true;
         } catch (MessagingException ex) {
-            Logger.getLogger(EmailService.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            Logger.getLogger(EmailServico.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
             return false;
         }
     }

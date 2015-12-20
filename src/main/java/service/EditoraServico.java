@@ -27,7 +27,7 @@ import javax.ejb.TransactionManagement;
 @LocalBean
 @TransactionManagement(CONTAINER)
 @TransactionAttribute(REQUIRED)
-public class EditoraService extends Servico<Editora> {
+public class EditoraServico extends Servico<Editora> {
 
     @Resource
     private SessionContext sessionContext;

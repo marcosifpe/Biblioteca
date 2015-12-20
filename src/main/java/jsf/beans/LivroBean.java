@@ -12,9 +12,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
-import service.AutorService;
-import service.EditoraService;
-import service.LivroService;
+import service.AutorServico;
+import service.EditoraServico;
+import service.LivroServico;
 
 /**
  *
@@ -24,15 +24,15 @@ import service.LivroService;
 @SessionScoped
 public class LivroBean extends Bean<Livro> implements Serializable {
     @EJB
-    private AutorService autorService;
+    private AutorServico autorServico;
     @EJB
-    private EditoraService editoraService;
+    private EditoraServico editoraServico;
     @EJB
-    private LivroService livroService;
+    private LivroServico livroServico;
 
     @Override
     protected void iniciarCampos() {
-        setEntidade(livroService.criar());
+        setEntidade(livroServico.criar());
     }
 
     public void upload(FileUploadEvent event) {
@@ -48,16 +48,16 @@ public class LivroBean extends Bean<Livro> implements Serializable {
     }
 
     public List<Autor> getAutores() {
-        return autorService.getAutores();
+        return autorServico.getAutores();
     }
 
     public List<Editora> getEditoras() {
-        return editoraService.getEditoras();
+        return editoraServico.getEditoras();
     }
 
     @Override
     protected boolean salvar(Livro entidade) throws ExcecaoNegocio {
-        this.livroService.salvar(entidade);
+        this.livroServico.salvar(entidade);
         return true;
     }
 }

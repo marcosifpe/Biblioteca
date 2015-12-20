@@ -26,7 +26,7 @@ import javax.ejb.TransactionManagement;
 @DeclareRoles({ADMINISTRADOR, USUARIO})
 @TransactionManagement(CONTAINER)
 @TransactionAttribute(REQUIRED) 
-public class AutorService extends Servico<Autor> {   
+public class AutorServico extends Servico<Autor> {   
     @RolesAllowed({ADMINISTRADOR})
     public void salvar(Autor autor) throws ExcecaoNegocio {
         checarExistencia(Autor.AUTOR_POR_CPF, autor.getCpf());

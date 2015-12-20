@@ -26,7 +26,7 @@ import javax.ejb.TransactionManagement;
 @LocalBean
 @TransactionManagement(CONTAINER)
 @DeclareRoles({ADMINISTRADOR, USUARIO})
-public class GrupoService extends Servico<Grupo> {
+public class GrupoServico extends Servico<Grupo> {
     @TransactionAttribute(SUPPORTS)       
     @PermitAll    
     public Grupo getGrupo(String nomeGrupo) {

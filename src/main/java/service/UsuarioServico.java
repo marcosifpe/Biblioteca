@@ -10,7 +10,6 @@ import static javax.ejb.TransactionAttributeType.REQUIRED;
 import static acesso.Usuario.USUARIO_POR_LOGIN;
 import static acesso.Grupo.USUARIO;
 
-import acesso.Grupo;
 import acesso.Usuario;
 import excecao.ExcecaoNegocio;
 import javax.ejb.EJB;
@@ -27,11 +26,11 @@ import javax.ejb.TransactionManagement;
 @LocalBean
 @TransactionManagement(CONTAINER)
 @TransactionAttribute(REQUIRED)
-public class UsuarioService extends Servico<Usuario> {
+public class UsuarioServico extends Servico<Usuario> {
     @EJB
-    private GrupoService grupoService;
+    private GrupoServico grupoService;
     @EJB
-    private EmailService emailService;
+    private EmailServico emailService;
 
     public void salvar(Usuario usuario) throws ExcecaoNegocio {
         checarExistencia(USUARIO_POR_LOGIN, usuario.getLogin());
