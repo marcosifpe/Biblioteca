@@ -5,7 +5,6 @@
  */
 package excecao;
 
-import excecao.util.MensagemExcecao;
 import javax.ejb.ApplicationException;
 
 /**

@@ -5,7 +5,6 @@
  */
 package excecao;
 
-import excecao.util.MensagemExcecao;
 import javax.persistence.EntityExistsException;
 import javax.persistence.NoResultException;
 import javax.validation.ConstraintViolationException;

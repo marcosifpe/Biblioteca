@@ -7,7 +7,7 @@ package jsf.beans;
 
 import biblioteca.Entidade;
 import excecao.ExcecaoNegocio;
-import excecao.util.MensagemExcecao;
+import excecao.MensagemExcecao;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJBException;
 import javax.faces.application.FacesMessage;
