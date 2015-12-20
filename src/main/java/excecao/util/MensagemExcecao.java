@@ -5,10 +5,8 @@
  */
 package excecao.util;
 
-import excecao.ExcecaoLogin;
 import excecao.ExcecaoNegocio;
 import java.util.Set;
-import javax.security.auth.login.LoginException;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import util.LeitorPropriedades;
@@ -49,8 +47,6 @@ public class MensagemExcecao {
                                     mensagem.toString()));
         } else if (excecao instanceof ExcecaoNegocio) {
             mensagem.append(leitor.get(((ExcecaoNegocio)excecao).getChave()));
-        } else if (excecao instanceof ExcecaoLogin) {
-            mensagem.append(leitor.get(((ExcecaoLogin)excecao).getChave()));
         } else if (excecao != null && leitor.get(excecao.getClass().getName()) != null) {
             mensagem.append(leitor.get(excecao.getClass().getName()));
         } else {

@@ -44,10 +44,7 @@ public class MapeadorExcecao implements ExceptionMapper<Exception> {
         Throwable causa = excecao;
 
         while (causa != null) {
-            if (causa instanceof ExcecaoLogin) {
-                status = Response.Status.UNAUTHORIZED;
-                break;
-            } else if (causa instanceof NoResultException) {
+            if (causa instanceof NoResultException) {
                 status = Response.Status.NOT_FOUND;
                 break;
             } else if (causa instanceof EntityExistsException) {
@@ -57,7 +54,12 @@ public class MapeadorExcecao implements ExceptionMapper<Exception> {
                 status = Response.Status.INTERNAL_SERVER_ERROR;
                 break;
             } else if (causa instanceof ExcecaoNegocio) {
-                status = Response.Status.EXPECTATION_FAILED;
+                if (((ExcecaoNegocio) causa).isAutorizacao()) {
+                    status = Response.Status.UNAUTHORIZED;
+                } else {
+                    status = Response.Status.EXPECTATION_FAILED;
+                }
+                
                 break;
             } else if (causa instanceof ConstraintViolationException) {
                 status = Response.Status.EXPECTATION_FAILED;                

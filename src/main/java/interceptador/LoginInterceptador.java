@@ -6,7 +6,7 @@
 package interceptador;
 
 import acesso.Papel;
-import excecao.ExcecaoLogin;
+import excecao.ExcecaoNegocio;
 import javax.annotation.Resource;
 import javax.ejb.SessionContext;
 import javax.interceptor.AroundInvoke;
@@ -49,14 +49,14 @@ public class LoginInterceptador extends JsonInterceptador {
                     if (contexto.isCallerInRole(Papel.ADMINISTRADOR)) {
                         resultado = ic.proceed();
                     } else {
-                        throw new ExcecaoLogin(ExcecaoLogin.ACESSO_NAO_AUTORIZADO);
+                        throw new ExcecaoNegocio(ExcecaoNegocio.ACESSO_NAO_AUTORIZADO);
                     }
 
                 } catch (ServletException ex) {
-                    throw new ExcecaoLogin(ExcecaoLogin.LOGIN_INVALIDO);
+                    throw new ExcecaoNegocio(ExcecaoNegocio.LOGIN_INVALIDO);
                 }
             } else {
-                throw new ExcecaoLogin(ExcecaoLogin.CREDENCIAIS_OMITIDAS);
+                throw new ExcecaoNegocio(ExcecaoNegocio.CREDENCIAIS_OMITIDAS);
             }
         } finally {
             if (request != null) {

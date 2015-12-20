@@ -34,4 +34,15 @@ public class ExcecaoNegocio extends Exception {
         MensagemExcecao mensagemExcecao = new MensagemExcecao(this);
         return mensagemExcecao.getMensagem();
     }
+    
+    public boolean isAutorizacao() {
+        switch(chave) {
+            case ACESSO_NAO_AUTORIZADO:
+            case CREDENCIAIS_OMITIDAS:
+            case LOGIN_INVALIDO:
+                return true;
+            default:
+                return false;
+        }
+    }
 }
