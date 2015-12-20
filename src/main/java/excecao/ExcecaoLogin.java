@@ -13,24 +13,22 @@ import javax.ejb.ApplicationException;
  * @author MASC
  */
 @ApplicationException(rollback = true)
-public class ExcecaoNegocio extends Exception {
+public class ExcecaoLogin extends Exception {
     private String chave;
-    public static final String REMOVER_AUTOR = "excecao.ExcecaoNegocio.autorServico.remover";
-    public static final String OBJETO_EXISTENTE = "excecao.ExcecaoNegocio.objetoExistente";  
     public static final String ACESSO_NAO_AUTORIZADO = "acesso.nao.autorizado";
     public static final String CREDENCIAIS_OMITIDAS = "acesso.credenciais.omitidadas";
-    public static final String LOGIN_INVALIDO = "acesso.login.invalido";    
-    
-    public ExcecaoNegocio(String chave) {
+    public static final String LOGIN_INVALIDO = "acesso.login.invalido";
+
+    public ExcecaoLogin(String chave) {
         this.chave = chave;
-    }  
+    }
 
     public String getChave() {
         return chave;
     }
-    
+
     @Override
-    public String getMessage() {
+    public String getMessage() {        
         MensagemExcecao mensagemExcecao = new MensagemExcecao(this);
         return mensagemExcecao.getMensagem();
     }

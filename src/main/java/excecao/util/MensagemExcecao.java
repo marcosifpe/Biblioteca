@@ -5,7 +5,10 @@
  */
 package excecao.util;
 
+import excecao.ExcecaoLogin;
+import excecao.ExcecaoNegocio;
 import java.util.Set;
+import javax.security.auth.login.LoginException;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import util.LeitorPropriedades;
@@ -15,9 +18,9 @@ import util.LeitorPropriedades;
  * @author MASC
  */
 public class MensagemExcecao {
-
     protected Throwable excecao;
     protected LeitorPropriedades leitor;
+    private static final String CHAVE_MENSAGEM_PADRAO = "java.lang.Exception";
 
     public MensagemExcecao(Throwable excecao) {
         this.excecao = excecao;
@@ -44,7 +47,16 @@ public class MensagemExcecao {
                     = new StringBuilder(String.format(
                                     leitor.get(excecao.getClass().getName()),
                                     mensagem.toString()));
+        } else if (excecao instanceof ExcecaoNegocio) {
+            mensagem.append(leitor.get(((ExcecaoNegocio)excecao).getChave()));
+        } else if (excecao instanceof ExcecaoLogin) {
+            mensagem.append(leitor.get(((ExcecaoLogin)excecao).getChave()));
+        } else if (excecao != null && leitor.get(excecao.getClass().getName()) != null) {
+            mensagem.append(leitor.get(excecao.getClass().getName()));
+        } else {
+           mensagem.append(leitor.get(CHAVE_MENSAGEM_PADRAO));
         }
+        
         return mensagem.toString();
     }
 }

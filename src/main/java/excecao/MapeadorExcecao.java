@@ -5,6 +5,7 @@
  */
 package excecao;
 
+import excecao.util.MensagemExcecao;
 import java.util.Set;
 import javax.persistence.EntityExistsException;
 import javax.persistence.NoResultException;
@@ -38,62 +39,36 @@ public class MapeadorExcecao implements ExceptionMapper<Exception> {
 
     @Override
     public Response toResponse(Exception excecao) {
-        Response.Status status = null;
-        RespostaJson respostaJson = null;
+        Response.Status status = Response.Status.INTERNAL_SERVER_ERROR;
+        RespostaJson respostaJson;
         Throwable causa = excecao;
 
         while (causa != null) {
-            if (causa instanceof LoginException) {
+            if (causa instanceof ExcecaoLogin) {
                 status = Response.Status.UNAUTHORIZED;
-                respostaJson = getRespostaJson(causa.getMessage());
                 break;
             } else if (causa instanceof NoResultException) {
                 status = Response.Status.NOT_FOUND;
-                respostaJson = getRespostaJson(leitor.get(causa.getClass().getName()));
                 break;
             } else if (causa instanceof EntityExistsException) {
                 status = Response.Status.FOUND;
-                respostaJson = getRespostaJson(leitor.get(causa.getClass().getName()));
                 break;
             } else if (causa instanceof ExcecaoSistema) {
                 status = Response.Status.INTERNAL_SERVER_ERROR;
-                respostaJson = getRespostaJson(leitor.get(causa.getClass().getName()));
                 break;
             } else if (causa instanceof ExcecaoNegocio) {
                 status = Response.Status.EXPECTATION_FAILED;
-                respostaJson = getRespostaJson(causa.getMessage());
                 break;
             } else if (causa instanceof ConstraintViolationException) {
-                ConstraintViolationException violacoes = (ConstraintViolationException) causa;
-                StringBuilder builder = new StringBuilder();
-                Set<ConstraintViolation<?>> constraintViolations = violacoes.getConstraintViolations();
-
-                for (ConstraintViolation violation : constraintViolations) {
-                    if (builder.length() != 0) {
-                        builder.append("; ");
-                    }
-
-                    builder.append(violation.getPropertyPath());
-                    builder.append(" ");
-                    builder.append(violation.getMessage());
-                }
-
-                status = Response.Status.EXPECTATION_FAILED;
-                respostaJson = getRespostaJson(String.format(leitor.get(causa.getClass().getName()), builder.toString()));
+                status = Response.Status.EXPECTATION_FAILED;                
                 break;
             }
             
             causa = causa.getCause();
         }
 
-        /*
-         * Mensagem padrão
-         */
-        if (respostaJson == null) {
-            status = Response.Status.INTERNAL_SERVER_ERROR;
-            respostaJson = getRespostaJson(leitor.get(Exception.class.getName()));
-        }
-
+        MensagemExcecao mensagemExcecao = new MensagemExcecao(causa);
+        respostaJson = getRespostaJson(mensagemExcecao.getMensagem());        
         return Response.status(status).entity(respostaJson).type(MediaType.valueOf(APPLICATION_JSON + ";charset=UTF-8")).build();
     }
 }

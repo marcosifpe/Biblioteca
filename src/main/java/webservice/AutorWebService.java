@@ -45,6 +45,7 @@ import javax.ws.rs.core.Response;
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
 @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+@Interceptors({LoginInterceptador.class})
 public class AutorWebService extends JsonWebService<Autor> {
 
     @EJB
@@ -53,7 +54,6 @@ public class AutorWebService extends JsonWebService<Autor> {
     @GET
     @Path("get")
     @Produces(APPLICATION_JSON)
-    @Interceptors({LoginInterceptador.class})
     public Response getAutor(@QueryParam("cpf") String cpf,
             @Context HttpServletRequest request,
             @Context HttpHeaders httpHeaders) {
@@ -64,7 +64,6 @@ public class AutorWebService extends JsonWebService<Autor> {
     @GET
     @Path("get/autores")
     @Produces(APPLICATION_JSON)
-    @Interceptors({LoginInterceptador.class})
     public Response getAutores(@Context HttpServletRequest request,
             @Context HttpHeaders httpHeaders) {
         List<Autor> autores = autorServico.getAutores();
@@ -85,11 +84,7 @@ public class AutorWebService extends JsonWebService<Autor> {
     @Path("salvar")
     @Produces(APPLICATION_JSON)
     @Consumes(APPLICATION_JSON)
-    @Interceptors({LoginInterceptador.class})
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    /*
-    * Está dando bug quando eu tento incluir e é levantada a exceção EntityExistsException (por quê?)
-    */
     public Response salvarAutor(Autor autor,
             @Context HttpServletRequest request,
             @Context HttpHeaders httpHeaders) throws ExcecaoNegocio {
@@ -101,7 +96,6 @@ public class AutorWebService extends JsonWebService<Autor> {
     @Path("atualizar")
     @Produces(APPLICATION_JSON)
     @Consumes(APPLICATION_JSON)
-    @Interceptors({LoginInterceptador.class})
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public Response atualizarAutor(@QueryParam("cpf") String cpf,
             Autor autorJson,
@@ -116,7 +110,6 @@ public class AutorWebService extends JsonWebService<Autor> {
     @DELETE
     @Path("remover/{cfp}")
     @Produces(APPLICATION_JSON)
-    @Interceptors({LoginInterceptador.class})
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public Response removerAutor(@PathParam("cfp") String cpf,
             @Context HttpServletRequest request,

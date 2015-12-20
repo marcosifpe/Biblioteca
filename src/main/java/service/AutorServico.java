@@ -45,7 +45,7 @@ public class AutorServico extends Servico<Autor> {
         if (autor.isInativo())
             entityManager.remove(autor);
         else
-            throw new ExcecaoNegocio(ExcecaoNegocio.AUTOR_SERVICE_REMOVER);
+            throw new ExcecaoNegocio(ExcecaoNegocio.REMOVER_AUTOR);
     }
     
     @RolesAllowed({ADMINISTRADOR})

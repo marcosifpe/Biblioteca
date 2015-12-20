@@ -5,6 +5,7 @@
  */
 package excecao;
 
+import excecao.util.MensagemExcecao;
 import javax.ejb.ApplicationException;
 
 /**
@@ -16,4 +17,10 @@ public class ExcecaoSistema extends RuntimeException {
     public ExcecaoSistema(Throwable causa) {
         super(causa);
     }
+    
+    @Override
+    public String getMessage() {
+        MensagemExcecao mensagemExcecao = new MensagemExcecao(this);
+        return mensagemExcecao.getMensagem();
+    }    
 }
