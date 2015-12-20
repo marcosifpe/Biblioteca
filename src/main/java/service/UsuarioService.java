@@ -7,9 +7,12 @@ package service;
 
 import static javax.ejb.TransactionManagementType.CONTAINER;
 import static javax.ejb.TransactionAttributeType.REQUIRED;
+import static acesso.Usuario.USUARIO_POR_LOGIN;
+import static acesso.Grupo.USUARIO;
 
 import acesso.Grupo;
 import acesso.Usuario;
+import excecao.ExcecaoNegocio;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -24,15 +27,15 @@ import javax.ejb.TransactionManagement;
 @LocalBean
 @TransactionManagement(CONTAINER)
 @TransactionAttribute(REQUIRED)
-public class UsuarioService extends Service<Usuario> {
+public class UsuarioService extends Servico<Usuario> {
     @EJB
     private GrupoService grupoService;
     @EJB
     private EmailService emailService;
 
-    public void salvar(Usuario usuario) {
-        checkExistence(Usuario.USUARIO_POR_LOGIN, usuario.getLogin());
-        usuario.adicionarGrupo(grupoService.getGrupo(Grupo.USUARIO));
+    public void salvar(Usuario usuario) throws ExcecaoNegocio {
+        checarExistencia(USUARIO_POR_LOGIN, usuario.getLogin());
+        usuario.adicionarGrupo(grupoService.getGrupo(USUARIO));
         entityManager.persist(usuario);
         emailService.enviarMensagem(usuario.getEmail());
     }

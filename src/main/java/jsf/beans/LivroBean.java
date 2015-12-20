@@ -4,6 +4,7 @@ import biblioteca.ArquivoDigital;
 import biblioteca.Autor;
 import biblioteca.Editora;
 import biblioteca.Livro;
+import excecao.ExcecaoNegocio;
 import java.io.Serializable;
 import java.util.List;
 import javax.ejb.EJB;
@@ -19,7 +20,7 @@ import service.LivroService;
  *
  * @author MASC
  */
-@ManagedBean(name = "livroBean")
+@ManagedBean
 @SessionScoped
 public class LivroBean extends Bean<Livro> implements Serializable {
     @EJB
@@ -28,9 +29,6 @@ public class LivroBean extends Bean<Livro> implements Serializable {
     private EditoraService editoraService;
     @EJB
     private LivroService livroService;
-
-    private List<Editora> editoras;
-    private List<Autor> autores;
 
     @Override
     protected void iniciarCampos() {
@@ -50,23 +48,15 @@ public class LivroBean extends Bean<Livro> implements Serializable {
     }
 
     public List<Autor> getAutores() {
-        if (this.autores == null) {
-            this.autores = autorService.getAutores();
-        }
-
-        return this.autores;
+        return autorService.getAutores();
     }
 
     public List<Editora> getEditoras() {
-        if (this.editoras == null) {
-            this.editoras = editoraService.getEditoras();
-        }
-
-        return this.editoras;
+        return editoraService.getEditoras();
     }
 
     @Override
-    protected boolean salvar(Livro entidade) {
+    protected boolean salvar(Livro entidade) throws ExcecaoNegocio {
         this.livroService.salvar(entidade);
         return true;
     }

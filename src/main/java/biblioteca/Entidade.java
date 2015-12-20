@@ -3,10 +3,7 @@ package biblioteca;
 import excecao.ExcecaoSistema;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import java.io.IOException;
-import java.io.Reader;
 import java.io.Serializable;
-import java.io.StringReader;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -77,21 +74,10 @@ public abstract class Entidade implements Serializable {
         return false;
     }
 
-    private Entidade criar(String json, Class clazz) throws IOException {
-        Entidade entidade;
-        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
-        Reader reader = new StringReader(json);
-        entidade = (Entidade) gson.fromJson(reader, clazz);
-        reader.close();
-
-        return entidade;
-    }
-
-    public void setAtributos(String json) {
+    public void setAtributos(Entidade entidade) {
         try {
             Class classe = this.getClass();
-            Entidade entidade = criar(json, classe);
-
+            
             for (Field atributo : classe.getDeclaredFields()) {
                 atributo.setAccessible(true);
                 if (!Modifier.isFinal(atributo.getModifiers())
@@ -108,7 +94,7 @@ public abstract class Entidade implements Serializable {
                     }
                 }
             }
-        } catch (IOException | SecurityException | IllegalArgumentException | IllegalAccessException | NoSuchMethodException | InvocationTargetException ex) {
+        } catch (SecurityException | IllegalArgumentException | IllegalAccessException | NoSuchMethodException | InvocationTargetException ex) {
             throw new ExcecaoSistema(ex);
         }
     }

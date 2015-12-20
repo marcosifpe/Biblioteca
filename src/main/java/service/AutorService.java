@@ -26,10 +26,10 @@ import javax.ejb.TransactionManagement;
 @DeclareRoles({ADMINISTRADOR, USUARIO})
 @TransactionManagement(CONTAINER)
 @TransactionAttribute(REQUIRED) 
-public class AutorService extends Service<Autor> {   
+public class AutorService extends Servico<Autor> {   
     @RolesAllowed({ADMINISTRADOR})
-    public void salvar(Autor autor) {
-        checkExistence(Autor.AUTOR_POR_CPF, autor.getCpf());
+    public void salvar(Autor autor) throws ExcecaoNegocio {
+        checarExistencia(Autor.AUTOR_POR_CPF, autor.getCpf());
         entityManager.persist(autor);
     }
     
@@ -57,13 +57,13 @@ public class AutorService extends Service<Autor> {
     @TransactionAttribute(SUPPORTS)   
     @PermitAll
     public List<Autor> getAutores() {
-        return getResultList(Autor.AUTORES);
+        return getEntidades(Autor.AUTORES);
     }
     
     @TransactionAttribute(SUPPORTS)   
     @PermitAll
     public Autor getAutor(String cpf) {
-        return super.getSingleResult(Autor.AUTOR_POR_CPF, new Object[] {cpf});
+        return super.getEntidade(Autor.AUTOR_POR_CPF, new Object[] {cpf});
     }
 
     @TransactionAttribute(SUPPORTS)   

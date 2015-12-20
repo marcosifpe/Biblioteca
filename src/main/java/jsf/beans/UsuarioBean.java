@@ -6,6 +6,7 @@
 package jsf.beans;
 
 import acesso.Usuario;
+import excecao.ExcecaoNegocio;
 import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -38,7 +39,7 @@ public class UsuarioBean extends Bean<Usuario> implements Serializable {
     }
 
     @Override
-    protected boolean salvar(Usuario entidade) {
+    protected boolean salvar(Usuario entidade) throws ExcecaoNegocio {
         this.sucesso = false;
         Recaptcha recaptcha = new Recaptcha(FacesContext.getCurrentInstance());
         if (recaptcha.validar()) {

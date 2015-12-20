@@ -2,13 +2,13 @@ package service;
 
 import static acesso.Papel.ADMINISTRADOR;
 import static acesso.Papel.USUARIO;
-import biblioteca.ArquivoDigital;
 import static biblioteca.Livro.LIVRO_POR_ISBN;
 import static biblioteca.Livro.LIVRO_POR_ISBN_COM_ARQUIVO;
 import static javax.ejb.TransactionAttributeType.REQUIRED;
 import static javax.ejb.TransactionAttributeType.SUPPORTS;
 import static javax.ejb.TransactionManagementType.CONTAINER;
 import biblioteca.Livro;
+import excecao.ExcecaoNegocio;
 import java.util.List;
 import javax.annotation.security.DeclareRoles;
 import javax.annotation.security.PermitAll;
@@ -27,29 +27,29 @@ import javax.ejb.TransactionManagement;
 @TransactionManagement(CONTAINER)
 @TransactionAttribute(REQUIRED)
 @DeclareRoles({ADMINISTRADOR, USUARIO})
-public class LivroService extends Service<Livro> {
+public class LivroService extends Servico<Livro> {
     @RolesAllowed({ADMINISTRADOR})
-    public void salvar(Livro livro) {
-        checkExistence(LIVRO_POR_ISBN, livro.getIsbn());
+    public void salvar(Livro livro) throws ExcecaoNegocio {
+        checarExistencia(LIVRO_POR_ISBN, livro.getIsbn());
         entityManager.persist(livro);
     }
 
     @TransactionAttribute(SUPPORTS)
     @RolesAllowed({USUARIO})
     public List<Livro> getLivros() {
-        return getResultList(Livro.LIVROS);
+        return getEntidades(Livro.LIVROS);
     }
 
     @TransactionAttribute(SUPPORTS)
     @PermitAll
     public Livro getLivro(String isbn) {
-        return getSingleResult(LIVRO_POR_ISBN, new Object[]{isbn});
+        return getEntidade(LIVRO_POR_ISBN, new Object[]{isbn});
     }
     
     @TransactionAttribute(SUPPORTS)
     @PermitAll    
     public Livro getLivroComArquivo(String isbn) {
-        return getSingleResult(LIVRO_POR_ISBN_COM_ARQUIVO, new Object[]{isbn});
+        return getEntidade(LIVRO_POR_ISBN_COM_ARQUIVO, new Object[]{isbn});
     }
     
     @TransactionAttribute(SUPPORTS)

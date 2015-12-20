@@ -1,6 +1,7 @@
 package jsf.beans;
 
 import biblioteca.Editora;
+import excecao.ExcecaoNegocio;
 import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -11,7 +12,7 @@ import service.EditoraService;
  *
  * @author MASC
  */
-@ManagedBean(name = "editoraBean")
+@ManagedBean
 @ViewScoped
 public class EditoraBean extends Bean<Editora> implements Serializable {
     @EJB
@@ -23,7 +24,7 @@ public class EditoraBean extends Bean<Editora> implements Serializable {
     }
 
     @Override
-    protected boolean salvar(Editora entidade) {
+    protected boolean salvar(Editora entidade) throws ExcecaoNegocio {
         this.editoraService.salvar(entidade);
         return true;
     }

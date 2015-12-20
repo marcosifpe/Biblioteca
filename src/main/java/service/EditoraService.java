@@ -8,6 +8,7 @@ import static javax.ejb.TransactionAttributeType.REQUIRED;
 import static javax.ejb.TransactionAttributeType.SUPPORTS;
 
 import biblioteca.Editora;
+import excecao.ExcecaoNegocio;
 import java.util.List;
 import javax.annotation.Resource;
 import javax.ejb.EJBAccessException;
@@ -26,14 +27,14 @@ import javax.ejb.TransactionManagement;
 @LocalBean
 @TransactionManagement(CONTAINER)
 @TransactionAttribute(REQUIRED)
-public class EditoraService extends Service<Editora> {
+public class EditoraService extends Servico<Editora> {
 
     @Resource
     private SessionContext sessionContext;
 
-    public void salvar(Editora editora) {
+    public void salvar(Editora editora) throws ExcecaoNegocio {
         if (sessionContext.isCallerInRole(ADMINISTRADOR)) {
-            checkExistence(EDITORA_POR_NOME, editora.getNome());
+            checarExistencia(EDITORA_POR_NOME, editora.getNome());
             entityManager.persist(editora);
         } else {
             throw new EJBAccessException();
@@ -42,12 +43,12 @@ public class EditoraService extends Service<Editora> {
 
     @TransactionAttribute(SUPPORTS)
     public List<Editora> getEditoras() {
-        return getResultList(EDITORAS);
+        return getEntidades(EDITORAS);
     }
     
     @TransactionAttribute(SUPPORTS)    
     public Editora getEditora(String nome) {
-        return super.getSingleResult(EDITORA_POR_NOME, new Object[]{nome});
+        return super.getEntidade(EDITORA_POR_NOME, new Object[]{nome});
     }
     
     @TransactionAttribute(SUPPORTS)

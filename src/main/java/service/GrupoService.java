@@ -26,10 +26,10 @@ import javax.ejb.TransactionManagement;
 @LocalBean
 @TransactionManagement(CONTAINER)
 @DeclareRoles({ADMINISTRADOR, USUARIO})
-public class GrupoService extends Service<Grupo> {
+public class GrupoService extends Servico<Grupo> {
     @TransactionAttribute(SUPPORTS)       
     @PermitAll    
     public Grupo getGrupo(String nomeGrupo) {
-        return getSingleResult(Grupo.GRUPO_POR_NOME, new Object[]{nomeGrupo});
+        return getEntidade(Grupo.GRUPO_POR_NOME, new Object[]{nomeGrupo});
     }
 }

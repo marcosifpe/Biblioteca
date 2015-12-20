@@ -19,6 +19,7 @@ import javax.ejb.ApplicationException;
 public class ExcecaoNegocio extends Exception {
     private static final Properties properties = new Properties();
     public static final String AUTOR_SERVICE_REMOVER = "excecao.ExcecaoNegocio.AutorService.remover";
+    public static final String OBJETO_EXISTENTE = "excecao.ExcecaoNegocio.objetoExistente";    
     
     static {
         InputStream is = ExcecaoNegocio.class.getClassLoader().getResourceAsStream("Exception.properties");

@@ -1,6 +1,7 @@
 package jsf.beans;
 
 import biblioteca.Autor;
+import excecao.ExcecaoNegocio;
 import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -11,7 +12,7 @@ import service.AutorService;
  *
  * @author MASC
  */
-@ManagedBean(name = "autorBean")
+@ManagedBean
 @ViewScoped
 public class AutorBean extends Bean<Autor> implements Serializable {
 
@@ -24,7 +25,7 @@ public class AutorBean extends Bean<Autor> implements Serializable {
     }
 
     @Override
-    protected boolean salvar(Autor entidade) {
+    protected boolean salvar(Autor entidade) throws ExcecaoNegocio {
         autorService.salvar(entidade);
         return true;
     }

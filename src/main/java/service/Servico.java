@@ -7,11 +7,12 @@ package service;
 
 import static javax.persistence.PersistenceContextType.TRANSACTION;
 import static javax.ejb.TransactionAttributeType.SUPPORTS;
+import static excecao.ExcecaoNegocio.OBJETO_EXISTENTE;
 
 import biblioteca.Entidade;
+import excecao.ExcecaoNegocio;
 import java.util.List;
 import javax.ejb.TransactionAttribute;
-import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
@@ -23,21 +24,21 @@ import javax.persistence.TypedQuery;
  * @author MASC
  * @param <T> A classe do serviço
  */
-public abstract class Service<T extends Entidade> {
+public abstract class Servico<T extends Entidade> {
 
     @PersistenceContext(name = "biblioteca", type = TRANSACTION)
     protected EntityManager entityManager;
-    protected Class<T> clazz;
-    
-    @TransactionAttribute(SUPPORTS)        
-    protected List<T> getResultList(String nomeQuery) {
-        TypedQuery<T> query = entityManager.createNamedQuery(nomeQuery, clazz);
+    protected Class<T> classe;
+
+    @TransactionAttribute(SUPPORTS)
+    protected List<T> getEntidades(String nomeQuery) {
+        TypedQuery<T> query = entityManager.createNamedQuery(nomeQuery, classe);
         return query.getResultList();
     }
 
-    @TransactionAttribute(SUPPORTS)        
-    protected List<T> getResultList(String nomeQuery, Object[] parametros) {
-        TypedQuery<T> query = entityManager.createNamedQuery(nomeQuery, clazz);
+    @TransactionAttribute(SUPPORTS)
+    protected List<T> getEntidades(String nomeQuery, Object[] parametros) {
+        TypedQuery<T> query = entityManager.createNamedQuery(nomeQuery, classe);
 
         int i = 1;
         for (Object parametro : parametros) {
@@ -47,9 +48,9 @@ public abstract class Service<T extends Entidade> {
         return query.getResultList();
     }
 
-    @TransactionAttribute(SUPPORTS)    
-    protected T getSingleResult(String nomeQuery, Object[] parametros) {
-        TypedQuery<T> query = entityManager.createNamedQuery(nomeQuery, clazz);
+    @TransactionAttribute(SUPPORTS)
+    protected T getEntidade(String nomeQuery, Object[] parametros) {
+        TypedQuery<T> query = entityManager.createNamedQuery(nomeQuery, classe);
 
         int i = 1;
         for (Object parametro : parametros) {
@@ -59,20 +60,20 @@ public abstract class Service<T extends Entidade> {
         return query.getSingleResult();
     }
 
-    @TransactionAttribute(SUPPORTS)        
-    protected void checkExistence(String nomeQuery, Object parametro)
-            throws EntityExistsException {
-        T object;
+    @TransactionAttribute(SUPPORTS)
+    protected void checarExistencia(String nomeQuery, Object parametro)
+            throws ExcecaoNegocio {
+        T entidade;
 
         try {
-            object = getSingleResult(nomeQuery, new Object[] {parametro});
-            if (object != null) {
-                throw new EntityExistsException(parametro.toString());
-            }           
+            entidade = getEntidade(nomeQuery, new Object[]{parametro});
+            if (entidade != null) {
+                throw new ExcecaoNegocio(OBJETO_EXISTENTE);
+            }
         } catch (NonUniqueResultException ex) {
-            throw new EntityExistsException(parametro.toString(), ex);
+            throw new ExcecaoNegocio(OBJETO_EXISTENTE);
         } catch (NoResultException ex) {
-            
+
         }
     }
 }

@@ -90,10 +90,10 @@ public class AutorWebService extends JsonWebService<Autor> {
     /*
     * Está dando bug quando eu tento incluir e é levantada a exceção EntityExistsException (por quê?)
     */
-    public Response salvarAutor(Autor jsonAutor,
+    public Response salvarAutor(Autor autor,
             @Context HttpServletRequest request,
-            @Context HttpHeaders httpHeaders) {
-        autorService.salvar(jsonAutor);
+            @Context HttpHeaders httpHeaders) throws ExcecaoNegocio {
+        autorService.salvar(autor);
         return getJsonResponse(super.sucesso());
     }
 
@@ -104,12 +104,11 @@ public class AutorWebService extends JsonWebService<Autor> {
     @Interceptors({LoginInterceptador.class})
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public Response atualizarAutor(@QueryParam("cpf") String cpf,
-            Autor jsonAutor,
+            Autor autorJson,
             @Context HttpServletRequest request,
             @Context HttpHeaders httpHeaders) {
         Autor autor = autorService.getAutor(cpf);
-        autor.setPrimeiroNome(jsonAutor.getPrimeiroNome());
-        autor.setUltimoNome(jsonAutor.getUltimoNome());
+        autor.setAtributos(autorJson);
         autorService.atualizar(autor);
         return getJsonResponse(super.sucesso());
     }

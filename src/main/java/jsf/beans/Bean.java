@@ -6,11 +6,10 @@
 package jsf.beans;
 
 import biblioteca.Entidade;
+import excecao.ExcecaoNegocio;
 import javax.annotation.PostConstruct;
-import javax.ejb.EJBException;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.persistence.EntityExistsException;
 
 /**
  *
@@ -28,7 +27,7 @@ public abstract class Bean<T extends Entidade> {
 
     protected abstract void iniciarCampos();
 
-    protected abstract boolean salvar(T entidade);
+    protected abstract boolean salvar(T entidade) throws ExcecaoNegocio;
 
     public T getEntidade() {
         return entidade;
@@ -44,12 +43,8 @@ public abstract class Bean<T extends Entidade> {
             if (sucesso) {
                 adicionarMessagem(FacesMessage.SEVERITY_INFO, "Cadastro realizado com sucesso!");
             }
-        } catch (EJBException ex) {
-            if (entidadeExistente(ex)) {
-                return;
-            }
-
-            throw ex;
+        } catch (ExcecaoNegocio ex) {
+            adicionarMessagem(FacesMessage.SEVERITY_WARN, ex.getMessage());
         } finally {
             iniciarCampos();
         }
@@ -58,14 +53,5 @@ public abstract class Bean<T extends Entidade> {
     protected void adicionarMessagem(FacesMessage.Severity severity, String mensagem) {
         FacesMessage message = new FacesMessage(severity, mensagem, null);
         FacesContext.getCurrentInstance().addMessage(null, message);
-    }
-
-    protected boolean entidadeExistente(EJBException ex) {
-        if (ex.getCause() instanceof EntityExistsException) {
-            adicionarMessagem(FacesMessage.SEVERITY_WARN, "Objeto " + ex.getCause().getMessage() + " já cadastrado!");
-            return true;
-        }
-
-        return false;
     }
 }
