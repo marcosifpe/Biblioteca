@@ -1,9 +1,6 @@
 package biblioteca;
 
 import excecao.ExcecaoSistema;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -25,7 +22,6 @@ import javax.xml.bind.annotation.XmlAttribute;
 @MappedSuperclass
 @XmlAccessorType(XmlAccessType.FIELD)
 public abstract class Entidade implements Serializable {
-    @Expose
     @XmlAttribute
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

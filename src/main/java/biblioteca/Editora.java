@@ -1,6 +1,5 @@
 package biblioteca;
 
-import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
@@ -40,7 +39,6 @@ import org.hibernate.validator.constraints.NotBlank;
 public class Editora extends Entidade implements Serializable {
     public static final String EDITORA_POR_NOME = "EditoraPorNome";
     public static final String EDITORAS = "Editoras";   
-    @Expose
     @XmlAttribute(required = true)
     @NotBlank
     @Size(max = 50)

@@ -1,6 +1,5 @@
 package biblioteca;
 
-import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -70,44 +69,37 @@ public class Livro extends Entidade implements Serializable {
     public static final String LIVROS = "Livros";
     public static final String LIVRO_POR_ISBN = "LivroPorIsbn";
     public static final String LIVRO_POR_ISBN_COM_ARQUIVO = "LivroPorIsbnComArquivo";
-    @Expose
     @XmlAttribute(required = true)
     @NotBlank
     @Size(max = 17)
     @Pattern(regexp = "[0-9]{3}-[0-9]{2}-[0-9]{4}-[0-9]{3}-[0-9]{1}")
     @Column(name = "TXT_ISBN", length = 17, nullable = false, updatable = false)
     private String isbn;
-    @Expose   
     @XmlElement(required = true)
     @NotBlank
     @Size(max = 50)
     @Column(name = "TXT_TITULO", length = 50, nullable = false)
-    private String titulo;
-    @Expose 
+    private String titulo; 
     @XmlElement(required = true)    
     @XmlJavaTypeAdapter(AdaptadorData.class)    
     @NotNull
     @Past
     @Temporal(TemporalType.DATE)
     @Column(name = "DT_LANCAMENTO", nullable = false)
-    protected Date dataLancamento;
-    @Expose 
+    protected Date dataLancamento; 
     @XmlElement(required = true)
     @XmlJavaTypeAdapter(AdaptadorData.class)
     @NotNull    
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DT_CRIACAO", nullable = false)
-    protected Date dataCriacao;   
-    @Expose   
+    protected Date dataCriacao;      
     @Valid
     @Embedded
-    private ArquivoDigital arquivoDigital;
-    @Expose  
+    private ArquivoDigital arquivoDigital;  
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_EDITORA", referencedColumnName = "ID", nullable = false)
     private Editora editora;    
-    @Expose
     @XmlElement(required = true)    
     @NotEmpty
     @ManyToMany(fetch = FetchType.LAZY)
