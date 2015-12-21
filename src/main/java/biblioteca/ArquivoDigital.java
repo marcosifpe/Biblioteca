@@ -13,6 +13,10 @@ import javax.persistence.Embeddable;
 import javax.persistence.FetchType;
 import javax.persistence.Lob;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlTransient;
 import org.hibernate.validator.constraints.NotBlank;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -22,18 +26,22 @@ import org.primefaces.model.StreamedContent;
  * @author MASC
  */
 @Embeddable
+@XmlAccessorType(XmlAccessType.FIELD)
 public class ArquivoDigital implements Serializable {
+    @XmlTransient
     @NotNull
     @Lob
     @Basic(fetch = FetchType.LAZY, optional = true)
     @Column(name = "BLOB_ARQUIVO", nullable = true)
     private byte[] arquivo;
+    @XmlAttribute(required = true)
     @NotNull    
     @ExtensaoDocumento
     @Column(name = "TXT_EXTENSAO_ARQUIVO", nullable = true)
     private String extensao;
-    @NotBlank
+    @XmlAttribute(required = true)
     @Expose
+    @NotBlank    
     @Column(name = "TXT_NOME_ARQUIVO", nullable = true)
     private String nome;
 

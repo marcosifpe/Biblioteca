@@ -10,6 +10,10 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
 import org.hibernate.validator.constraints.NotBlank;
 
 /**
@@ -31,10 +35,13 @@ import org.hibernate.validator.constraints.NotBlank;
         }
 )
 @Access(AccessType.FIELD)
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Editora extends Entidade implements Serializable {
     public static final String EDITORA_POR_NOME = "EditoraPorNome";
     public static final String EDITORAS = "Editoras";   
     @Expose
+    @XmlAttribute(required = true)
     @NotBlank
     @Size(max = 50)
     @Column(name = "TXT_NOME", length = 50, nullable = false, updatable = false)

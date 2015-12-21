@@ -13,7 +13,7 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
-import webservice.RespostaJson;
+import webservice.Resposta;
 
 /**
  *
@@ -21,14 +21,14 @@ import webservice.RespostaJson;
  */
 @Provider
 public class MapeadorExcecao implements ExceptionMapper<Exception> {
-    public RespostaJson getRespostaJson(String mensagem) {
-        return new RespostaJson(false, mensagem);
+    public Resposta getResposta(String mensagem) {
+        return new Resposta(false, mensagem);
     }
 
     @Override
     public Response toResponse(Exception excecao) {
         Response.Status status = Response.Status.INTERNAL_SERVER_ERROR;
-        RespostaJson respostaJson;
+        Resposta resposta;
         Throwable causa = excecao;
 
         while (causa != null) {
@@ -58,7 +58,7 @@ public class MapeadorExcecao implements ExceptionMapper<Exception> {
         }
 
         MensagemExcecao mensagemExcecao = new MensagemExcecao(causa);
-        respostaJson = getRespostaJson(mensagemExcecao.getMensagem());        
-        return Response.status(status).entity(respostaJson).type(MediaType.valueOf(APPLICATION_JSON + ";charset=UTF-8")).build();
+        resposta = getResposta(mensagemExcecao.getMensagem());        
+        return Response.status(status).entity(resposta).type(MediaType.valueOf(APPLICATION_JSON + ";charset=UTF-8")).build();
     }
 }

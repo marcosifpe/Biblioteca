@@ -6,11 +6,10 @@
 package webservice;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+import static javax.ws.rs.core.MediaType.APPLICATION_XML;
 
 import interceptador.LoginInterceptador;
 import biblioteca.Autor;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -31,10 +30,9 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import servico.AutorServico;
 import excecao.ExcecaoNegocio;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import javax.ws.rs.PUT;
+import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.Response;
 
 /**
@@ -46,55 +44,50 @@ import javax.ws.rs.core.Response;
 @TransactionManagement(TransactionManagementType.CONTAINER)
 @TransactionAttribute(TransactionAttributeType.SUPPORTS)
 @Interceptors({LoginInterceptador.class})
-public class AutorWebService extends JsonWebService<Autor> {
+public class AutorWebService extends WebService<Autor> {
 
     @EJB
     private AutorServico autorServico;
 
     @GET
     @Path("get")
-    @Produces(APPLICATION_JSON)
+    @Produces({APPLICATION_JSON, APPLICATION_XML})
     public Response getAutor(@QueryParam("cpf") String cpf,
             @Context HttpServletRequest request,
             @Context HttpHeaders httpHeaders) {
         Autor autor = autorServico.getAutor(cpf);
-        return super.getJsonResponse(autor);
+        return super.getResposta(autor);
     }
 
     @GET
     @Path("get/autores")
-    @Produces(APPLICATION_JSON)
+    @Produces({APPLICATION_JSON, APPLICATION_XML})
     public Response getAutores(@Context HttpServletRequest request,
             @Context HttpHeaders httpHeaders) {
         List<Autor> autores = autorServico.getAutores();
-        return getAutores(autores);
+        return super.getRespostaLista(autores);
     }
-
-    private Response getAutores(List<Autor> autores) {
-        GsonBuilder builder = new GsonBuilder();
-        builder = builder.excludeFieldsWithoutExposeAnnotation();
-        builder = builder.setDateFormat("dd/MM/yyyy hh:mm:ss");
-        Gson gson = builder.create();
-        Map autoresMap = new HashMap<String, List<Autor>>();
-        autoresMap.put("autores", autores);
-        return getJsonResponse(gson.toJson(autoresMap));
+    
+    @Override
+    public GenericEntity<List<Autor>> getListaGenerica(List<Autor> entidades) {
+        return new GenericEntity<List<Autor>>(entidades){};
     }
 
     @POST
     @Path("salvar")
-    @Produces(APPLICATION_JSON)
+    @Produces({APPLICATION_JSON, APPLICATION_XML})
     @Consumes(APPLICATION_JSON)
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public Response salvarAutor(Autor autor,
             @Context HttpServletRequest request,
             @Context HttpHeaders httpHeaders) throws ExcecaoNegocio {
         autorServico.salvar(autor);
-        return getJsonResponse(super.sucesso());
+        return super.getRespostaSucesso();
     }
 
     @PUT
     @Path("atualizar")
-    @Produces(APPLICATION_JSON)
+    @Produces({APPLICATION_JSON, APPLICATION_XML})
     @Consumes(APPLICATION_JSON)
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public Response atualizarAutor(@QueryParam("cpf") String cpf,
@@ -104,17 +97,17 @@ public class AutorWebService extends JsonWebService<Autor> {
         Autor autor = autorServico.getAutor(cpf);
         autor.setAtributos(autorJson);
         autorServico.atualizar(autor);
-        return getJsonResponse(super.sucesso());
+        return super.getRespostaSucesso();
     }
 
     @DELETE
     @Path("remover/{cfp}")
-    @Produces(APPLICATION_JSON)
+    @Produces({APPLICATION_JSON, APPLICATION_XML})
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public Response removerAutor(@PathParam("cfp") String cpf,
             @Context HttpServletRequest request,
             @Context HttpHeaders httpHeaders) throws ExcecaoNegocio {
         autorServico.remover(cpf);
-        return getJsonResponse(super.sucesso());
+        return super.getRespostaSucesso();
     }
 }

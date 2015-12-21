@@ -5,19 +5,29 @@
  */
 package webservice;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  *
  * @author MASC
  */
-public class RespostaJson {
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
+public class Resposta {
+    @XmlAttribute
     private boolean sucesso;
+    @XmlElement
     private String mensagem;
 
-    public RespostaJson() {
+    public Resposta() {
         
     }
     
-    public RespostaJson(boolean  sucesso, String mensagem) {
+    public Resposta(boolean  sucesso, String mensagem) {
         setMensagem(mensagem);
         setSucesso(sucesso);
     }

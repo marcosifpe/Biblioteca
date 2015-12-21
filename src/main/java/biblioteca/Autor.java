@@ -16,6 +16,12 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import org.hibernate.validator.constraints.br.CPF;
 
 /**
@@ -39,23 +45,29 @@ import org.hibernate.validator.constraints.br.CPF;
         }
 )
 @Access(AccessType.FIELD)
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Autor extends Entidade implements Serializable {
     public static final String AUTOR_POR_CPF = "AutorPorCpf";
     public static final String AUTORES = "Autores";
     @Expose
+    @XmlElement(required = true)
     @Size(max = 20)
     @Pattern(regexp = "\\p{Upper}{1}\\p{Lower}+", message = "{biblioteca.Autor.nome}")
     @Column(name = "TXT_PRIMEIRO_NOME", length = 20, nullable = false)
     private String primeiroNome;
-    @Expose    
+    @Expose   
+    @XmlElement(required = true)    
     @Size(max = 20)
     @Pattern(regexp = "[A-Z]{1}[a-z]+", message = "{biblioteca.Autor.nome}")
     @Column(name = "TXT_ULTIMO_NOME", length = 20, nullable = false)
     private String ultimoNome;
-    @Expose    
+    @Expose 
+    @XmlAttribute(required = true)    
     @CPF
     @Column(name = "TXT_CPF", length = 14, nullable = false, updatable = false)
     private String cpf;
+    @XmlTransient
     @ManyToMany(mappedBy = "autores", fetch = FetchType.LAZY)
     private List<Livro> livros;
     
@@ -90,7 +102,7 @@ public class Autor extends Entidade implements Serializable {
     public void setCpf(String cpf) {
         this.cpf = cpf;
     }
-
+  
     public List<Livro> getLivros() {
         return livros;
     }

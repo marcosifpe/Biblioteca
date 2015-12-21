@@ -3,6 +3,7 @@ package biblioteca;
 import excecao.ExcecaoSistema;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -13,14 +14,19 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 
 /**
  *
  * @author MASC
  */
 @MappedSuperclass
+@XmlAccessorType(XmlAccessType.FIELD)
 public abstract class Entidade implements Serializable {
-
+    @Expose
+    @XmlAttribute
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;

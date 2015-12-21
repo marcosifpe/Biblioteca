@@ -17,6 +17,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+import static javax.ws.rs.core.MediaType.APPLICATION_XML;
 import javax.ws.rs.core.Response;
 import servico.EditoraServico;
 
@@ -29,19 +30,19 @@ import servico.EditoraServico;
 @TransactionManagement(TransactionManagementType.CONTAINER)
 @TransactionAttribute(TransactionAttributeType.SUPPORTS)
 @Interceptors({LoginInterceptador.class})
-public class EditoraWebService extends JsonWebService<Editora> {
+public class EditoraWebService extends WebService<Editora> {
 
     @EJB
     private EditoraServico editoraService;
 
     @GET
     @Path("get/nome")
-    @Produces({APPLICATION_JSON})
+    @Produces({APPLICATION_JSON, APPLICATION_XML})
     public Response getEditora(@QueryParam("nome") String nome,
             @Context HttpServletRequest request,
             @Context HttpHeaders httpHeaders) {
         Editora editora = editoraService.getEditora(nome);
-        return super.getJsonResponse(editora);
+        return super.getResposta(editora);
     }
 
 }
