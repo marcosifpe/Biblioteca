@@ -99,7 +99,8 @@ public abstract class WebService<T extends Entidade> {
                 builder = builder.excludeFieldsWithoutExposeAnnotation();
                 builder = builder.setDateFormat("dd/MM/yyyy hh:mm:ss");
                 Gson gson = builder.create();
-                resposta = Response.ok(getListaGenerica(entidades), MediaType.valueOf(APPLICATION_JSON + ";charset=UTF-8")).build();
+                resposta = Response.ok(gson.toJson(entidades), MediaType.valueOf(APPLICATION_JSON + ";charset=UTF-8")).build();
+                //resposta = Response.ok(getListaGenerica(entidades), MediaType.valueOf(APPLICATION_JSON + ";charset=UTF-8")).build();                
                 break;
             case APPLICATION_XML:
                 resposta = Response.ok(getListaGenerica(entidades), MediaType.valueOf(APPLICATION_XML + ";charset=UTF-8")).build();
