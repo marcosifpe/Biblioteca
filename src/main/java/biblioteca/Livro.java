@@ -180,18 +180,4 @@ public class Livro extends Entidade implements Serializable {
             add(autor); //Caso haja alguma regra de negócio ela será implementada no add
         }
     }
-
-    public Map getMap() {
-        Map map = new HashMap();
-        map.put("isbn", this.isbn);
-        map.put("titulo", this.titulo);
-        map.put("editora", this.editora.getNome());
-        map.put("dataLancamento", this.dataLancamento);
-        int i = 1;
-        for (Autor autor : autores) {
-            map.put("autor" + i, autor.getNome());
-        }
-        
-        return map;
-    }
 }
