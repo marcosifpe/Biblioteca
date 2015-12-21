@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package util;
 
 import javax.servlet.http.HttpServletResponse;
@@ -11,10 +6,16 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.APPLICATION_XML;
 
 /**
- *
  * @author MASC
+ * Classe necessária para "setar" o charset=UTF-8. Caso contrário, caracteres 
+ * especiais, como os de acentuação, não seriam exibidos corretamente.
  */
 public class ContentTypeUtil {
+    /**
+     * Determina o valor do ContentType diretamente no HttpServletResponse.
+     * @param httpHeaders Cabeçalho HTTP
+     * @param response Resposta HTTP
+     */
     public void setContentType(HttpHeaders httpHeaders, HttpServletResponse response) {
         String accept = httpHeaders.getHeaderString(HttpHeaders.ACCEPT);
         String contentType = null;

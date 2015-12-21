@@ -108,7 +108,7 @@ public class Livro extends Entidade implements Serializable {
     @JoinColumn(name = "ID_EDITORA", referencedColumnName = "ID", nullable = false)
     private Editora editora;    
     @Expose
-    @XmlElement(required = true, name = "autor")    
+    @XmlElement(required = true)    
     @NotEmpty
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "TB_LIVRO_AUTOR", joinColumns = {

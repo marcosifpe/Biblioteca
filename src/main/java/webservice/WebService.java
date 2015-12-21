@@ -7,18 +7,14 @@ package webservice;
 
 import biblioteca.ArquivoDigital;
 import static javax.ws.rs.core.MediaType.APPLICATION_OCTET_STREAM;
-import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
-import static javax.ws.rs.core.MediaType.APPLICATION_XML;
-
 import biblioteca.Entidade;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import java.util.List;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.GenericEntity;
+import util.ContentTypeUtil;
 import util.LeitorPropriedades;
 
 /**
@@ -29,13 +25,15 @@ import util.LeitorPropriedades;
 public abstract class WebService<T extends Entidade> {
 
     private LeitorPropriedades leitorPropriedades;
-    @Context 
+    @Context
     protected HttpHeaders httpHeaders;
+    @Context
+    protected HttpServletResponse response;
 
     public WebService() {
         this.leitorPropriedades = new LeitorPropriedades(new String[]{"Mensagens.properties"});
     }
-    
+
     protected String getMensagemSucesso() {
         return leitorPropriedades.get("mensagem.sucesso");
     }
@@ -45,69 +43,24 @@ public abstract class WebService<T extends Entidade> {
                 header("content-disposition", "attachment; filename=" + arquivoDigital.getNome())
                 .build();
     }
-    
-    private String getTipoResposta() {
-        String tipoResposta = httpHeaders.getHeaderString(HttpHeaders.ACCEPT);
 
-        if (tipoResposta == null) {
-            tipoResposta = APPLICATION_JSON;
-        }  
-        
-        return tipoResposta;
-    }
-    
     protected Response getRespostaSucesso() {
-        Response resposta = null;
-
-        switch (getTipoResposta()) {
-            case APPLICATION_JSON:
-                resposta = Response.ok(new Resposta(true, getMensagemSucesso()), MediaType.valueOf(APPLICATION_JSON + ";charset=UTF-8")).build();
-                break;
-            case APPLICATION_XML:
-                resposta = Response.ok(new Resposta(true, getMensagemSucesso()), MediaType.valueOf(APPLICATION_XML + ";charset=UTF-8")).build();
-                break;
-        }        
-        
-        return resposta;
+        new ContentTypeUtil().setContentType(httpHeaders, response);        
+        return Response.ok(new Resposta(true, getMensagemSucesso())).build();
     }
 
     protected Response getResposta(T entidade) {
-        Response resposta = null;
-
-        switch (getTipoResposta()) {
-            case APPLICATION_JSON:
-                resposta = Response.ok(entidade.toJson(), MediaType.valueOf(APPLICATION_JSON + ";charset=UTF-8")).build();
-                break;
-            case APPLICATION_XML:
-                resposta = Response.ok(entidade, MediaType.valueOf(APPLICATION_XML + ";charset=UTF-8")).build();
-                break;
-        }
-
-        return resposta;
+        new ContentTypeUtil().setContentType(httpHeaders, response);
+        return Response.ok(entidade).build();
     }
 
     protected GenericEntity<List<T>> getListaGenerica(List<T> entidades) {
         return null;
     }
-    
+
     protected Response getRespostaLista(List<T> entidades) {
-        Response resposta = null;
-
-        switch (getTipoResposta()) {
-            case APPLICATION_JSON:
-                GsonBuilder builder = new GsonBuilder();
-                builder = builder.excludeFieldsWithoutExposeAnnotation();
-                builder = builder.setDateFormat("dd/MM/yyyy hh:mm:ss");
-                Gson gson = builder.create();
-                resposta = Response.ok(gson.toJson(entidades), MediaType.valueOf(APPLICATION_JSON + ";charset=UTF-8")).build();
-                //resposta = Response.ok(getListaGenerica(entidades), MediaType.valueOf(APPLICATION_JSON + ";charset=UTF-8")).build();                
-                break;
-            case APPLICATION_XML:
-                resposta = Response.ok(getListaGenerica(entidades), MediaType.valueOf(APPLICATION_XML + ";charset=UTF-8")).build();
-                break;
-        }
-
-        return resposta;
+        new ContentTypeUtil().setContentType(httpHeaders, response);
+        return Response.ok(getListaGenerica(entidades)).build();
 
     }
 }

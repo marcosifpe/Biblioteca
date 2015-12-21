@@ -11,8 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
-import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
-import static javax.ws.rs.core.MediaType.APPLICATION_XML;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
@@ -68,7 +66,7 @@ public class MapeadorExcecao implements ExceptionMapper<Exception> {
         }
 
         MensagemExcecao mensagemExcecao = new MensagemExcecao(causa);
-        resposta = getResposta(mensagemExcecao.getMensagem());  
+        resposta = getResposta(mensagemExcecao.getMensagem());
         new ContentTypeUtil().setContentType(httpHeaders, response);
         return Response.status(status).entity(resposta).build();
     }

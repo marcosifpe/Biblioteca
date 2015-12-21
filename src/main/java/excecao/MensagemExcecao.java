@@ -15,6 +15,7 @@ import util.LeitorPropriedades;
  * @author MASC
  */
 public class MensagemExcecao {
+
     protected Throwable excecao;
     protected LeitorPropriedades leitor;
     private static final String CHAVE_MENSAGEM_PADRAO = "java.lang.Exception";
@@ -45,13 +46,13 @@ public class MensagemExcecao {
                                     leitor.get(excecao.getClass().getName()),
                                     mensagem.toString()));
         } else if (excecao instanceof ExcecaoNegocio) {
-            mensagem.append(leitor.get(((ExcecaoNegocio)excecao).getChave()));
+            mensagem.append(leitor.get(((ExcecaoNegocio) excecao).getChave()));
         } else if (excecao != null && leitor.get(excecao.getClass().getName()) != null) {
             mensagem.append(leitor.get(excecao.getClass().getName()));
         } else {
-           mensagem.append(leitor.get(CHAVE_MENSAGEM_PADRAO));
+            mensagem.append(leitor.get(CHAVE_MENSAGEM_PADRAO));
         }
-        
+
         return mensagem.toString();
     }
 }
