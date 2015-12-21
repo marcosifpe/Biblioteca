@@ -7,15 +7,16 @@ package excecao;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.NoResultException;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.APPLICATION_XML;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
+import util.ContentTypeUtil;
 import webservice.Resposta;
 
 /**
@@ -27,19 +28,11 @@ public class MapeadorExcecao implements ExceptionMapper<Exception> {
 
     @Context
     protected HttpHeaders httpHeaders;
+    @Context
+    protected HttpServletResponse response;
 
     public Resposta getResposta(String mensagem) {
         return new Resposta(false, mensagem);
-    }
-
-    private String getTipoResposta() {
-        String tipoResposta = httpHeaders.getHeaderString(HttpHeaders.ACCEPT);
-
-        if (tipoResposta == null) {
-            tipoResposta = APPLICATION_JSON;
-        }
-
-        return tipoResposta;
     }
 
     @Override
@@ -75,13 +68,8 @@ public class MapeadorExcecao implements ExceptionMapper<Exception> {
         }
 
         MensagemExcecao mensagemExcecao = new MensagemExcecao(causa);
-        resposta = getResposta(mensagemExcecao.getMensagem());
-        switch (getTipoResposta()) {
-            case APPLICATION_XML:
-                return Response.status(status).entity(resposta).type(MediaType.valueOf(APPLICATION_XML + ";charset=UTF-8")).build();
-            default:
-                return Response.status(status).entity(resposta).type(MediaType.valueOf(APPLICATION_JSON + ";charset=UTF-8")).build();
-
-        }
+        resposta = getResposta(mensagemExcecao.getMensagem());  
+        new ContentTypeUtil().setContentType(httpHeaders, response);
+        return Response.status(status).entity(resposta).build();
     }
 }
