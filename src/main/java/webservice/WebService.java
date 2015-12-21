@@ -61,6 +61,5 @@ public abstract class WebService<T extends Entidade> {
     protected Response getRespostaLista(List<T> entidades) {
         new ContentTypeUtil().setContentType(httpHeaders, response);
         return Response.ok(getListaGenerica(entidades)).build();
-
     }
 }
