@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package util;
+package webservice.conversor;
 
 import biblioteca.Entidade;
 import com.google.gson.Gson;
@@ -20,6 +20,7 @@ import java.lang.reflect.Type;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
+import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.Provider;
@@ -29,7 +30,7 @@ import javax.ws.rs.ext.Provider;
  * @author MASC
  */
 @Provider
-@Consumes(MediaType.APPLICATION_JSON)
+@Consumes(APPLICATION_JSON)
 public class GsonReader implements MessageBodyReader<Entidade> {    
     private String _convertStreamToString(InputStream inputStream)
             throws IOException {

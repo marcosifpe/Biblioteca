@@ -1,4 +1,4 @@
-package util;
+package webservice.util;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.HttpHeaders;
@@ -11,7 +11,13 @@ import static javax.ws.rs.core.MediaType.APPLICATION_XML;
  * especiais, como os de acentuação, não seriam exibidos corretamente.
  */
 public class ContentTypeUtil {
-    public String getContentType(HttpHeaders httpHeaders) {
+    private HttpHeaders httpHeaders;
+    
+    public ContentTypeUtil(HttpHeaders httpHeaders) {
+        this.httpHeaders = httpHeaders;
+    }
+    
+    public String getContentType() {
         String accept = httpHeaders.getHeaderString(HttpHeaders.ACCEPT);
         if (accept == null || accept.equals("")) {
             accept = APPLICATION_XML;
@@ -20,13 +26,16 @@ public class ContentTypeUtil {
         return accept;
     }
     
+    public boolean isContentType(String contentType) {
+        return getContentType().equals(contentType);       
+    }
+    
     /**
      * Determina o valor do ContentType diretamente no HttpServletResponse.
-     * @param httpHeaders Cabeçalho HTTP
      * @param response Resposta HTTP
      */
-    public void setContentType(HttpHeaders httpHeaders, HttpServletResponse response) {
-        String accept = getContentType(httpHeaders);
+    public void setContentType(HttpServletResponse response) {
+        String accept = getContentType();
         String contentType = null;
 
         if (APPLICATION_JSON.equals(accept)) {

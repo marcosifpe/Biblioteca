@@ -1,12 +1,12 @@
 package webservice;
 
-import excecao.MapeadorExcecao;
+import webservice.excecao.MapeadorExcecao;
 import java.util.HashSet;
 import java.util.Set;
 import javax.ws.rs.core.Application;
-import util.GsonListWriter;
-import util.GsonReader;
-import util.GsonWriter;
+import webservice.conversor.GsonGenericListWriter;
+import webservice.conversor.GsonReader;
+import webservice.conversor.GsonWriter;
 
 /**
  *
@@ -23,7 +23,7 @@ public class AplicacaoWebService extends Application {
         classes.add(MapeadorExcecao.class);
         classes.add(GsonWriter.class);
         classes.add(GsonReader.class);
-        classes.add(GsonListWriter.class);
+        classes.add(GsonGenericListWriter.class);
         return classes;
     }
 }

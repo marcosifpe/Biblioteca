@@ -1,4 +1,4 @@
-package util;
+package webservice.conversor;
 
 import biblioteca.Entidade;
 import com.google.gson.Gson;

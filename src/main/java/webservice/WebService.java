@@ -15,7 +15,7 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
-import util.ContentTypeUtil;
+import webservice.util.ContentTypeUtil;
 import util.LeitorPropriedades;
 
 /**
@@ -46,12 +46,12 @@ public abstract class WebService<T extends Entidade> {
     }
 
     protected Response getRespostaSucesso() {
-        new ContentTypeUtil().setContentType(httpHeaders, response);        
+        new ContentTypeUtil(httpHeaders).setContentType(response);        
         return Response.ok(new Resposta(true, getMensagemSucesso())).build();
     }
 
     protected Response getResposta(T entidade) {
-        new ContentTypeUtil().setContentType(httpHeaders, response);
+        new ContentTypeUtil(httpHeaders).setContentType(response);
         return Response.ok(entidade).build();
     }
 
@@ -59,14 +59,16 @@ public abstract class WebService<T extends Entidade> {
         return null;
     }
 
-    protected Response getRespostaLista(List<T> entidades) {
-        ContentTypeUtil contentTypeUtil = new ContentTypeUtil();
-        contentTypeUtil.setContentType(httpHeaders, response);
-        
-        if (contentTypeUtil.getContentType(httpHeaders).equals(MediaType.APPLICATION_XML)) {
-            return Response.ok(getListaGenerica(entidades)).build();
-        } else {
-            return Response.ok(entidades).build();    
-        }        
+    @Deprecated
+    protected Response getRespostaListaOld(List<T> entidades) {
+        ContentTypeUtil contentTypeUtil = new ContentTypeUtil(httpHeaders);
+        contentTypeUtil.setContentType(response);        
+        return Response.ok(getListaGenerica(entidades)).build();
     }
+    
+    protected Response getRespostaLista(List<T> entidades) {
+        ContentTypeUtil contentTypeUtil = new ContentTypeUtil(httpHeaders);
+        contentTypeUtil.setContentType(response);        
+        return Response.ok(entidades).build();    
+    }    
 }

@@ -30,6 +30,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.hibernate.validator.constraints.NotBlank;
@@ -106,7 +107,8 @@ public class Livro extends Entidade implements Serializable {
     @JoinColumn(name = "ID_EDITORA", referencedColumnName = "ID", nullable = false)
     private Editora editora;   
     @Expose    
-    @XmlElement(required = true)    
+    @XmlElement(required = true)  
+    @XmlElementWrapper(name="autores")
     @NotEmpty
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "TB_LIVRO_AUTOR", joinColumns = {

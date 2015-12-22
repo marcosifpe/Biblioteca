@@ -3,8 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package excecao;
+package webservice.excecao;
 
+import excecao.ExcecaoNegocio;
+import excecao.ExcecaoSistema;
+import excecao.MensagemExcecao;
 import javax.persistence.EntityExistsException;
 import javax.persistence.NoResultException;
 import javax.servlet.http.HttpServletResponse;
@@ -14,7 +17,7 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
-import util.ContentTypeUtil;
+import webservice.util.ContentTypeUtil;
 import webservice.Resposta;
 
 /**
@@ -67,7 +70,7 @@ public class MapeadorExcecao implements ExceptionMapper<Exception> {
 
         MensagemExcecao mensagemExcecao = new MensagemExcecao(causa);
         resposta = getResposta(mensagemExcecao.getMensagem());
-        new ContentTypeUtil().setContentType(httpHeaders, response);
+        new ContentTypeUtil(httpHeaders).setContentType(response);
         return Response.status(status).entity(resposta).build();
     }
 }

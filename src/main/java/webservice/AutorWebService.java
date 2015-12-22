@@ -65,7 +65,7 @@ public class AutorWebService extends WebService<Autor> {
     public Response getAutores(@Context HttpServletRequest request,
             @Context HttpHeaders httpHeaders) {
         List<Autor> autores = autorServico.getAutores();
-        return super.getRespostaLista(autores);
+        return super.getRespostaListaOld(autores);
     }
     
     @Override
