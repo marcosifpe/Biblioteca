@@ -65,14 +65,14 @@ public class AutorWebService extends WebService<Autor> {
     public Response getAutores(@Context HttpServletRequest request,
             @Context HttpHeaders httpHeaders) {
         List<Autor> autores = autorServico.getAutores();
-        return super.getRespostaListaOld(autores);
-    }
-    
-    @Override
-    public GenericEntity<List<Autor>> getListaGenerica(List<Autor> entidades) {
-        return new GenericEntity<List<Autor>>(entidades){};
+        return getRespostaLista(autores);
     }
 
+    @Override
+    protected GenericEntity<List<Autor>> getListaGenerica(List<Autor> entidades) {
+        return new GenericEntity<List<Autor>>(entidades){};
+    }    
+    
     @POST
     @Path("salvar")
     @Produces({APPLICATION_JSON, APPLICATION_XML})

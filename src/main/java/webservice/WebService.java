@@ -6,6 +6,7 @@
 package webservice;
 
 import biblioteca.ArquivoDigital;
+import biblioteca.Autor;
 import static javax.ws.rs.core.MediaType.APPLICATION_OCTET_STREAM;
 import biblioteca.Entidade;
 import java.util.List;
@@ -14,7 +15,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.GenericEntity;
-import javax.ws.rs.core.MediaType;
 import webservice.util.ContentTypeUtil;
 import util.LeitorPropriedades;
 
@@ -59,16 +59,9 @@ public abstract class WebService<T extends Entidade> {
         return null;
     }
 
-    @Deprecated
-    protected Response getRespostaListaOld(List<T> entidades) {
-        ContentTypeUtil contentTypeUtil = new ContentTypeUtil(httpHeaders);
-        contentTypeUtil.setContentType(response);        
-        return Response.ok(getListaGenerica(entidades)).build();
-    }
-    
     protected Response getRespostaLista(List<T> entidades) {
         ContentTypeUtil contentTypeUtil = new ContentTypeUtil(httpHeaders);
         contentTypeUtil.setContentType(response);        
-        return Response.ok(entidades).build();    
-    }    
+        return Response.ok(getListaGenerica(entidades)).build();
+    }  
 }
