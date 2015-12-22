@@ -26,10 +26,6 @@ public class ContentTypeUtil {
         return accept;
     }
     
-    public boolean isContentType(String contentType) {
-        return getContentType().equals(contentType);       
-    }
-    
     /**
      * Determina o valor do ContentType diretamente no HttpServletResponse.
      * @param response Resposta HTTP
