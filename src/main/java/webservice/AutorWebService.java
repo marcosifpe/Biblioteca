@@ -90,12 +90,9 @@ public class AutorWebService extends WebService<Autor> {
     @Produces({APPLICATION_JSON, APPLICATION_XML})
     @Consumes(APPLICATION_JSON)
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public Response atualizarAutor(@QueryParam("cpf") String cpf,
-            Autor autorJson,
+    public Response atualizarAutor(Autor autor,
             @Context HttpServletRequest request,
-            @Context HttpHeaders httpHeaders) {
-        Autor autor = autorServico.getAutor(cpf);
-        autor.setAtributos(autorJson);
+            @Context HttpHeaders httpHeaders) throws ExcecaoNegocio {        
         autorServico.atualizar(autor);
         return super.getRespostaSucesso();
     }

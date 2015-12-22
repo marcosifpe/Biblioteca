@@ -13,6 +13,7 @@ import javax.ejb.ApplicationException;
  */
 @ApplicationException(rollback = true)
 public class ExcecaoNegocio extends Exception {
+    public static final String OBJETO_INEXISTENTE = "excecao.ExcecaoNegocio.objetoInexistente";
     private String chave;
     public static final String REMOVER_AUTOR = "excecao.ExcecaoNegocio.autorServico.remover";
     public static final String OBJETO_EXISTENTE = "excecao.ExcecaoNegocio.objetoExistente";  
