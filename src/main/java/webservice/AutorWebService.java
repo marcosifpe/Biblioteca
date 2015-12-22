@@ -81,6 +81,7 @@ public class AutorWebService extends WebService<Autor> {
     public Response salvarAutor(Autor autor,
             @Context HttpServletRequest request,
             @Context HttpHeaders httpHeaders) throws ExcecaoNegocio {
+        autor.setId(null);
         autorServico.salvar(autor);
         return super.getRespostaSucesso();
     }
