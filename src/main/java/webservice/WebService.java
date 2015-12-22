@@ -6,7 +6,6 @@
 package webservice;
 
 import biblioteca.ArquivoDigital;
-import biblioteca.Autor;
 import static javax.ws.rs.core.MediaType.APPLICATION_OCTET_STREAM;
 import biblioteca.Entidade;
 import java.util.List;
