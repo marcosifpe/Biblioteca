@@ -20,9 +20,9 @@ public class ContentTypeUtil {
         String accept = httpHeaders.getHeaderString(HttpHeaders.ACCEPT);
         String contentType = null;
 
-        if (accept == null || accept.equals(APPLICATION_JSON)) {
+        if (APPLICATION_JSON.equals(accept)) {
             contentType = APPLICATION_JSON + ";charset=UTF-8";
-        } else if (accept.equals(APPLICATION_XML)) {
+        } else if (APPLICATION_XML.equals(accept) || accept == null) {
             contentType = APPLICATION_XML + ";charset=UTF-8";
         }
         
