@@ -60,7 +60,7 @@ public class GsonReader implements MessageBodyReader<Entidade> {
 
     @Override
     public Entidade readFrom(Class<Entidade> type, Type genericType, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, String> httpHeaders, InputStream entityStream) throws IOException, WebApplicationException {
-        Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy hh:mm:ss").create();
+        Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy HH:mm:ss").create();
         return gson.fromJson(_convertStreamToString(entityStream), type);
     }
 }

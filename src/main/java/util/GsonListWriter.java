@@ -40,7 +40,7 @@ public class GsonListWriter implements MessageBodyWriter<List<Entidade>> {
 
     @Override
     public void writeTo(List<Entidade> t, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, Object> httpHeaders, OutputStream entityStream) throws IOException, WebApplicationException {
-        GsonBuilder builder = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setDateFormat("dd/MM/yyyy hh:mm:ss");
+        GsonBuilder builder = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setDateFormat("dd/MM/yyyy HH:mm:ss");
         Gson gson = builder.create();
         entityStream.write(gson.toJson(t).getBytes("UTF-8"));
     }
