@@ -14,6 +14,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.GenericEntity;
+import javax.ws.rs.core.MediaType;
 import util.ContentTypeUtil;
 import util.LeitorPropriedades;
 
@@ -59,7 +60,13 @@ public abstract class WebService<T extends Entidade> {
     }
 
     protected Response getRespostaLista(List<T> entidades) {
-        new ContentTypeUtil().setContentType(httpHeaders, response);
-        return Response.ok(getListaGenerica(entidades)).build();
+        ContentTypeUtil contentTypeUtil = new ContentTypeUtil();
+        contentTypeUtil.setContentType(httpHeaders, response);
+        
+        if (contentTypeUtil.getContentType(httpHeaders).equals(MediaType.APPLICATION_XML)) {
+            return Response.ok(getListaGenerica(entidades)).build();
+        } else {
+            return Response.ok(entidades).build();    
+        }        
     }
 }

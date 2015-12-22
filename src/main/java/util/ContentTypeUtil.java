@@ -11,18 +11,27 @@ import static javax.ws.rs.core.MediaType.APPLICATION_XML;
  * especiais, como os de acentuação, não seriam exibidos corretamente.
  */
 public class ContentTypeUtil {
+    public String getContentType(HttpHeaders httpHeaders) {
+        String accept = httpHeaders.getHeaderString(HttpHeaders.ACCEPT);
+        if (accept == null) {
+            accept = APPLICATION_XML;
+        }
+        
+        return accept;
+    }
+    
     /**
      * Determina o valor do ContentType diretamente no HttpServletResponse.
      * @param httpHeaders Cabeçalho HTTP
      * @param response Resposta HTTP
      */
     public void setContentType(HttpHeaders httpHeaders, HttpServletResponse response) {
-        String accept = httpHeaders.getHeaderString(HttpHeaders.ACCEPT);
+        String accept = getContentType(httpHeaders);
         String contentType = null;
 
         if (APPLICATION_JSON.equals(accept)) {
             contentType = APPLICATION_JSON + ";charset=UTF-8";
-        } else if (APPLICATION_XML.equals(accept) || accept == null) {
+        } else if (APPLICATION_XML.equals(accept)) {
             contentType = APPLICATION_XML + ";charset=UTF-8";
         }
         
