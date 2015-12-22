@@ -78,10 +78,10 @@ public abstract class Servico<T extends Entidade> {
     }
     
     @TransactionAttribute(SUPPORTS)
-    protected void checarNaoExistencia(String nomeQuery, Object parametro)
+    protected void checarNaoExistencia(String nomeQuery, Object[] parametros)
             throws ExcecaoNegocio {
         try {
-            getEntidade(nomeQuery, new Object[]{parametro});
+            getEntidade(nomeQuery, parametros);
         } catch (NoResultException ex) {
             throw new ExcecaoNegocio(ExcecaoNegocio.OBJETO_INEXISTENTE);
         }

@@ -41,6 +41,10 @@ import org.hibernate.validator.constraints.br.CPF;
             @NamedQuery(
                     name = Autor.AUTOR_POR_CPF,
                     query = "SELECT a FROM Autor a WHERE a.cpf = ?1"
+            ),
+            @NamedQuery(
+                    name = Autor.AUTOR_POR_CPF_E_ID,
+                    query = "SELECT a FROM Autor a WHERE a.cpf = ?1 AND a.id = ?2"
             )            
         }
 )
@@ -50,6 +54,7 @@ import org.hibernate.validator.constraints.br.CPF;
 public class Autor extends Entidade implements Serializable {
     public static final String AUTOR_POR_CPF = "AutorPorCpf";
     public static final String AUTORES = "Autores";
+    public static final String AUTOR_POR_CPF_E_ID = "AutorPorCpfEId";
     @Expose
     @XmlElement(required = true)
     @Size(max = 20)

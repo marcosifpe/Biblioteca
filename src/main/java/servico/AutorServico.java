@@ -35,7 +35,7 @@ public class AutorServico extends Servico<Autor> {
     
     @RolesAllowed({ADMINISTRADOR})
     public void atualizar(Autor autor) throws ExcecaoNegocio {
-        checarNaoExistencia(Autor.AUTOR_POR_CPF, autor.getCpf());
+        checarNaoExistencia(Autor.AUTOR_POR_CPF_E_ID,  new Object[] {autor.getCpf(), autor.getId()});
         entityManager.merge(autor);
         entityManager.flush();
     }    
