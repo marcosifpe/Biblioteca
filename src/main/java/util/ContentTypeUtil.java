@@ -13,7 +13,7 @@ import static javax.ws.rs.core.MediaType.APPLICATION_XML;
 public class ContentTypeUtil {
     public String getContentType(HttpHeaders httpHeaders) {
         String accept = httpHeaders.getHeaderString(HttpHeaders.ACCEPT);
-        if (accept == null) {
+        if (accept == null || accept.equals("")) {
             accept = APPLICATION_XML;
         }
         
