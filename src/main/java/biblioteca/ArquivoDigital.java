@@ -1,5 +1,6 @@
 package biblioteca;
 
+import com.google.gson.annotations.Expose;
 import excecao.ExcecaoSistema;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -33,11 +34,13 @@ public class ArquivoDigital implements Serializable {
     @Basic(fetch = FetchType.LAZY, optional = true)
     @Column(name = "BLOB_ARQUIVO", nullable = true)
     private byte[] arquivo;
+    @Expose    
     @XmlAttribute(required = true)
     @NotNull    
     @ExtensaoDocumento
     @Column(name = "TXT_EXTENSAO_ARQUIVO", nullable = true)
     private String extensao;
+    @Expose    
     @XmlAttribute(required = true)
     @NotBlank    
     @Column(name = "TXT_NOME_ARQUIVO", nullable = true)

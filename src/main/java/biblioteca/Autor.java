@@ -1,5 +1,6 @@
 package biblioteca;
 
+import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,16 +50,19 @@ import org.hibernate.validator.constraints.br.CPF;
 public class Autor extends Entidade implements Serializable {
     public static final String AUTOR_POR_CPF = "AutorPorCpf";
     public static final String AUTORES = "Autores";
+    @Expose
     @XmlElement(required = true)
     @Size(max = 20)
     @Pattern(regexp = "\\p{Upper}{1}\\p{Lower}+", message = "{biblioteca.Autor.nome}")
     @Column(name = "TXT_PRIMEIRO_NOME", length = 20, nullable = false)
     private String primeiroNome;  
+    @Expose    
     @XmlElement(required = true)    
     @Size(max = 20)
     @Pattern(regexp = "[A-Z]{1}[a-z]+", message = "{biblioteca.Autor.nome}")
     @Column(name = "TXT_ULTIMO_NOME", length = 20, nullable = false)
     private String ultimoNome;
+    @Expose    
     @XmlAttribute(required = true)    
     @CPF
     @Column(name = "TXT_CPF", length = 14, nullable = false, updatable = false)
