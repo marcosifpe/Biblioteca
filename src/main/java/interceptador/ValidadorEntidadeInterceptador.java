@@ -44,7 +44,7 @@ public class ValidadorEntidadeInterceptador {
             Set<ConstraintViolation<Entidade>> violations = validator.validate(entidade);
 
             if (!violations.isEmpty()) {
-                throw new Exception(new ConstraintViolationException(violations));
+                throw new RuntimeException(new ConstraintViolationException(violations));
             }
         }
 
