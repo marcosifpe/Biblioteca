@@ -21,7 +21,7 @@ import javax.validation.ValidatorFactory;
  *
  * @author MASC
  */
-public class ValidadorInterceptador {
+public class ValidadorEntidadeInterceptador {
 
     private List<Entidade> getEntidades(InvocationContext contexto) {
         List<Entidade> entidades = new ArrayList<Entidade>();

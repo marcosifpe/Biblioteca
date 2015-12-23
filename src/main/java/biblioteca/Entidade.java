@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.PrePersist;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -31,6 +32,13 @@ public abstract class Entidade implements Serializable {
     
     public Entidade() {
         
+    }
+    
+    @PrePersist
+    public void verificarId() {
+        if (this.id != null) {
+            setId(null);
+        }
     }
 
     public Long getId() {

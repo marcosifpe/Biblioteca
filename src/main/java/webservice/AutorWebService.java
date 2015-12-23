@@ -8,7 +8,6 @@ package webservice;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.APPLICATION_XML;
 
-import interceptador.LoginInterceptador;
 import biblioteca.Autor;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -30,7 +29,8 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import servico.AutorServico;
 import excecao.ExcecaoNegocio;
-import interceptador.ValidadorInterceptador;
+import interceptador.LoginInterceptador;
+import interceptador.ValidadorEntidadeInterceptador;
 import java.util.List;
 import javax.ws.rs.PUT;
 import javax.ws.rs.core.GenericEntity;
@@ -79,11 +79,10 @@ public class AutorWebService extends WebService<Autor> {
     @Produces({APPLICATION_JSON, APPLICATION_XML})
     @Consumes(APPLICATION_JSON)
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    @Interceptors({ValidadorInterceptador.class})
+    @Interceptors({ValidadorEntidadeInterceptador.class})
     public Response salvarAutor(Autor autor,
             @Context HttpServletRequest request,
             @Context HttpHeaders httpHeaders) throws ExcecaoNegocio {
-        autor.setId(null);
         autorServico.salvar(autor);
         return super.getRespostaSucesso();
     }
@@ -93,7 +92,7 @@ public class AutorWebService extends WebService<Autor> {
     @Produces({APPLICATION_JSON, APPLICATION_XML})
     @Consumes(APPLICATION_JSON)
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    @Interceptors({ValidadorInterceptador.class})    
+    @Interceptors({ValidadorEntidadeInterceptador.class})    
     public Response atualizarAutor(Autor autor,
             @Context HttpServletRequest request,
             @Context HttpHeaders httpHeaders) throws ExcecaoNegocio {        
