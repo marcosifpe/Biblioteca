@@ -6,20 +6,16 @@
 package interceptador;
 
 import biblioteca.Entidade;
-import excecao.ExcecaoSistema;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
-import javax.ws.rs.core.HttpHeaders;
 
 /**
  *
@@ -36,40 +32,6 @@ public class ValidadorInterceptador {
         }
 
         return entidades;
-    }
-
-    private HttpServletRequest getHttpServletRequest(InvocationContext contexto) {
-        HttpServletRequest request = null;
-        for (Object parameter : contexto.getParameters()) {
-            if (parameter instanceof HttpServletRequest) {
-                request = (HttpServletRequest) parameter;
-            }
-        }
-
-        return request;
-    }
-    
-    private HttpServletResponse getHttpServletResponse(InvocationContext contexto) {
-        HttpServletResponse response = null;
-        for (Object parameter : contexto.getParameters()) {
-            if (parameter instanceof HttpServletResponse) {
-                response = (HttpServletResponse) parameter;
-            }
-        }
-
-        return response;
-    }    
-
-    private HttpHeaders getHttpHeaders(InvocationContext contexto) {
-        HttpHeaders headers = null;
-
-        for (Object parameter : contexto.getParameters()) {
-            if (parameter instanceof HttpHeaders) {
-                headers = (HttpHeaders) parameter;
-            }
-        }
-
-        return headers;
     }
 
     @AroundInvoke

@@ -32,7 +32,6 @@ import servico.AutorServico;
 import excecao.ExcecaoNegocio;
 import interceptador.ValidadorInterceptador;
 import java.util.List;
-import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.PUT;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.Response;
@@ -83,7 +82,6 @@ public class AutorWebService extends WebService<Autor> {
     @Interceptors({ValidadorInterceptador.class})
     public Response salvarAutor(Autor autor,
             @Context HttpServletRequest request,
-            @Context HttpServletResponse response,
             @Context HttpHeaders httpHeaders) throws ExcecaoNegocio {
         autor.setId(null);
         autorServico.salvar(autor);
@@ -95,6 +93,7 @@ public class AutorWebService extends WebService<Autor> {
     @Produces({APPLICATION_JSON, APPLICATION_XML})
     @Consumes(APPLICATION_JSON)
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    @Interceptors({ValidadorInterceptador.class})    
     public Response atualizarAutor(Autor autor,
             @Context HttpServletRequest request,
             @Context HttpHeaders httpHeaders) throws ExcecaoNegocio {        
