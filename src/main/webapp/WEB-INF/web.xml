@@ -95,11 +95,7 @@
     <error-page>
         <error-code>403</error-code>
         <location>/faces/publico/nao_autorizado.xhtml</location>
-    </error-page>  
-    <error-page>
-        <error-code>400</error-code>
-        <location>/faces/publico/bad_request.xhtml</location>
-    </error-page>      
+    </error-page>    
     <error-page>
         <error-code>404</error-code>
         <location>/faces/publico/pagina_inexistente.xhtml</location>

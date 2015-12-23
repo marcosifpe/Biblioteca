@@ -16,7 +16,6 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionManagement;
-import javax.validation.Valid;
 import javax.validation.executable.ExecutableType;
 import javax.validation.executable.ValidateOnExecution;
 
@@ -32,20 +31,20 @@ import javax.validation.executable.ValidateOnExecution;
 @ValidateOnExecution(type = ExecutableType.NON_GETTER_METHODS)
 public class AutorServico extends Servico<Autor> {   
     @RolesAllowed({ADMINISTRADOR})
-    public void salvar(@Valid Autor autor) throws ExcecaoNegocio {
+    public void salvar(Autor autor) throws ExcecaoNegocio {
         checarExistencia(Autor.AUTOR_POR_CPF, autor.getCpf());
         entityManager.persist(autor);
     }
     
     @RolesAllowed({ADMINISTRADOR})    
-    public void atualizar(@Valid Autor autor) throws ExcecaoNegocio {
+    public void atualizar(Autor autor) throws ExcecaoNegocio {
         checarNaoExistencia(Autor.AUTOR_POR_CPF_E_ID,  new Object[] {autor.getCpf(), autor.getId()});
         entityManager.merge(autor);
         entityManager.flush();
     }    
     
     @RolesAllowed({ADMINISTRADOR})
-    public void remover(@Valid Autor autor) throws ExcecaoNegocio {
+    public void remover(Autor autor) throws ExcecaoNegocio {
         autor = entityManager.merge(autor);
         if (autor.isInativo())
             entityManager.remove(autor);
