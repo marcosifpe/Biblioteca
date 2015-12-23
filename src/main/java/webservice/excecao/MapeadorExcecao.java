@@ -13,6 +13,7 @@ import javax.persistence.EntityExistsException;
 import javax.persistence.NoResultException;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolationException;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
@@ -63,6 +64,9 @@ public class MapeadorExcecao implements ExceptionMapper<Throwable> {
                 break;
             } else if (causa instanceof ConstraintViolationException) {
                 status = Response.Status.BAD_REQUEST;
+                break;
+            } else if (causa instanceof NotFoundException) {
+                status = Response.Status.NOT_FOUND;
                 break;
             } else if (causa instanceof MalformedJsonException) {
                 status = Response.Status.BAD_REQUEST;
