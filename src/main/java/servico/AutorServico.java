@@ -16,6 +16,9 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionManagement;
+import javax.validation.Valid;
+import javax.validation.executable.ExecutableType;
+import javax.validation.executable.ValidateOnExecution;
 
 /**
  *
@@ -26,22 +29,23 @@ import javax.ejb.TransactionManagement;
 @DeclareRoles({ADMINISTRADOR, USUARIO})
 @TransactionManagement(CONTAINER)
 @TransactionAttribute(REQUIRED) 
+@ValidateOnExecution(type = ExecutableType.NON_GETTER_METHODS)
 public class AutorServico extends Servico<Autor> {   
     @RolesAllowed({ADMINISTRADOR})
-    public void salvar(Autor autor) throws ExcecaoNegocio {
+    public void salvar(@Valid Autor autor) throws ExcecaoNegocio {
         checarExistencia(Autor.AUTOR_POR_CPF, autor.getCpf());
         entityManager.persist(autor);
     }
     
-    @RolesAllowed({ADMINISTRADOR})
-    public void atualizar(Autor autor) throws ExcecaoNegocio {
+    @RolesAllowed({ADMINISTRADOR})    
+    public void atualizar(@Valid Autor autor) throws ExcecaoNegocio {
         checarNaoExistencia(Autor.AUTOR_POR_CPF_E_ID,  new Object[] {autor.getCpf(), autor.getId()});
         entityManager.merge(autor);
         entityManager.flush();
     }    
     
     @RolesAllowed({ADMINISTRADOR})
-    public void remover(Autor autor) throws ExcecaoNegocio {
+    public void remover(@Valid Autor autor) throws ExcecaoNegocio {
         autor = entityManager.merge(autor);
         if (autor.isInativo())
             entityManager.remove(autor);
@@ -62,7 +66,7 @@ public class AutorServico extends Servico<Autor> {
     }
     
     @TransactionAttribute(SUPPORTS)   
-    @PermitAll
+    @PermitAll     
     public Autor getAutor(String cpf) {
         return super.getEntidade(Autor.AUTOR_POR_CPF, new Object[] {cpf});
     }

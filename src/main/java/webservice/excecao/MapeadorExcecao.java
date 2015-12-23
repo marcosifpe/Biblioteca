@@ -5,6 +5,7 @@
  */
 package webservice.excecao;
 
+import com.google.gson.stream.MalformedJsonException;
 import excecao.ExcecaoNegocio;
 import excecao.ExcecaoSistema;
 import excecao.MensagemExcecao;
@@ -12,6 +13,7 @@ import javax.persistence.EntityExistsException;
 import javax.persistence.NoResultException;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolationException;
+import javax.ws.rs.BadRequestException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
@@ -25,7 +27,7 @@ import webservice.Resposta;
  * @author MASC
  */
 @Provider
-public class MapeadorExcecao implements ExceptionMapper<Exception> {
+public class MapeadorExcecao implements ExceptionMapper<Throwable> {
 
     @Context
     protected HttpHeaders httpHeaders;
@@ -37,12 +39,12 @@ public class MapeadorExcecao implements ExceptionMapper<Exception> {
     }
 
     @Override
-    public Response toResponse(Exception excecao) {
+    public Response toResponse(Throwable excecao) {
         Response.Status status = Response.Status.INTERNAL_SERVER_ERROR;
         Resposta resposta;
         Throwable causa = excecao;
 
-        while (causa != null) {
+        while (true) {
             if (causa instanceof NoResultException) {
                 status = Response.Status.NOT_FOUND;
                 break;
@@ -61,11 +63,17 @@ public class MapeadorExcecao implements ExceptionMapper<Exception> {
 
                 break;
             } else if (causa instanceof ConstraintViolationException) {
-                status = Response.Status.EXPECTATION_FAILED;
+                status = Response.Status.BAD_REQUEST;
+                break;
+            } else if (causa instanceof MalformedJsonException) {
+                status = Response.Status.BAD_REQUEST;
                 break;
             }
 
-            causa = causa.getCause();
+            if (causa.getCause() != null)
+                causa = causa.getCause();
+            else
+                break;
         }
 
         MensagemExcecao mensagemExcecao = new MensagemExcecao(causa);

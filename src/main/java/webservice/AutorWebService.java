@@ -31,9 +31,13 @@ import javax.ws.rs.core.HttpHeaders;
 import servico.AutorServico;
 import excecao.ExcecaoNegocio;
 import java.util.List;
+import javax.validation.Valid;
+import javax.validation.executable.ExecutableType;
+import javax.validation.executable.ValidateOnExecution;
 import javax.ws.rs.PUT;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.Response;
+import org.hibernate.validator.constraints.br.CPF;
 
 /**
  *
@@ -44,6 +48,7 @@ import javax.ws.rs.core.Response;
 @TransactionManagement(TransactionManagementType.CONTAINER)
 @TransactionAttribute(TransactionAttributeType.SUPPORTS)
 @Interceptors({LoginInterceptador.class})
+@ValidateOnExecution(type = ExecutableType.NON_GETTER_METHODS)
 public class AutorWebService extends WebService<Autor> {
 
     @EJB
@@ -52,7 +57,7 @@ public class AutorWebService extends WebService<Autor> {
     @GET
     @Path("get")
     @Produces({APPLICATION_JSON, APPLICATION_XML})
-    public Response getAutor(@QueryParam("cpf") String cpf,
+    public Response getAutor(@QueryParam("cpf") @CPF String cpf,
             @Context HttpServletRequest request,
             @Context HttpHeaders httpHeaders) {
         Autor autor = autorServico.getAutor(cpf);
@@ -78,7 +83,7 @@ public class AutorWebService extends WebService<Autor> {
     @Produces({APPLICATION_JSON, APPLICATION_XML})
     @Consumes(APPLICATION_JSON)
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public Response salvarAutor(Autor autor,
+    public Response salvarAutor(@Valid Autor autor,
             @Context HttpServletRequest request,
             @Context HttpHeaders httpHeaders) throws ExcecaoNegocio {
         autor.setId(null);
@@ -91,7 +96,7 @@ public class AutorWebService extends WebService<Autor> {
     @Produces({APPLICATION_JSON, APPLICATION_XML})
     @Consumes(APPLICATION_JSON)
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public Response atualizarAutor(Autor autor,
+    public Response atualizarAutor(@Valid Autor autor,
             @Context HttpServletRequest request,
             @Context HttpHeaders httpHeaders) throws ExcecaoNegocio {        
         autorServico.atualizar(autor);
@@ -102,7 +107,7 @@ public class AutorWebService extends WebService<Autor> {
     @Path("remover/{cfp}")
     @Produces({APPLICATION_JSON, APPLICATION_XML})
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public Response removerAutor(@PathParam("cfp") String cpf,
+    public Response removerAutor(@PathParam("cfp") @CPF String cpf,
             @Context HttpServletRequest request,
             @Context HttpHeaders httpHeaders) throws ExcecaoNegocio {
         autorServico.remover(cpf);
