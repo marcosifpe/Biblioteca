@@ -2,6 +2,7 @@ package webservice.util;
 
 import javax.ws.rs.core.HttpHeaders;
 import static javax.ws.rs.core.MediaType.APPLICATION_XML;
+import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 /**
  * @author MASC
@@ -16,13 +17,14 @@ public class ContentTypeUtil {
     }
     
     public String getContentType() {
-        String accept = httpHeaders.getHeaderString(HttpHeaders.ACCEPT);
-        if (accept == null || accept.equals("")) {
-            accept = APPLICATION_XML + ";charset=UTF-8";
+        String contentType = httpHeaders.getHeaderString(HttpHeaders.ACCEPT);
+        
+        if (APPLICATION_JSON.equals(contentType)) {
+            contentType = APPLICATION_JSON + ";charset=UTF-8";
         } else {
-            accept = accept + ";charset=UTF-8";
+            contentType = APPLICATION_XML + ";charset=UTF-8";
         }
         
-        return accept;
+        return contentType;
     } 
 }
