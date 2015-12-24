@@ -77,7 +77,7 @@ public class AutorWebService extends WebService<Autor> {
     @POST
     @Path("salvar")
     @Produces({APPLICATION_JSON, APPLICATION_XML})
-    @Consumes(APPLICATION_JSON)
+    @Consumes({APPLICATION_JSON, APPLICATION_XML})
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     @Interceptors({ValidadorEntidadeInterceptador.class})
     public Response salvarAutor(Autor autor,
@@ -90,7 +90,7 @@ public class AutorWebService extends WebService<Autor> {
     @PUT
     @Path("atualizar")
     @Produces({APPLICATION_JSON, APPLICATION_XML})
-    @Consumes(APPLICATION_JSON)
+    @Consumes({APPLICATION_JSON, APPLICATION_XML})
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     @Interceptors({ValidadorEntidadeInterceptador.class})    
     public Response atualizarAutor(Autor autor,

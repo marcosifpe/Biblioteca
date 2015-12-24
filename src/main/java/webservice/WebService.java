@@ -14,6 +14,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.GenericEntity;
+import javax.ws.rs.core.MediaType;
 import webservice.util.ContentTypeUtil;
 import util.LeitorPropriedades;
 
@@ -38,6 +39,10 @@ public abstract class WebService<T extends Entidade> {
         return leitorPropriedades.get("mensagem.sucesso");
     }
 
+    private MediaType getContentType() {
+        return MediaType.valueOf(new ContentTypeUtil(httpHeaders).getContentType());
+    }
+    
     protected Response getPdf(ArquivoDigital arquivoDigital) {
         return Response.ok(arquivoDigital.getArquivo(), APPLICATION_OCTET_STREAM).
                 header("content-disposition", "attachment; filename=" + arquivoDigital.getNome())
@@ -45,22 +50,19 @@ public abstract class WebService<T extends Entidade> {
     }
 
     protected Response getRespostaSucesso() {
-        new ContentTypeUtil(httpHeaders).setContentType(response);        
-        return Response.ok(new Resposta(true, getMensagemSucesso())).build();
+        Resposta resposta = new Resposta(true, getMensagemSucesso());
+        return Response.ok(resposta).type(getContentType()).build();
     }
 
     protected Response getResposta(T entidade) {
-        new ContentTypeUtil(httpHeaders).setContentType(response);
-        return Response.ok(entidade).build();
-    }
-
-    protected GenericEntity<List<T>> getListaGenerica(List<T> entidades) {
-        return null;
+        return Response.ok(entidade).type(getContentType()).build();
     }
 
     protected Response getRespostaLista(List<T> entidades) {
-        ContentTypeUtil contentTypeUtil = new ContentTypeUtil(httpHeaders);
-        contentTypeUtil.setContentType(response);        
-        return Response.ok(getListaGenerica(entidades)).build();
-    }  
+        return Response.ok(getListaGenerica(entidades)).type(getContentType()).build();
+    }
+    
+    protected GenericEntity<List<T>> getListaGenerica(List<T> entidades) {
+        return null;
+    }    
 }

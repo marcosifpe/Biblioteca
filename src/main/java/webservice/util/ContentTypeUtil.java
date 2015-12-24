@@ -1,8 +1,6 @@
 package webservice.util;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.HttpHeaders;
-import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.APPLICATION_XML;
 
 /**
@@ -20,26 +18,11 @@ public class ContentTypeUtil {
     public String getContentType() {
         String accept = httpHeaders.getHeaderString(HttpHeaders.ACCEPT);
         if (accept == null || accept.equals("")) {
-            accept = APPLICATION_XML;
+            accept = APPLICATION_XML + ";charset=UTF-8";
+        } else {
+            accept = accept + ";charset=UTF-8";
         }
         
         return accept;
-    }
-    
-    /**
-     * Determina o valor do ContentType diretamente no HttpServletResponse.
-     * @param response Resposta HTTP
-     */
-    public void setContentType(HttpServletResponse response) {
-        String accept = getContentType();
-        String contentType = null;
-
-        if (APPLICATION_JSON.equals(accept)) {
-            contentType = APPLICATION_JSON + ";charset=UTF-8";
-        } else if (APPLICATION_XML.equals(accept)) {
-            contentType = APPLICATION_XML + ";charset=UTF-8";
-        }
-        
-        response.setContentType(contentType);
-    }    
+    } 
 }

@@ -14,8 +14,10 @@ import javax.persistence.NoResultException;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolationException;
 import javax.ws.rs.NotFoundException;
+import javax.ws.rs.NotSupportedException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
@@ -71,6 +73,9 @@ public class MapeadorExcecao implements ExceptionMapper<Throwable> {
             } else if (causa instanceof MalformedJsonException) {
                 status = Response.Status.BAD_REQUEST;
                 break;
+            } else if (causa instanceof NotSupportedException) {
+                status = Response.Status.BAD_REQUEST;
+                break;                
             }
 
             if (causa.getCause() != null)
@@ -81,7 +86,7 @@ public class MapeadorExcecao implements ExceptionMapper<Throwable> {
 
         MensagemExcecao mensagemExcecao = new MensagemExcecao(causa);
         resposta = getResposta(mensagemExcecao.getMensagem());
-        new ContentTypeUtil(httpHeaders).setContentType(response);
-        return Response.status(status).entity(resposta).build();
+        ContentTypeUtil contentTypeUtil = new ContentTypeUtil(httpHeaders);
+        return Response.status(status).entity(resposta).type(MediaType.valueOf(contentTypeUtil.getContentType())).build();
     }
 }
