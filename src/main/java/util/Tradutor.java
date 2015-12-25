@@ -1,7 +1,9 @@
 package util;
 
+import excecao.ExcecaoSistema;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.net.HttpURLConnection;
@@ -16,14 +18,14 @@ import javax.json.JsonReader;
  *
  * @author MASC
  */
-public class Translator {
-    private String URI = "http://mymemory.translated.net/api/get";
+public class Tradutor {
+    private String URL = "http://mymemory.translated.net/api/get";
     private static final Logger logger = Logger.getGlobal();
     
     public String getTraducao(String textoOriginal) {
         try {
-            URL obj = new URL(URI);
-            HttpURLConnection urlConnection = (HttpURLConnection) obj.openConnection();
+            URL url = new URL(URL);
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
             // add request header
             urlConnection.setRequestMethod("GET");
@@ -43,7 +45,7 @@ public class Translator {
             outputStream.close();
 
             if (logger.isLoggable(Level.INFO)) {
-                logger.log(Level.INFO, "Conectando {0}", URI);
+                logger.log(Level.INFO, "Conectando {0}", URL);
                 logger.log(Level.INFO, "Parâmetros: {0}", params);
                 logger.log(Level.INFO, "Código de resposta: {0}", urlConnection.getResponseCode());
             }
@@ -68,9 +70,8 @@ public class Translator {
             
             jsonObject = jsonObject.getJsonObject("responseData");
             return jsonObject.getString("translatedText");
-        } catch (Exception ex) {
-            logger.log(Level.SEVERE, ex.getMessage(), ex);
-            return "null";
+        } catch (IOException ex) {
+            throw new ExcecaoSistema(ex);
         }
     }
 }
