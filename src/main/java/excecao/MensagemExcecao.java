@@ -8,8 +8,9 @@ package excecao;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
+import javax.ws.rs.WebApplicationException;
 import util.LeitorPropriedades;
-import util.Tradutor;
+import webservice.excecao.Tradutor;
 
 /**
  *
@@ -48,10 +49,12 @@ public class MensagemExcecao {
             mensagem.append(leitor.get(((ExcecaoNegocio) excecao).getChave()));
         } else if (excecao != null && leitor.get(excecao.getClass().getName()) != null) {
             mensagem.append(leitor.get(excecao.getClass().getName()));
-        } else {
+        } else if (excecao instanceof WebApplicationException) {
             String traducao = new Tradutor().getTraducao(excecao.getMessage());
             leitor.adicionar(excecao.getClass().getName(), traducao);            
             mensagem.append(traducao);
+        } else {
+            mensagem.append(leitor.get("java.lang.Exception"));
         }
 
         return mensagem.toString();

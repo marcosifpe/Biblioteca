@@ -1,4 +1,4 @@
-package util;
+package webservice.excecao;
 
 import excecao.ExcecaoSistema;
 import java.io.BufferedReader;
