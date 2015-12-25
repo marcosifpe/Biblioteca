@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers bufferedReader Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template bufferedReader the editor.
- */
 package jsf.beans;
 
 import javax.faces.context.FacesContext;
