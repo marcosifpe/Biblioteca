@@ -13,14 +13,19 @@ import javax.persistence.EntityExistsException;
 import javax.persistence.NoResultException;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolationException;
-import javax.ws.rs.NotFoundException;
-import javax.ws.rs.NotSupportedException;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
+import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
+import static javax.ws.rs.core.Response.Status.EXPECTATION_FAILED;
+import static javax.ws.rs.core.Response.Status.FOUND;
+import static javax.ws.rs.core.Response.Status.INTERNAL_SERVER_ERROR;
+import static javax.ws.rs.core.Response.Status.NOT_FOUND;
+import static javax.ws.rs.core.Response.Status.UNAUTHORIZED;
 import webservice.util.ContentTypeUtil;
 import webservice.Resposta;
 
@@ -40,48 +45,50 @@ public class MapeadorExcecao implements ExceptionMapper<Throwable> {
         return new Resposta(false, mensagem);
     }
 
+    private int getStatusCode(Response.Status status) {
+        return status.getStatusCode();
+    }
+
     @Override
     public Response toResponse(Throwable excecao) {
-        Response.Status status = Response.Status.INTERNAL_SERVER_ERROR;
+        int status = getStatusCode(INTERNAL_SERVER_ERROR);
         Resposta resposta;
         Throwable causa = excecao;
 
         while (true) {
             if (causa instanceof NoResultException) {
-                status = Response.Status.NOT_FOUND;
+                status = getStatusCode(NOT_FOUND);
                 break;
             } else if (causa instanceof EntityExistsException) {
-                status = Response.Status.FOUND;
+                status = getStatusCode(FOUND);
                 break;
             } else if (causa instanceof ExcecaoSistema) {
-                status = Response.Status.INTERNAL_SERVER_ERROR;
+                status = getStatusCode(INTERNAL_SERVER_ERROR);
                 break;
             } else if (causa instanceof ExcecaoNegocio) {
                 if (((ExcecaoNegocio) causa).isAutorizacao()) {
-                    status = Response.Status.UNAUTHORIZED;
+                    status = getStatusCode(UNAUTHORIZED);
                 } else {
-                    status = Response.Status.EXPECTATION_FAILED;
+                    status = getStatusCode(EXPECTATION_FAILED);
                 }
 
                 break;
             } else if (causa instanceof ConstraintViolationException) {
-                status = Response.Status.BAD_REQUEST;
-                break;
-            } else if (causa instanceof NotFoundException) {
-                status = Response.Status.NOT_FOUND;
+                status = getStatusCode(BAD_REQUEST);
                 break;
             } else if (causa instanceof MalformedJsonException) {
-                status = Response.Status.BAD_REQUEST;
+                status = getStatusCode(BAD_REQUEST);
                 break;
-            } else if (causa instanceof NotSupportedException) {
-                status = Response.Status.BAD_REQUEST;
-                break;                
+            } else if (causa instanceof WebApplicationException) {
+                status = ((WebApplicationException) causa).getResponse().getStatus();
+                break;
             }
 
-            if (causa.getCause() != null)
+            if (causa.getCause() != null) {
                 causa = causa.getCause();
-            else
+            } else {
                 break;
+            }
         }
 
         MensagemExcecao mensagemExcecao = new MensagemExcecao(causa);
