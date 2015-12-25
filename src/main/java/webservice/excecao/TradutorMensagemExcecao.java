@@ -11,11 +11,11 @@ import javax.ws.rs.client.WebTarget;
  */
 public class TradutorMensagemExcecao {
 
-    private String URI = "http://mymemory.translated.net";
+    private String URL = "http://mymemory.translated.net";
 
     public String getTraducao(String textoOriginal) {
         Client client = ClientBuilder.newClient();
-        WebTarget webTarget = client.target(URI);
+        WebTarget webTarget = client.target(URL);
         webTarget = webTarget.path("api");
         webTarget = webTarget.path("get");
         webTarget = webTarget.queryParam("q", textoOriginal);
