@@ -10,7 +10,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.ws.rs.WebApplicationException;
 import util.LeitorPropriedades;
-import webservice.excecao.Tradutor;
+import webservice.excecao.TradutorMensagemExcecao;
 
 /**
  *
@@ -50,7 +50,7 @@ public class MensagemExcecao {
         } else if (excecao != null && leitor.get(excecao.getClass().getName()) != null) {
             mensagem.append(leitor.get(excecao.getClass().getName()));
         } else if (excecao instanceof WebApplicationException) {
-            String traducao = new Tradutor().getTraducao(excecao.getMessage());
+            String traducao = new TradutorMensagemExcecao().getTraducao(excecao.getMessage());
             leitor.adicionar(excecao.getClass().getName(), traducao);            
             mensagem.append(traducao);
         } else {
