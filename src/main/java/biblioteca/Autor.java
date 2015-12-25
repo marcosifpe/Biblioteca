@@ -22,6 +22,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.br.CPF;
 
 /**
@@ -57,12 +58,14 @@ public class Autor extends Entidade implements Serializable {
     public static final String AUTOR_POR_CPF_E_ID = "AutorPorCpfEId";
     @Expose
     @XmlElement(required = true)
+    @NotBlank
     @Size(max = 20)
     @Pattern(regexp = "\\p{Upper}{1}\\p{Lower}+", message = "{biblioteca.Autor.nome}")
     @Column(name = "TXT_PRIMEIRO_NOME", length = 20, nullable = false)
     private String primeiroNome;  
     @Expose    
-    @XmlElement(required = true)    
+    @XmlElement(required = true) 
+    @NotBlank    
     @Size(max = 20)
     @Pattern(regexp = "[A-Z]{1}[a-z]+", message = "{biblioteca.Autor.nome}")
     @Column(name = "TXT_ULTIMO_NOME", length = 20, nullable = false)
