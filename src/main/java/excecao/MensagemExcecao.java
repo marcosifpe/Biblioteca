@@ -9,6 +9,7 @@ import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import util.LeitorPropriedades;
+import util.Translator;
 
 /**
  *
@@ -17,12 +18,11 @@ import util.LeitorPropriedades;
 public class MensagemExcecao {
 
     protected Throwable excecao;
-    protected LeitorPropriedades leitor;
+    protected static LeitorPropriedades leitor = new LeitorPropriedades(new String[]{"Exception.properties", "Mensagens.properties"});
     private static final String CHAVE_MENSAGEM_PADRAO = "java.lang.Exception";
 
     public MensagemExcecao(Throwable excecao) {
         this.excecao = excecao;
-        this.leitor = new LeitorPropriedades(new String[]{"Exception.properties", "Mensagens.properties"});
     }
 
     public String getMensagem() {
@@ -50,7 +50,10 @@ public class MensagemExcecao {
         } else if (excecao != null && leitor.get(excecao.getClass().getName()) != null) {
             mensagem.append(leitor.get(excecao.getClass().getName()));
         } else {
-            mensagem.append(leitor.get(CHAVE_MENSAGEM_PADRAO));
+            Translator translator = new Translator();
+            String traducao = translator.getTraducao(excecao.getMessage());
+            leitor.adicionar(excecao.getClass().getName(), traducao);            
+            mensagem.append(traducao);
         }
 
         return mensagem.toString();

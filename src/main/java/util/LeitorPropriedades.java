@@ -39,4 +39,8 @@ public class LeitorPropriedades {
     public String get(String chave) {
         return propriedades.getProperty(chave);
     }
+        
+    public synchronized void adicionar(String chave, String valor) {
+        propriedades.put(chave, valor);
+    }
 }
