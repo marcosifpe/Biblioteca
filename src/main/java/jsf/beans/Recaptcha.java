@@ -33,12 +33,12 @@ public class Recaptcha {
         }
         
         Client client = ClientBuilder.newClient();
-        Form form = new Form();
-        form = form.param("secret", secretKey);
-        form = form.param("response", recaptchaResponse);        
         WebTarget webTarget = client.target(url);
         webTarget = webTarget.path("api");
         webTarget = webTarget.path("siteverify");                
+        Form form = new Form();
+        form = form.param("secret", secretKey);
+        form = form.param("response", recaptchaResponse);        
         Response response = webTarget.request().post(Entity.form(form));
         JsonObject jsonObject = response.readEntity(JsonObject.class);
         return jsonObject.getBoolean("success");
