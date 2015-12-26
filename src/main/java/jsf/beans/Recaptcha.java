@@ -9,7 +9,6 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Form;
-import javax.ws.rs.core.Response;
 
 public class Recaptcha {
     private String recaptchaResponse;
@@ -39,8 +38,7 @@ public class Recaptcha {
         Form form = new Form();
         form = form.param("secret", secretKey);
         form = form.param("response", recaptchaResponse);        
-        Response response = webTarget.request().post(Entity.form(form));
-        JsonObject jsonObject = response.readEntity(JsonObject.class);
+        JsonObject jsonObject = webTarget.request().post(Entity.form(form), JsonObject.class);
         return jsonObject.getBoolean("success");
     }
 }
