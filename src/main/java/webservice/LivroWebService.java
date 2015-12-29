@@ -5,6 +5,7 @@
  */
 package webservice;
 
+import biblioteca.ISBN;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.APPLICATION_XML;
 import static javax.ws.rs.core.MediaType.APPLICATION_OCTET_STREAM;
@@ -42,7 +43,8 @@ public class LivroWebService extends WebService<Livro> {
     @GET
     @Path("isbn/{isbn}")
     @Produces({APPLICATION_JSON, APPLICATION_XML})
-    public Response getLivro(@PathParam("isbn") String isbn, @Context HttpHeaders httpHeaders) {
+    public Response getLivro(@PathParam("isbn")
+            @ISBN String isbn, @Context HttpHeaders httpHeaders) {
         Livro livro = livroService.getLivro(isbn);
         return super.getResposta(livro);
     }
@@ -50,7 +52,9 @@ public class LivroWebService extends WebService<Livro> {
     @GET
     @Path("pdf")
     @Produces({APPLICATION_OCTET_STREAM, APPLICATION_JSON, APPLICATION_XML})
-    public Response getPdf(@QueryParam("isbn") String isbn, @Context HttpHeaders httpHeaders) {
+    public Response getPdf(
+            @QueryParam("isbn")
+            @ISBN String isbn, @Context HttpHeaders httpHeaders) {
         Livro livro = livroService.getLivroComArquivo(isbn);
         return super.getPdf(livro.getArquivoDigital());
     }

@@ -24,7 +24,6 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -71,9 +70,7 @@ public class Livro extends Entidade implements Serializable {
     public static final String LIVRO_POR_ISBN_COM_ARQUIVO = "LivroPorIsbnComArquivo";
     @Expose    
     @XmlAttribute(required = true)
-    @NotBlank
-    @Size(max = 17)
-    @Pattern(regexp = "[0-9]{3}-[0-9]{2}-[0-9]{4}-[0-9]{3}-[0-9]{1}")
+    @ISBN
     @Column(name = "TXT_ISBN", length = 17, nullable = false, updatable = false)
     private String isbn;
     @Expose    
