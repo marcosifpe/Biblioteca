@@ -31,12 +31,13 @@ import javax.ws.rs.ext.Provider;
  */
 @Provider
 @Consumes(APPLICATION_JSON)
-public class GsonReader implements MessageBodyReader<Entidade> {    
+public class GsonReader implements MessageBodyReader<Entidade> {
+
     private String _convertStreamToString(InputStream inputStream)
             throws IOException {
         if (inputStream != null) {
             Writer writer = new StringWriter();
- 
+
             char[] buffer = new char[1024];
             try {
                 Reader reader = new BufferedReader(
@@ -52,15 +53,20 @@ public class GsonReader implements MessageBodyReader<Entidade> {
         } else {
             return "";
         }
-    }    
+    }
 
     @Override
-    public boolean isReadable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
+    public boolean isReadable(Class<?> type, Type genericType,
+            Annotation[] annotations, MediaType mediaType) {
         return true;
     }
 
     @Override
-    public Entidade readFrom(Class<Entidade> type, Type genericType, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, String> httpHeaders, InputStream entityStream) throws IOException, WebApplicationException {
+    public Entidade readFrom(Class<Entidade> type, Type genericType,
+            Annotation[] annotations, MediaType mediaType,
+            MultivaluedMap<String, String> httpHeaders,
+            InputStream entityStream) throws IOException,
+            WebApplicationException {
         Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy HH:mm:ss").create();
         return gson.fromJson(_convertStreamToString(entityStream), type);
     }

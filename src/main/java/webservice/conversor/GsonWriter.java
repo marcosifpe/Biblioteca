@@ -23,18 +23,24 @@ import javax.ws.rs.ext.Provider;
 public class GsonWriter implements MessageBodyWriter<Entidade> {
 
     @Override
-    public boolean isWriteable(Class type, Type genericType, Annotation[] annotations, MediaType mediaType) {
+    public boolean isWriteable(Class type, Type genericType,
+            Annotation[] annotations, MediaType mediaType) {
         return true;
     }
 
     @Override
-    public long getSize(Entidade t, Class type, Type genericType, Annotation[] annotations, MediaType mediaType) {
+    public long getSize(Entidade t, Class type, Type genericType,
+            Annotation[] annotations, MediaType mediaType) {
         return -1;
     }
 
     @Override
-    public void writeTo(Entidade t, Class type, Type genericType, Annotation[] annotations, MediaType mediaType, MultivaluedMap httpHeaders, OutputStream entityStream) throws IOException, WebApplicationException {
-        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setDateFormat("dd/MM/yyyy HH:mm:ss").create();
-        entityStream.write(gson.toJson(t).getBytes("UTF-8"));        
-    }   
+    public void writeTo(Entidade t, Class type, Type genericType,
+            Annotation[] annotations, MediaType mediaType,
+            MultivaluedMap httpHeaders, OutputStream entityStream)
+            throws IOException, WebApplicationException {
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().
+                setDateFormat("dd/MM/yyyy HH:mm:ss").create();
+        entityStream.write(gson.toJson(t).getBytes("UTF-8"));
+    }
 }

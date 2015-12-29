@@ -26,20 +26,26 @@ import javax.ws.rs.ext.MessageBodyWriter;
 public class GsonGenericListWriter implements MessageBodyWriter<GenericEntity<List<Entidade>>> {
 
     @Override
-    public boolean isWriteable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
+    public boolean isWriteable(Class<?> type, Type genericType, 
+            Annotation[] annotations, MediaType mediaType) {
         return true;
     }
 
     @Override
-    public long getSize(GenericEntity<List<Entidade>> t, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
+    public long getSize(GenericEntity<List<Entidade>> t, Class<?> type, 
+            Type genericType, Annotation[] annotations, MediaType mediaType) {
         return -1;
     }
 
     @Override
-    public void writeTo(GenericEntity<List<Entidade>> entidadesList, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, Object> httpHeaders, OutputStream entityStream) throws IOException, WebApplicationException {
+    public void writeTo(GenericEntity<List<Entidade>> entidadesList,
+            Class<?> type, Type genericType, Annotation[] annotations,
+            MediaType mediaType, MultivaluedMap<String, Object> httpHeaders,
+            OutputStream entityStream) throws IOException,
+            WebApplicationException {
         GsonBuilder builder = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setDateFormat("dd/MM/yyyy HH:mm:ss");
         Gson gson = builder.create();
-        entityStream.write(gson.toJson(entidadesList.getEntity()).getBytes("UTF-8"));        
+        entityStream.write(gson.toJson(entidadesList.getEntity()).getBytes("UTF-8"));
     }
-    
+
 }

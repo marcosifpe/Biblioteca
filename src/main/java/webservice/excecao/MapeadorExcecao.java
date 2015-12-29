@@ -16,7 +16,6 @@ import javax.validation.ConstraintViolationException;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
@@ -26,7 +25,6 @@ import static javax.ws.rs.core.Response.Status.FOUND;
 import static javax.ws.rs.core.Response.Status.INTERNAL_SERVER_ERROR;
 import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 import static javax.ws.rs.core.Response.Status.UNAUTHORIZED;
-import webservice.util.ContentTypeUtil;
 import webservice.Resposta;
 
 /**
@@ -93,7 +91,6 @@ public class MapeadorExcecao implements ExceptionMapper<Throwable> {
 
         MensagemExcecao mensagemExcecao = new MensagemExcecao(causa);
         resposta = getResposta(mensagemExcecao.getMensagem());
-        ContentTypeUtil contentTypeUtil = new ContentTypeUtil(httpHeaders);
-        return Response.status(status).entity(resposta).type(MediaType.valueOf(contentTypeUtil.getContentType())).build();
+        return Response.status(status).entity(resposta).build();
     }
 }

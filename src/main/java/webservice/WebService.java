@@ -14,8 +14,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.GenericEntity;
-import javax.ws.rs.core.MediaType;
-import webservice.util.ContentTypeUtil;
 import util.LeitorPropriedades;
 
 /**
@@ -39,10 +37,6 @@ public abstract class WebService<T extends Entidade> {
         return leitorPropriedades.get("mensagem.sucesso");
     }
 
-    private MediaType getContentType() {
-        return MediaType.valueOf(new ContentTypeUtil(httpHeaders).getContentType());
-    }
-    
     protected Response getPdf(ArquivoDigital arquivoDigital) {
         return Response.ok(arquivoDigital.getArquivo(), APPLICATION_OCTET_STREAM).
                 header("content-disposition", "attachment; filename=" + arquivoDigital.getNome())
@@ -51,15 +45,15 @@ public abstract class WebService<T extends Entidade> {
 
     protected Response getRespostaSucesso() {
         Resposta resposta = new Resposta(true, getMensagemSucesso());
-        return Response.ok(resposta).type(getContentType()).build();
+        return Response.ok(resposta).build();
     }
 
     protected Response getResposta(T entidade) {
-        return Response.ok(entidade).type(getContentType()).build();
+        return Response.ok(entidade).build();
     }
 
     protected Response getRespostaLista(List<T> entidades) {
-        return Response.ok(getListaGenerica(entidades)).type(getContentType()).build();
+        return Response.ok(getListaGenerica(entidades)).build();
     }
     
     protected GenericEntity<List<T>> getListaGenerica(List<T> entidades) {
