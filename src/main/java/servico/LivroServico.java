@@ -34,6 +34,12 @@ public class LivroServico extends Servico<Livro> {
         entityManager.persist(livro);
     }
 
+    @RolesAllowed({ADMINISTRADOR})
+    public void atualizar(Livro livro) throws ExcecaoNegocio {
+        entityManager.merge(livro);
+        entityManager.flush();
+    }
+
     @TransactionAttribute(SUPPORTS)
     @RolesAllowed({USUARIO})
     public List<Livro> getLivros() {

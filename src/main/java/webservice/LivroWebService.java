@@ -1,11 +1,17 @@
 package webservice;
 
+import biblioteca.ArquivoDigital;
 import biblioteca.ISBN;
 import static javax.ws.rs.core.MediaType.APPLICATION_OCTET_STREAM;
 
 import biblioteca.Livro;
 import excecao.ExcecaoNegocio;
 import interceptador.LoginInterceptador;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -25,10 +31,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
+import static javax.ws.rs.core.MediaType.MULTIPART_FORM_DATA;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.APPLICATION_XML;
 import javax.ws.rs.core.Response;
 import servico.LivroServico;
+import sun.misc.IOUtils;
 
 /**
  *
@@ -66,14 +74,36 @@ public class LivroWebService extends WebService<Livro> {
     @Path("salvar")
     @Produces({APPLICATION_JSON, APPLICATION_XML})
     @Consumes({APPLICATION_JSON, APPLICATION_XML})
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)    
-    @Interceptors({LoginInterceptador.class})    
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    @Interceptors({LoginInterceptador.class})
     public Response salvar(
-            @Valid Livro livro, 
+            @Valid Livro livro,
             @Context HttpServletRequest request,
             @Context HttpServletResponse response,
             @Context HttpHeaders httpHeaders) throws ExcecaoNegocio {
         livroService.salvar(livro);
         return super.getRespostaSucesso();
     }
+
+    @POST
+    @Path("atualizar/documento/{isbn}")
+    @Produces({APPLICATION_JSON, APPLICATION_XML})
+    @Consumes({MULTIPART_FORM_DATA})
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    @Interceptors({LoginInterceptador.class})
+    public Response atualizar(
+            @PathParam("isbn") @ISBN String isbn,
+            byte[] arquivo,
+            @Context HttpServletRequest request,
+            @Context HttpServletResponse response,
+            @Context HttpHeaders httpHeaders) throws ExcecaoNegocio, FileNotFoundException, IOException {
+        Livro livro = livroService.getLivro(isbn);
+        ArquivoDigital arquivoDigital = livro.criarArquivoDigital();
+        arquivoDigital.setArquivo(arquivo);        
+        arquivoDigital.setNome(livro.getIsbn() + ".pdf");
+        arquivoDigital.setExtensao("application/pdf");
+        livro.setArquivoDigital(arquivoDigital);
+        return super.getRespostaSucesso();
+    }
+
 }
