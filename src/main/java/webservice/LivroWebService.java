@@ -1,24 +1,32 @@
 package webservice;
 
 import biblioteca.ISBN;
-import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
-import static javax.ws.rs.core.MediaType.APPLICATION_XML;
 import static javax.ws.rs.core.MediaType.APPLICATION_OCTET_STREAM;
 
 import biblioteca.Livro;
+import excecao.ExcecaoNegocio;
+import interceptador.LoginInterceptador;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
+import javax.interceptor.Interceptors;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
+import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+import static javax.ws.rs.core.MediaType.APPLICATION_XML;
 import javax.ws.rs.core.Response;
 import servico.LivroServico;
 
@@ -52,5 +60,20 @@ public class LivroWebService extends WebService<Livro> {
             @ISBN String isbn, @Context HttpHeaders httpHeaders) {
         Livro livro = livroService.getLivroComArquivo(isbn);
         return super.getPdf(livro.getArquivoDigital());
+    }
+
+    @POST
+    @Path("salvar")
+    @Produces({APPLICATION_JSON, APPLICATION_XML})
+    @Consumes({APPLICATION_JSON, APPLICATION_XML})
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)    
+    @Interceptors({LoginInterceptador.class})    
+    public Response salvar(
+            @Valid Livro livro, 
+            @Context HttpServletRequest request,
+            @Context HttpServletResponse response,
+            @Context HttpHeaders httpHeaders) throws ExcecaoNegocio {
+        livroService.salvar(livro);
+        return super.getRespostaSucesso();
     }
 }
