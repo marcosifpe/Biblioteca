@@ -20,8 +20,8 @@ import org.hibernate.validator.constraints.NotBlank;
  *
  * @author MASC
  */
-@NotBlank
-@Size(max = 17)
+@NotBlank(message = "{biblioteca.ISBN}")
+@Size(max = 17, message = "{biblioteca.ISBN}")
 @Pattern(regexp = "[0-9]{3}-[0-9]{2}-[0-9]{4}-[0-9]{3}-[0-9]{1}", message = "{biblioteca.ISBN}")
 @Target({ElementType.FIELD, ElementType.METHOD, ElementType.ANNOTATION_TYPE, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)

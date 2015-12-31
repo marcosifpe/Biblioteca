@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package webservice.filtro;
 
 import java.io.IOException;
@@ -13,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
  *
@@ -23,18 +19,21 @@ public class UTF8Filtro implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        
+
     }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        response.setCharacterEncoding("UTF-8");
-        chain.doFilter(request, response);
+        try {
+            chain.doFilter(request, response);
+        } finally {
+            response.setCharacterEncoding(UTF_8.name());
+        }
     }
 
     @Override
     public void destroy() {
-        
+
     }
-    
+
 }

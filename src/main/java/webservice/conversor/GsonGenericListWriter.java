@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import java.util.List;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
@@ -49,7 +50,7 @@ public class GsonGenericListWriter implements MessageBodyWriter<GenericEntity<Li
             WebApplicationException {
         GsonBuilder builder = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setDateFormat("dd/MM/yyyy HH:mm:ss");
         Gson gson = builder.create();
-        entityStream.write(gson.toJson(entidadesList.getEntity()).getBytes("UTF-8"));
+        entityStream.write(gson.toJson(entidadesList.getEntity()).getBytes(UTF_8.name()));
     }
 
 }

@@ -17,6 +17,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
@@ -41,7 +42,7 @@ public class GsonReader implements MessageBodyReader<Entidade> {
             char[] buffer = new char[1024];
             try {
                 Reader reader = new BufferedReader(
-                        new InputStreamReader(inputStream, "UTF-8"));
+                        new InputStreamReader(inputStream, UTF_8.name()));
                 int n;
                 while ((n = reader.read(buffer)) != -1) {
                     writer.write(buffer, 0, n);

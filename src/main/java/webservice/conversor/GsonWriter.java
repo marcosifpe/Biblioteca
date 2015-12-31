@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
@@ -41,6 +42,6 @@ public class GsonWriter implements MessageBodyWriter<Entidade> {
             throws IOException, WebApplicationException {
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().
                 setDateFormat("dd/MM/yyyy HH:mm:ss").create();
-        entityStream.write(gson.toJson(t).getBytes("UTF-8"));
+        entityStream.write(gson.toJson(t).getBytes(UTF_8.name()));
     }
 }
