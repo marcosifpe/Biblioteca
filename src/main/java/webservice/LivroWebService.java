@@ -7,11 +7,6 @@ import static javax.ws.rs.core.MediaType.APPLICATION_OCTET_STREAM;
 import biblioteca.Livro;
 import excecao.ExcecaoNegocio;
 import interceptador.LoginInterceptador;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -36,7 +31,6 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.APPLICATION_XML;
 import javax.ws.rs.core.Response;
 import servico.LivroServico;
-import sun.misc.IOUtils;
 
 /**
  *
@@ -96,10 +90,11 @@ public class LivroWebService extends WebService<Livro> {
             byte[] arquivo,
             @Context HttpServletRequest request,
             @Context HttpServletResponse response,
-            @Context HttpHeaders httpHeaders) throws ExcecaoNegocio, FileNotFoundException, IOException {
+            @Context HttpHeaders httpHeaders) throws ExcecaoNegocio {
         Livro livro = livroService.getLivro(isbn);
         ArquivoDigital arquivoDigital = livro.criarArquivoDigital();
-        arquivoDigital.setArquivo(arquivo);        
+        arquivoDigital.setArquivo(arquivo);       
+        //TODO: melhorar essa parte
         arquivoDigital.setNome(livro.getIsbn() + ".pdf");
         arquivoDigital.setExtensao("application/pdf");
         livro.setArquivoDigital(arquivoDigital);
