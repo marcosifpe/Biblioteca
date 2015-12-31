@@ -55,4 +55,12 @@ public class EditoraServico extends Servico<Editora> {
     public Editora criar() {
         return new Editora();
     }
+
+    public void remover(String nome) throws ExcecaoNegocio {
+        Editora editora = getEditora(nome);
+        if (editora.isInativo())
+            entityManager.remove(editora);
+        else
+            throw new ExcecaoNegocio(ExcecaoNegocio.REMOVER_EDITORA);
+    }
 }

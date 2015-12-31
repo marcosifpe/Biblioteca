@@ -13,8 +13,9 @@ import javax.ejb.ApplicationException;
  */
 @ApplicationException(rollback = true)
 public class ExcecaoNegocio extends Exception {
+    private String chave;    
     public static final String OBJETO_INEXISTENTE = "excecao.ExcecaoNegocio.objetoInexistente";
-    private String chave;
+    public static final String REMOVER_EDITORA = "excecao.ExcecaoNegocio.editoraServico.remover";
     public static final String REMOVER_AUTOR = "excecao.ExcecaoNegocio.autorServico.remover";
     public static final String OBJETO_EXISTENTE = "excecao.ExcecaoNegocio.objetoExistente";  
     public static final String ACESSO_NAO_AUTORIZADO = "excecao.ExcecaoNegocio.acesso.nao.autorizado";

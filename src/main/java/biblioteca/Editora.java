@@ -2,18 +2,23 @@ package biblioteca;
 
 import com.google.gson.annotations.Expose;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import org.hibernate.validator.constraints.NotBlank;
 
 /**
@@ -45,7 +50,14 @@ public class Editora extends Entidade implements Serializable {
     @NotBlank
     @Size(max = 50)
     @Column(name = "TXT_NOME", length = 50, nullable = false, updatable = false)
-    private String nome;
+    private String nome;    
+    @XmlTransient
+    @OneToMany(mappedBy = "editora", fetch = FetchType.LAZY)    
+    private List<Livro> livros;    
+    
+    public Editora() {
+        this.livros = new ArrayList<>();
+    }
     
     public String getNome() {
         return nome;
@@ -55,4 +67,16 @@ public class Editora extends Entidade implements Serializable {
         this.nome = nome;
     }
 
+    public void adicionar(Livro livro) {
+        livros.add(livro);
+    }
+    
+    public List<Livro> getLivros() {
+        return livros;
+    }
+    
+    @Override
+    public boolean isInativo() {
+        return livros.isEmpty();
+    }    
 }

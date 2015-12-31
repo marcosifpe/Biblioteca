@@ -161,6 +161,7 @@ public class Livro extends Entidade implements Serializable {
 
     public void setEditora(Editora editora) {
         this.editora = editora;
+        this.editora.adicionar(this);
     }
 
     public String getTitulo() {
