@@ -19,6 +19,7 @@ import javax.ws.rs.core.HttpHeaders;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.APPLICATION_XML;
 import javax.ws.rs.core.Response;
+import org.hibernate.validator.constraints.NotBlank;
 import servico.EditoraServico;
 
 /**
@@ -38,7 +39,8 @@ public class EditoraWebService extends WebService<Editora> {
     @GET
     @Path("get/nome")
     @Produces({APPLICATION_JSON, APPLICATION_XML})
-    public Response getEditora(@QueryParam("nome") String nome,
+    public Response getEditora(
+            @QueryParam("nome") @NotBlank String nome,
             @Context HttpServletRequest request,
             @Context HttpHeaders httpHeaders) {
         Editora editora = editoraService.getEditora(nome);
