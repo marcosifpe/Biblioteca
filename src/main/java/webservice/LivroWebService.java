@@ -22,6 +22,7 @@ import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -85,13 +86,13 @@ public class LivroWebService extends WebService<Livro> {
         return super.getRespostaSucesso();
     }
 
-    @POST
-    @Path("atualizar/documento/{isbn}")
+    @PUT
+    @Path("salvar/documento/{isbn}")
     @Produces({APPLICATION_JSON, APPLICATION_XML})
     @Consumes({MULTIPART_FORM_DATA})
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     @Interceptors({LoginInterceptador.class})
-    public Response atualizar(
+    public Response salvarPdf(
             @PathParam("isbn") @ISBN String isbn,
             @FormDataParam("file") FormDataBodyPart body,
             @Context HttpServletRequest request,
