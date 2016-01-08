@@ -39,6 +39,18 @@ public class LivroServico extends Servico<Livro> {
         entityManager.merge(livro);
         entityManager.flush();
     }
+    
+    @RolesAllowed({ADMINISTRADOR})    
+    public void remover(Livro livro) {
+        entityManager.merge(livro);
+        entityManager.remove(livro);
+    }        
+    
+    @RolesAllowed({ADMINISTRADOR})    
+    public void remover(String isbn) {
+        Livro livro = getLivro(isbn);
+        remover(livro);
+    }
 
     @TransactionAttribute(SUPPORTS)
     @RolesAllowed({USUARIO})

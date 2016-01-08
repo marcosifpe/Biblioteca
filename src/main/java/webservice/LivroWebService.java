@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -69,6 +70,20 @@ public class LivroWebService extends WebService<Livro> {
             @ISBN String isbn, @Context HttpHeaders httpHeaders) {
         Livro livro = livroService.getLivroComArquivo(isbn);
         return super.getPdf(livro.getArquivoDigital());
+    }
+
+    @DELETE
+    @Path("remover")
+    @Produces({APPLICATION_JSON, APPLICATION_XML})
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    @Interceptors({LoginInterceptador.class})
+    public Response remover(
+            @QueryParam("isbn") @ISBN String isbn, 
+            @Context HttpServletRequest request,
+            @Context HttpServletResponse response,
+            @Context HttpHeaders httpHeaders) {
+        livroService.remover(isbn);
+        return super.getRespostaSucesso();
     }
 
     @POST
