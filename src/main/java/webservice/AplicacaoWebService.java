@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import javax.ws.rs.core.Application;
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.ServerProperties;
 import webservice.conversor.GsonGenericListWriter;
 import webservice.conversor.GsonReader;
@@ -41,6 +42,7 @@ public class AplicacaoWebService extends Application {
         classes.add(GsonWriter.class);
         classes.add(GsonReader.class);
         classes.add(GsonGenericListWriter.class);
+        classes.add(MultiPartFeature.class);
         return classes;
     }
 

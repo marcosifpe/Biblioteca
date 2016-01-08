@@ -7,6 +7,10 @@ import static javax.ws.rs.core.MediaType.APPLICATION_OCTET_STREAM;
 import biblioteca.Livro;
 import excecao.ExcecaoNegocio;
 import interceptador.LoginInterceptador;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -18,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -30,6 +35,12 @@ import static javax.ws.rs.core.MediaType.MULTIPART_FORM_DATA;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.APPLICATION_XML;
 import javax.ws.rs.core.Response;
+import org.apache.commons.io.FileSystemUtils;
+import org.apache.commons.io.FileUtils;
+import org.glassfish.jersey.media.multipart.ContentDisposition;
+import org.glassfish.jersey.media.multipart.FormDataBodyPart;
+import org.glassfish.jersey.media.multipart.FormDataMultiPart;
+import org.glassfish.jersey.media.multipart.FormDataParam;
 import servico.LivroServico;
 
 /**
@@ -87,18 +98,18 @@ public class LivroWebService extends WebService<Livro> {
     @Interceptors({LoginInterceptador.class})
     public Response atualizar(
             @PathParam("isbn") @ISBN String isbn,
-            byte[] arquivo,
+            @FormDataParam("file") FormDataBodyPart body,
             @Context HttpServletRequest request,
             @Context HttpServletResponse response,
-            @Context HttpHeaders httpHeaders) throws ExcecaoNegocio {
+            @Context HttpHeaders httpHeaders) throws ExcecaoNegocio, IOException {        
+        ContentDisposition contentDisposition =  body.getContentDisposition();
+        File file = body.getValueAs(File.class);
         Livro livro = livroService.getLivro(isbn);
-        ArquivoDigital arquivoDigital = livro.criarArquivoDigital();
-        arquivoDigital.setArquivo(arquivo);       
-        //TODO: melhorar essa parte
-        arquivoDigital.setNome(livro.getIsbn() + ".pdf");
-        arquivoDigital.setExtensao("application/pdf");
+        ArquivoDigital arquivoDigital = livro.criarArquivoDigital();        
+        arquivoDigital.setArquivo(FileUtils.readFileToByteArray(file));       
+        arquivoDigital.setNome(contentDisposition.getFileName());
+        arquivoDigital.setExtensao(body.getMediaType().toString());
         livro.setArquivoDigital(arquivoDigital);
         return super.getRespostaSucesso();
     }
-
 }
