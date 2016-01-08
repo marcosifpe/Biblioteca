@@ -101,12 +101,12 @@ public class LivroWebService extends WebService<Livro> {
             @FormDataParam("file") FormDataBodyPart body,
             @Context HttpServletRequest request,
             @Context HttpServletResponse response,
-            @Context HttpHeaders httpHeaders) throws ExcecaoNegocio, IOException {        
-        ContentDisposition contentDisposition =  body.getContentDisposition();
+            @Context HttpHeaders httpHeaders) throws ExcecaoNegocio, IOException {
+        ContentDisposition contentDisposition = body.getContentDisposition();
         File file = body.getValueAs(File.class);
         Livro livro = livroService.getLivro(isbn);
-        ArquivoDigital arquivoDigital = livro.criarArquivoDigital();        
-        arquivoDigital.setArquivo(FileUtils.readFileToByteArray(file));       
+        ArquivoDigital arquivoDigital = livro.criarArquivoDigital();
+        arquivoDigital.setArquivo(FileUtils.readFileToByteArray(file));
         arquivoDigital.setNome(contentDisposition.getFileName());
         arquivoDigital.setExtensao(body.getMediaType().toString());
         livro.setArquivoDigital(arquivoDigital);
