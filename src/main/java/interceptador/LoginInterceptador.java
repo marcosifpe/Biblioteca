@@ -34,18 +34,7 @@ public class LoginInterceptador {
         }
 
         return request;
-    }
-    
-    private HttpServletResponse getHttpServletResponse(InvocationContext ic) {
-        HttpServletResponse response = null;
-        for (Object parameter : ic.getParameters()) {
-            if (parameter instanceof HttpServletResponse) {
-                response = (HttpServletResponse) parameter;
-            }
-        }
-
-        return response;
-    }    
+    }  
 
     private HttpHeaders getHttpHeaders(InvocationContext ic) {
         HttpHeaders headers = null;
@@ -67,12 +56,10 @@ public class LoginInterceptador {
     public Object interceptar(InvocationContext ic) throws Exception {
         Object resultado;
         HttpServletRequest request = null;
-        HttpServletResponse response = null;
         HttpHeaders headers;
 
         try {
             request = getHttpServletRequest(ic);
-            response = getHttpServletResponse(ic);
             headers = getHttpHeaders(ic);
 
             String login = headers.getHeaderString("login");
