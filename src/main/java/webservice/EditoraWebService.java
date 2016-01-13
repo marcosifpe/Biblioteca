@@ -63,7 +63,7 @@ public class EditoraWebService extends WebService<Editora> {
             @Context HttpServletResponse response,
             @Context HttpHeaders httpHeaders) throws ExcecaoNegocio {
         editoraService.salvar(editora);
-        return super.getRespostaSucesso();
+        return super.getRespostaCriacao();
     }
 
     @DELETE

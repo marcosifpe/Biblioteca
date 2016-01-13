@@ -43,9 +43,12 @@ public abstract class WebService<T extends Entidade> {
                 .build();
     }
 
+    protected Response getRespostaCriacao() {
+        return Response.status(Response.Status.CREATED).build();
+    }
+    
     protected Response getRespostaSucesso() {
-        Resposta resposta = new Resposta(true, getMensagemSucesso());
-        return Response.ok(resposta).build();
+        return Response.ok().build();
     }
 
     protected Response getResposta(T entidade) {

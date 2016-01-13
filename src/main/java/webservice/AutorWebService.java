@@ -83,7 +83,7 @@ public class AutorWebService extends WebService<Autor> {
             @Context HttpServletResponse response,
             @Context HttpHeaders httpHeaders) throws ExcecaoNegocio {
         autorServico.salvar(autor);
-        return super.getRespostaSucesso();
+        return super.getRespostaCriacao();
     }
 
     @PUT

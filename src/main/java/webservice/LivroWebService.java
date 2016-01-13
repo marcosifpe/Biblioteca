@@ -98,7 +98,7 @@ public class LivroWebService extends WebService<Livro> {
             @Context HttpServletResponse response,
             @Context HttpHeaders httpHeaders) throws ExcecaoNegocio {
         livroService.salvar(livro);
-        return super.getRespostaSucesso();
+        return super.getRespostaCriacao();
     }
 
     @PUT
