@@ -10,6 +10,7 @@ import excecao.ExcecaoNegocio;
 import javax.annotation.Resource;
 import javax.ejb.SessionContext;
 import javax.interceptor.AroundInvoke;
+import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +20,7 @@ import javax.ws.rs.core.HttpHeaders;
  *
  * @author MASC
  */
+@Interceptor
 public class LoginInterceptador {
     
     @Resource
