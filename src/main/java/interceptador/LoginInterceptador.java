@@ -66,13 +66,15 @@ public class LoginInterceptador {
             headers = getHttpHeaders(ic);
 
             String autorizacao = headers.getHeaderString("Authorization");
-            String autorizacaoArray[] = new String[] {null, null};
+            String autorizacaoArray[] = new String[]{null, null};
 
-            if (autorizacao != null && autorizacao.length() > 6) {                
+            if (autorizacao != null && autorizacao.length() > 6) {
                 autorizacao = autorizacao.substring(6);
                 byte[] bytes = Base64.getDecoder().decode(autorizacao);
                 String utf8 = new String(bytes, StandardCharsets.UTF_8);
-                autorizacaoArray = utf8.split(":");
+                if (utf8.contains(":")) {
+                    autorizacaoArray = utf8.split(":");
+                }
             }
 
             String login = autorizacaoArray[0];
