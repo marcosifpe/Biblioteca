@@ -7,6 +7,8 @@ package interceptador;
 
 import acesso.Papel;
 import excecao.ExcecaoNegocio;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import javax.annotation.Resource;
 import javax.ejb.SessionContext;
 import javax.interceptor.AroundInvoke;
@@ -62,9 +64,16 @@ public class LoginInterceptador {
         try {
             request = getHttpServletRequest(ic);
             headers = getHttpHeaders(ic);
+            
+            String autorizacao = headers.getHeaderString("Authorization");
+            autorizacao = autorizacao.substring(6);
+            byte[] bytes = Base64.getDecoder().decode(autorizacao);
+            String utf8 = new String(bytes, StandardCharsets.UTF_8);
+            String autorizacaoArray[] = utf8.split(":");
+            
 
-            String login = headers.getHeaderString("login");
-            String senha = headers.getHeaderString("senha");
+            String login = autorizacaoArray[0];
+            String senha = autorizacaoArray[1];
             
             if (valido(login) && valido(senha)) {
                 try {
