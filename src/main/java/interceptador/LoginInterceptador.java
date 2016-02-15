@@ -24,7 +24,7 @@ import javax.ws.rs.core.HttpHeaders;
  */
 @Interceptor
 public class LoginInterceptador {
-    
+
     @Resource
     private SessionContext contexto;
 
@@ -37,7 +37,7 @@ public class LoginInterceptador {
         }
 
         return request;
-    }  
+    }
 
     private HttpHeaders getHttpHeaders(InvocationContext ic) {
         HttpHeaders headers = null;
@@ -49,8 +49,8 @@ public class LoginInterceptador {
         }
 
         return headers;
-    }    
-    
+    }
+
     private boolean valido(String valor) {
         return valor != null && valor.trim().length() > 0;
     }
@@ -64,17 +64,20 @@ public class LoginInterceptador {
         try {
             request = getHttpServletRequest(ic);
             headers = getHttpHeaders(ic);
-            
+
             String autorizacao = headers.getHeaderString("Authorization");
-            autorizacao = autorizacao.substring(6);
-            byte[] bytes = Base64.getDecoder().decode(autorizacao);
-            String utf8 = new String(bytes, StandardCharsets.UTF_8);
-            String autorizacaoArray[] = utf8.split(":");
-            
+            String autorizacaoArray[] = new String[] {null, null};
+
+            if (autorizacao != null && autorizacao.length() > 6) {                
+                autorizacao = autorizacao.substring(6);
+                byte[] bytes = Base64.getDecoder().decode(autorizacao);
+                String utf8 = new String(bytes, StandardCharsets.UTF_8);
+                autorizacaoArray = utf8.split(":");
+            }
 
             String login = autorizacaoArray[0];
             String senha = autorizacaoArray[1];
-            
+
             if (valido(login) && valido(senha)) {
                 try {
                     request.login(login, senha);
