@@ -30,7 +30,7 @@ import org.hibernate.validator.constraints.br.CPF;
  * @author MASC
  */
 @Entity
-@Table(name = "TB_AUTOR",
+@Table(name = "tb_autor",
         uniqueConstraints = {
             @UniqueConstraint(columnNames = {"TXT_CPF"}, name = "UNIQUE_CPF")})
 @NamedQueries(

@@ -67,7 +67,7 @@ public class Usuario extends Entidade implements Serializable {
     private String ultimoNome;
     
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "TB_USUARIO_GRUPO", joinColumns = {
+    @JoinTable(name = "tb_usuario_grupo", joinColumns = {
         @JoinColumn(name = "ID_USUARIO")},
             inverseJoinColumns = {
                 @JoinColumn(name = "ID_GRUPO")})

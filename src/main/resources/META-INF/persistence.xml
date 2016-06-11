@@ -5,13 +5,13 @@
     <jta-data-source>jdbc/Biblioteca</jta-data-source>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
-      <property name="javax.persistence.schema-generation.database.action" value="none"/>
-      <property name="eclipselink.jdbc.native-sql" value="true"/>
-      <property name="eclipselink.weaving" value="true"/>
       <property name="javax.persistence.validation.group.pre-persist" value="javax.validation.groups.Default"/>
       <property name="javax.persistence.validation.group.pre-update" value="javax.validation.groups.Default"/>
       <property name="javax.persistence.validation.group.pre-remove" value="javax.validation.groups.Default"/>      
-      <property name="eclipselink.logging.level" value="FINE"/>           
+      <property name="eclipselink.logging.level" value="FINE"/>       
+      <property name="eclipselink.ddl-generation" value="none"/> 
+      <property name="eclipselink.jdbc.native-sql" value="true"/>
+      <property name="eclipselink.weaving" value="true"/>      
     </properties>
   </persistence-unit>
 </persistence>

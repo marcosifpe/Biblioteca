@@ -41,7 +41,7 @@ import xml.AdaptadorData;
  * @author MASC
  */
 @Entity
-@Table(name = "TB_LIVRO",
+@Table(name = "tb_livro",
         uniqueConstraints = {
             @UniqueConstraint(columnNames = {"TXT_ISBN"}, name = "UNIQUE_ISBN")})
 @NamedQueries(
@@ -108,7 +108,7 @@ public class Livro extends Entidade implements Serializable {
     @XmlElementWrapper(name="autores")
     @NotEmpty
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "TB_LIVRO_AUTOR", joinColumns = {
+    @JoinTable(name = "tb_livro_autor", joinColumns = {
         @JoinColumn(name = "ID_LIVRO")},
             inverseJoinColumns = {
                 @JoinColumn(name = "ID_AUTOR")})

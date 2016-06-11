@@ -26,7 +26,7 @@ import org.hibernate.validator.constraints.NotBlank;
  * @author MASC
  */
 @Entity
-@Table(name = "TB_EDITORA")
+@Table(name = "tb_editora")
 @NamedQueries(
         {
             @NamedQuery(

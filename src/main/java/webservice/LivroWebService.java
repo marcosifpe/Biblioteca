@@ -1,14 +1,11 @@
 package webservice;
 
-import biblioteca.ArquivoDigital;
 import biblioteca.ISBN;
 import static javax.ws.rs.core.MediaType.APPLICATION_OCTET_STREAM;
 
 import biblioteca.Livro;
 import excecao.ExcecaoNegocio;
 import interceptador.LoginInterceptador;
-import java.io.File;
-import java.io.IOException;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -23,21 +20,16 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
-import static javax.ws.rs.core.MediaType.MULTIPART_FORM_DATA;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.APPLICATION_XML;
 import javax.ws.rs.core.Response;
-import org.apache.commons.io.FileUtils;
-import org.glassfish.jersey.media.multipart.ContentDisposition;
-import org.glassfish.jersey.media.multipart.FormDataBodyPart;
-import org.glassfish.jersey.media.multipart.FormDataParam;
+
 import servico.LivroServico;
 
 /**
@@ -99,28 +91,5 @@ public class LivroWebService extends WebService<Livro> {
             @Context HttpHeaders httpHeaders) throws ExcecaoNegocio {
         livroService.salvar(livro);
         return super.getRespostaCriacao();
-    }
-
-    @PUT
-    @Path("salvar/documento/{isbn}")
-    @Produces({APPLICATION_JSON, APPLICATION_XML})
-    @Consumes({MULTIPART_FORM_DATA})
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    @Interceptors({LoginInterceptador.class})
-    public Response salvarPdf(
-            @PathParam("isbn") @ISBN String isbn,
-            @FormDataParam("file") FormDataBodyPart body,
-            @Context HttpServletRequest request,
-            @Context HttpServletResponse response,
-            @Context HttpHeaders httpHeaders) throws ExcecaoNegocio, IOException {
-        ContentDisposition contentDisposition = body.getContentDisposition();
-        File file = body.getValueAs(File.class);
-        Livro livro = livroService.getLivro(isbn);
-        ArquivoDigital arquivoDigital = livro.criarArquivoDigital();
-        arquivoDigital.setArquivo(FileUtils.readFileToByteArray(file));
-        arquivoDigital.setNome(contentDisposition.getFileName());
-        arquivoDigital.setExtensao(body.getMediaType().toString());
-        livro.setArquivoDigital(arquivoDigital);
-        return super.getRespostaSucesso();
     }
 }
