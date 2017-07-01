@@ -1,6 +1,7 @@
 package servico;
 
 import static acesso.Papel.ADMINISTRADOR;
+import static acesso.Papel.USUARIO;
 import static biblioteca.Editora.EDITORA_POR_NOME;
 import static biblioteca.Editora.EDITORAS;
 import static javax.ejb.TransactionManagementType.CONTAINER;
@@ -11,6 +12,7 @@ import biblioteca.Editora;
 import excecao.ExcecaoNegocio;
 import java.util.List;
 import javax.annotation.Resource;
+import javax.annotation.security.DeclareRoles;
 import javax.ejb.EJBAccessException;
 import javax.ejb.LocalBean;
 import javax.ejb.SessionContext;
@@ -25,6 +27,7 @@ import javax.ejb.TransactionManagement;
  */
 @Stateless
 @LocalBean
+@DeclareRoles({ADMINISTRADOR, USUARIO})
 @TransactionManagement(CONTAINER)
 @TransactionAttribute(REQUIRED)
 public class EditoraServico extends Servico<Editora> {
