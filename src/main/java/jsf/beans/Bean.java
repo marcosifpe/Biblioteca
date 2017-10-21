@@ -10,6 +10,8 @@ import excecao.ExcecaoNegocio;
 import excecao.MensagemExcecao;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJBException;
+import javax.enterprise.context.RequestScoped;
+import javax.enterprise.inject.Produces;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.validation.ConstraintViolationException;
@@ -22,11 +24,11 @@ import javax.validation.ConstraintViolationException;
 public abstract class Bean<T extends Entidade> {
 
     protected T entidade;
-    
+
     @PostConstruct
     public void init() {
         iniciarCampos();
-    }    
+    }
 
     protected abstract void iniciarCampos();
 

@@ -7,9 +7,9 @@ import biblioteca.Livro;
 import excecao.ExcecaoNegocio;
 import java.io.Serializable;
 import java.util.List;
-import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.inject.Named;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import servico.AutorServico;
@@ -20,14 +20,14 @@ import servico.LivroServico;
  *
  * @author MASC
  */
-@ManagedBean
 @SessionScoped
+@Named
 public class LivroBean extends Bean<Livro> implements Serializable {
-    @EJB
+    @Inject
     private AutorServico autorServico;
-    @EJB
+    @Inject
     private EditoraServico editoraServico;
-    @EJB
+    @Inject
     private LivroServico livroServico;
 
     @Override

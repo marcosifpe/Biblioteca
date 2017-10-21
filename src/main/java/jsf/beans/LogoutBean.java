@@ -1,9 +1,10 @@
 package jsf.beans;
 
 import java.io.Serializable;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -12,18 +13,20 @@ import javax.servlet.http.HttpSession;
  *
  * @author MASC
  */
-@ManagedBean(name = "logoutBean")
 @ViewScoped
+@Named("logoutBean")
 public class LogoutBean implements Serializable {
 
+    @Inject
+    private FacesContext facesContext;
+
     public String logout() throws ServletException {
-        FacesContext fc = FacesContext.getCurrentInstance();
-        HttpSession session = (HttpSession) fc.getExternalContext().getSession(false);
+        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
         if (session != null) {
             session.invalidate();
         }
-        
-        HttpServletRequest request = (HttpServletRequest) fc.getExternalContext().getRequest();        
+
+        HttpServletRequest request = (HttpServletRequest) facesContext.getExternalContext().getRequest();
         request.logout();
         return "sair";
     }

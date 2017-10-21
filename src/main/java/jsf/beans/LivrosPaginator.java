@@ -8,20 +8,20 @@ package jsf.beans;
 import biblioteca.Livro;
 import java.io.Serializable;
 import java.util.List;
-import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import servico.LivroServico;
 
 /**
  *
  * @author MASC
  */
-@ManagedBean(name = "livrosPaginator")
 @ViewScoped
+@Named("livrosPaginator")
 public class LivrosPaginator implements Serializable {
 
-    @EJB
+    @Inject
     private LivroServico livroServico;
 
     private List<Livro> livros;

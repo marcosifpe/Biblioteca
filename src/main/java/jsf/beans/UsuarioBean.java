@@ -8,26 +8,28 @@ package jsf.beans;
 import acesso.Usuario;
 import excecao.ExcecaoNegocio;
 import java.io.Serializable;
-import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.inject.Named;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import servico.UsuarioServico;
 
 /**
  *
  * @author MASC
  */
-@ManagedBean(name = "usuarioBean")
 @RequestScoped
+@Named("usuarioBean")
 public class UsuarioBean extends Bean<Usuario> implements Serializable {
-
+    @Inject   
+    private Recaptcha recaptcha;
+    
     public UsuarioBean() {
         this.entidade = new Usuario();
     }
 
-    @EJB
+    @Inject
     private UsuarioServico usuarioServico;
     private boolean sucesso = true;
 
@@ -41,7 +43,7 @@ public class UsuarioBean extends Bean<Usuario> implements Serializable {
     @Override
     protected boolean salvar(Usuario entidade) throws ExcecaoNegocio {
         this.sucesso = false;
-        Recaptcha recaptcha = new Recaptcha(FacesContext.getCurrentInstance());
+
         if (recaptcha.validar()) {
             usuarioServico.salvar(entidade);
             this.sucesso = true;

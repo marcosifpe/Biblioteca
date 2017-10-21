@@ -7,9 +7,10 @@ package jsf.beans;
 
 import java.io.Serializable;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.inject.Named;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import org.hibernate.validator.constraints.NotBlank;
@@ -18,21 +19,21 @@ import org.hibernate.validator.constraints.NotBlank;
  *
  * @author MASC
  */
-@ManagedBean(name = "loginBean")
 @RequestScoped
+@Named("loginBean")
 public class LoginBean implements Serializable {
 
     @NotBlank
     private String usuario;
     @NotBlank
     private String senha;
+    @Inject
     private FacesContext facesContext;
+    @Inject   
+    private Recaptcha recaptcha;
 
     public String login() {
         try {
-            facesContext = FacesContext.getCurrentInstance();
-            Recaptcha recaptcha = new Recaptcha(facesContext);
-
             if (recaptcha.validar()) {
                 HttpServletRequest request = (HttpServletRequest) facesContext.getExternalContext().getRequest();
                 request.login(usuario, senha);
