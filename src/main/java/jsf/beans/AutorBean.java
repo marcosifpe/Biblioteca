@@ -4,7 +4,7 @@ import biblioteca.Autor;
 import excecao.ExcecaoNegocio;
 import java.io.Serializable;
 import javax.inject.Named;
-import javax.faces.view.ViewScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import servico.AutorServico;
 
@@ -12,7 +12,7 @@ import servico.AutorServico;
  *
  * @author MASC
  */
-@ViewScoped
+@RequestScoped
 @Named
 public class AutorBean extends Bean<Autor> implements Serializable {
 

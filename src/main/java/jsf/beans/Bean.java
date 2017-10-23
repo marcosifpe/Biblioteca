@@ -10,8 +10,6 @@ import excecao.ExcecaoNegocio;
 import excecao.MensagemExcecao;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJBException;
-import javax.enterprise.context.RequestScoped;
-import javax.enterprise.inject.Produces;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.validation.ConstraintViolationException;

@@ -9,7 +9,7 @@ import biblioteca.Livro;
 import java.io.Serializable;
 import java.util.List;
 import javax.inject.Named;
-import javax.faces.view.ViewScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import servico.LivroServico;
 
@@ -17,7 +17,7 @@ import servico.LivroServico;
  *
  * @author MASC
  */
-@ViewScoped
+@RequestScoped
 @Named("livrosPaginator")
 public class LivrosPaginator implements Serializable {
 

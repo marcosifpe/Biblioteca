@@ -13,6 +13,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import org.hibernate.validator.constraints.NotBlank;
 
 /**
@@ -29,14 +30,17 @@ public class LoginBean implements Serializable {
     private String senha;
     @Inject
     private FacesContext facesContext;
-    @Inject   
+    @Inject
     private Recaptcha recaptcha;
+    
+    private HttpServletRequest getRequest() {
+        return (HttpServletRequest) facesContext.getExternalContext().getRequest();
+    }
 
     public String login() {
         try {
             if (recaptcha.validar()) {
-                HttpServletRequest request = (HttpServletRequest) facesContext.getExternalContext().getRequest();
-                request.login(usuario, senha);
+                getRequest().login(usuario, senha);
                 facesContext.getExternalContext().getSession(true);
             } else {
                 setUsuario(null);

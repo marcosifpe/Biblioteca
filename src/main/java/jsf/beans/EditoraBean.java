@@ -4,7 +4,7 @@ import biblioteca.Editora;
 import excecao.ExcecaoNegocio;
 import java.io.Serializable;
 import javax.inject.Named;
-import javax.faces.view.ViewScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import servico.EditoraServico;
 
@@ -12,7 +12,7 @@ import servico.EditoraServico;
  *
  * @author MASC
  */
-@ViewScoped
+@RequestScoped
 @Named
 public class EditoraBean extends Bean<Editora> implements Serializable {
     @Inject 

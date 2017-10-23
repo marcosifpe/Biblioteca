@@ -23,10 +23,11 @@ public class Recaptcha {
     private String url;
     @Inject
     private FacesContext facesContext;
+    @Inject
+    private HttpServletRequest request;
 
     @PostConstruct
     public void init() {
-        HttpServletRequest request = (HttpServletRequest) facesContext.getExternalContext().getRequest();
         this.recaptchaResponse = request.getParameter("g-recaptcha-response");
         this.secretKey = facesContext.getExternalContext().getInitParameter("PRIVATE_CAPTCHA_KEY");
         this.url = facesContext.getExternalContext().getInitParameter("CAPTCHA_URL");
