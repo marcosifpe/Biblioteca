@@ -14,7 +14,7 @@ import javax.faces.context.FacesContext;
  * @author marcos
  */
 @RequestScoped
-public class RequestProducer {
+public class FacesContextProducer {
 
     @Produces
     public FacesContext getFacesContext() {
