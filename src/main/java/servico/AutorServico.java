@@ -27,50 +27,52 @@ import javax.validation.executable.ValidateOnExecution;
 @LocalBean
 @DeclareRoles({ADMINISTRADOR, USUARIO})
 @TransactionManagement(CONTAINER)
-@TransactionAttribute(REQUIRED) 
+@TransactionAttribute(REQUIRED)
 @ValidateOnExecution(type = ExecutableType.NON_GETTER_METHODS)
-public class AutorServico extends Servico<Autor> {   
+public class AutorServico extends Servico<Autor> {
+
     @RolesAllowed({ADMINISTRADOR})
     public void salvar(Autor autor) throws ExcecaoNegocio {
         checarExistencia(Autor.AUTOR_POR_CPF, autor.getCpf());
         entityManager.persist(autor);
     }
-    
-    @RolesAllowed({ADMINISTRADOR})    
+
+    @RolesAllowed({ADMINISTRADOR})
     public void atualizar(Autor autor) throws ExcecaoNegocio {
-        checarNaoExistencia(Autor.AUTOR_POR_CPF_E_ID,  new Object[] {autor.getCpf(), autor.getId()});
+        checarNaoExistencia(Autor.AUTOR_POR_CPF_E_ID, new Object[]{autor.getCpf(), autor.getId()});
         entityManager.merge(autor);
         entityManager.flush();
-    }    
-    
+    }
+
     @RolesAllowed({ADMINISTRADOR})
     public void remover(Autor autor) throws ExcecaoNegocio {
         autor = entityManager.merge(autor);
-        if (autor.isInativo())
+        if (autor.isInativo()) {
             entityManager.remove(autor);
-        else
+        } else {
             throw new ExcecaoNegocio(ExcecaoNegocio.REMOVER_AUTOR);
+        }
     }
-    
+
     @RolesAllowed({ADMINISTRADOR})
-    public void remover(String cpf) throws ExcecaoNegocio {        
+    public void remover(String cpf) throws ExcecaoNegocio {
         Autor autor = getAutor(cpf);
         remover(autor);
-    }    
-    
-    @TransactionAttribute(SUPPORTS)   
+    }
+
+    @TransactionAttribute(SUPPORTS)
     @PermitAll
     public List<Autor> getAutores() {
         return getEntidades(Autor.AUTORES);
     }
-    
-    @TransactionAttribute(SUPPORTS)   
-    @PermitAll     
+
+    @TransactionAttribute(SUPPORTS)
+    @PermitAll
     public Autor getAutor(String cpf) {
-        return super.getEntidade(Autor.AUTOR_POR_CPF, new Object[] {cpf});
+        return super.getEntidade(Autor.AUTOR_POR_CPF, new Object[]{cpf});
     }
 
-    @TransactionAttribute(SUPPORTS)   
+    @TransactionAttribute(SUPPORTS)
     @PermitAll
     public Autor criar() {
         return new Autor();
