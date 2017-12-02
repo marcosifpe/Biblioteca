@@ -60,7 +60,7 @@ public class EJBTeste {
     public void consultarAutor() throws NamingException {
         autorServico = (AutorServico) container.getContext().lookup("java:global/classes/AutorServico!servico.AutorServico");
         assertNotNull(autorServico);
-        Autor autor = autorServico.getAutor("882.055.174-87");
+        Autor autor = autorServico.getAutor("132.016.176-90");
         assertNotNull(autor);
     }
 }
